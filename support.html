@@ -1,0 +1,2079 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Support - EcoSurvey Portal</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#2E7D32", secondary: "#81C784" },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+    />
+    <style>
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+      body {
+      font-family: 'Poppins', sans-serif;
+      }
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+      }
+      input[type="number"] {
+      -moz-appearance: textfield;
+      }
+      .custom-checkbox {
+      position: relative;
+      cursor: pointer;
+      }
+      .custom-checkbox input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      }
+      .checkmark {
+      height: 20px;
+      width: 20px;
+      background-color: #f9fafb;
+      border: 2px solid #d1d5db;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      }
+      .custom-checkbox input:checked ~ .checkmark {
+      background-color: #2E7D32;
+      border-color: #2E7D32;
+      }
+      .checkmark:after {
+      content: "";
+      display: none;
+      width: 6px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+      }
+      .custom-checkbox input:checked ~ .checkmark:after {
+      display: block;
+      }
+      .custom-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+      }
+      .custom-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      }
+      .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #e5e7eb;
+      transition: .4s;
+      border-radius: 24px;
+      }
+      .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+      }
+      input:checked + .slider {
+      background-color: #2E7D32;
+      }
+      input:checked + .slider:before {
+      transform: translateX(26px);
+      }
+      .faq-item {
+      overflow: hidden;
+      transition: all 0.3s ease;
+      }
+      .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      }
+      .faq-item.active .faq-answer {
+      max-height: 500px;
+      }
+      .chat-window {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      width: 350px;
+      height: 450px;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      z-index: 1000;
+      overflow: hidden;
+      display: none;
+      transition: all 0.3s ease;
+      }
+      .chat-messages {
+      height: 300px;
+      overflow-y: auto;
+      padding: 16px;
+      }
+      .message {
+      margin-bottom: 12px;
+      max-width: 80%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 14px;
+      line-height: 1.4;
+      }
+      .message-received {
+      background-color: #F3F4F6;
+      color: #1F2937;
+      border-top-left-radius: 4px;
+      align-self: flex-start;
+      }
+      .message-sent {
+      background-color: #2E7D32;
+      color: white;
+      border-top-right-radius: 4px;
+      align-self: flex-end;
+      margin-left: auto;
+      }
+      .category-card {
+      transition: all 0.3s ease;
+      }
+      .category-card:hover {
+      transform: translateY(-5px);
+      }
+      .search-results {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      }
+      .search-results.active {
+      max-height: 500px;
+      }
+      .tab-button {
+      position: relative;
+      }
+      .tab-button::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: transparent;
+      transition: all 0.3s ease;
+      }
+      .tab-button.active::after {
+      background-color: #2E7D32;
+      }
+      .forum-topic {
+      transition: all 0.3s ease;
+      }
+      .forum-topic:hover {
+      background-color: #F9FAFB;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50">
+    <!-- Header/Navigation -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+      <div
+        class="container mx-auto px-4 py-3 flex items-center justify-between"
+      >
+        <div class="flex items-center space-x-2">
+          <div
+            class="w-10 h-10 bg-primary rounded-full flex items-center justify-center"
+          >
+            <span class="text-white font-['Pacifico'] text-lg">logo</span>
+          </div>
+          <span class="text-xl font-semibold text-gray-800">EcoSurvey</span>
+        </div>
+        <nav class="hidden md:flex items-center space-x-8">
+          <a
+            href="https://readdy.ai/home/4181c56c-0bbb-4c84-ba2e-34f80e21ebda/927f8f97-6fb3-46aa-be9f-5240f94f8fd0"
+            data-readdy="true"
+            class="text-gray-600 hover:text-primary transition-colors"
+            >Home</a
+          >
+          <a
+            href="https://readdy.ai/home/4181c56c-0bbb-4c84-ba2e-34f80e21ebda/a620e50a-315f-46ee-8f1d-4582d4e9b416"
+            data-readdy="true"
+            class="text-gray-600 hover:text-primary transition-colors"
+            >Survey Board</a
+          >
+          <a
+            href="https://readdy.ai/home/4181c56c-0bbb-4c84-ba2e-34f80e21ebda/15366131-7d31-47f6-b012-28b73f51a205"
+            data-readdy="true"
+            class="text-gray-600 hover:text-primary transition-colors"
+            >Profile</a
+          >
+          <a href="#" class="text-primary font-medium">Support</a>
+          <a
+            href="#popular-faqs"
+            class="text-gray-600 hover:text-primary transition-colors"
+            id="faqs-nav-link"
+            >FAQs</a
+          >
+        </nav>
+        <div class="flex items-center space-x-4">
+          <div
+            class="hidden md:flex items-center space-x-2 bg-green-50 px-3 py-1.5 rounded-full"
+          >
+            <div class="w-6 h-6 flex items-center justify-center">
+              <i class="ri-user-line text-primary"></i>
+            </div>
+            <span class="text-sm font-medium text-primary">Student</span>
+          </div>
+          <a
+            href="https://readdy.ai/home/4181c56c-0bbb-4c84-ba2e-34f80e21ebda/26ff3432-512c-415c-b9a8-2bb98f9b7a01"
+            data-readdy="true"
+            class="bg-primary text-white px-4 py-2 !rounded-button hover:bg-primary/90 transition-colors whitespace-nowrap inline-flex items-center"
+            >Login / Register</a
+          >
+          <button class="md:hidden w-10 h-10 flex items-center justify-center">
+            <i class="ri-menu-line text-gray-700 text-xl"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+    <!-- Page Header -->
+    <section class="bg-white border-b border-gray-200">
+      <div class="container mx-auto px-4 py-12">
+        <div class="max-w-3xl mx-auto text-center">
+          <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+            How Can We Help You?
+          </h1>
+          <p class="text-lg text-gray-600 mb-8">
+            Find answers, submit tickets, and connect with our support team
+          </p>
+          <!-- Search Bar -->
+          <div class="relative max-w-2xl mx-auto">
+            <input
+              type="text"
+              id="support-search"
+              placeholder="Search for help articles, FAQs, or topics..."
+              class="w-full pl-12 pr-4 py-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-gray-700"
+            />
+            <div
+              class="absolute left-4 top-1/2 transform -translate-y-1/2 w-6 h-6 flex items-center justify-center text-gray-400"
+            >
+              <i class="ri-search-line text-xl"></i>
+            </div>
+            <button
+              class="absolute right-3 top-1/2 transform -translate-y-1/2 bg-primary text-white px-4 py-2 !rounded-button hover:bg-primary/90 transition-colors whitespace-nowrap"
+            >
+              Search
+            </button>
+          </div>
+          <!-- Search Results (initially hidden) -->
+          <div
+            id="search-results"
+            class="search-results mt-4 bg-white rounded-lg shadow-sm border border-gray-200 max-w-2xl mx-auto"
+          >
+            <div class="p-4 border-b border-gray-100">
+              <h3 class="font-medium text-gray-800">Search Results</h3>
+            </div>
+            <div class="p-4">
+              <div class="space-y-4">
+                <a href="#" class="block p-3 rounded-lg hover:bg-gray-50">
+                  <h4 class="font-medium text-primary">
+                    How to reset your password
+                  </h4>
+                  <p class="text-sm text-gray-600 mt-1">
+                    Learn how to reset your password if you've forgotten it
+                  </p>
+                </a>
+                <a href="#" class="block p-3 rounded-lg hover:bg-gray-50">
+                  <h4 class="font-medium text-primary">
+                    Troubleshooting survey submission errors
+                  </h4>
+                  <p class="text-sm text-gray-600 mt-1">
+                    Common issues when submitting surveys and how to fix them
+                  </p>
+                </a>
+                <a href="#" class="block p-3 rounded-lg hover:bg-gray-50">
+                  <h4 class="font-medium text-primary">
+                    How points are calculated
+                  </h4>
+                  <p class="text-sm text-gray-600 mt-1">
+                    Understanding the point system and rewards
+                  </p>
+                </a>
+              </div>
+            </div>
+            <div class="p-4 bg-gray-50 text-center">
+              <a href="#knowledge-base" class="text-primary hover:underline"
+                >View all results</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-12">
+      <!-- Help Categories -->
+      <section id="help-categories" class="mb-16">
+        <div class="text-center mb-12">
+          <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
+            Browse Help by Category
+          </h2>
+          <p class="text-gray-600 max-w-2xl mx-auto">
+            Find answers to your questions by exploring our help categories
+          </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Category 1 -->
+          <div
+            class="category-card bg-white rounded-lg shadow-sm border border-gray-100 p-6 flex flex-col items-center text-center"
+          >
+            <div
+              class="w-16 h-16 flex items-center justify-center bg-primary/10 text-primary rounded-full mb-4"
+            >
+              <i class="ri-account-circle-line text-3xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-800 mb-2">
+              Account & Profile
+            </h3>
+            <p class="text-gray-600 mb-4">
+              Managing your account, profile settings, and preferences
+            </p>
+            <a
+              href="#"
+              class="text-primary hover:underline mt-auto flex items-center"
+            >
+              <span>View articles</span>
+              <i class="ri-arrow-right-line ml-1"></i>
+            </a>
+          </div>
+          <!-- Category 2 -->
+          <div
+            class="category-card bg-white rounded-lg shadow-sm border border-gray-100 p-6 flex flex-col items-center text-center"
+          >
+            <div
+              class="w-16 h-16 flex items-center justify-center bg-primary/10 text-primary rounded-full mb-4"
+            >
+              <i class="ri-survey-line text-3xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-800 mb-2">
+              Surveys & Submissions
+            </h3>
+            <p class="text-gray-600 mb-4">
+              Taking surveys, troubleshooting submission issues, and tracking
+              progress
+            </p>
+            <a
+              href="#"
+              class="text-primary hover:underline mt-auto flex items-center"
+            >
+              <span>View articles</span>
+              <i class="ri-arrow-right-line ml-1"></i>
+            </a>
+          </div>
+          <!-- Category 3 -->
+          <div
+            class="category-card bg-white rounded-lg shadow-sm border border-gray-100 p-6 flex flex-col items-center text-center"
+          >
+            <div
+              class="w-16 h-16 flex items-center justify-center bg-primary/10 text-primary rounded-full mb-4"
+            >
+              <i class="ri-award-line text-3xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-800 mb-2">
+              Points & Rewards
+            </h3>
+            <p class="text-gray-600 mb-4">
+              Understanding the point system, badges, and achievement tracking
+            </p>
+            <a
+              href="#"
+              class="text-primary hover:underline mt-auto flex items-center"
+            >
+              <span>View articles</span>
+              <i class="ri-arrow-right-line ml-1"></i>
+            </a>
+          </div>
+          <!-- Category 4 -->
+          <div
+            class="category-card bg-white rounded-lg shadow-sm border border-gray-100 p-6 flex flex-col items-center text-center"
+          >
+            <div
+              class="w-16 h-16 flex items-center justify-center bg-primary/10 text-primary rounded-full mb-4"
+            >
+              <i class="ri-error-warning-line text-3xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-800 mb-2">
+              Troubleshooting
+            </h3>
+            <p class="text-gray-600 mb-4">
+              Common issues, error messages, and how to resolve technical
+              problems
+            </p>
+            <a
+              href="#"
+              class="text-primary hover:underline mt-auto flex items-center"
+            >
+              <span>View articles</span>
+              <i class="ri-arrow-right-line ml-1"></i>
+            </a>
+          </div>
+          <!-- Category 5 -->
+          <div
+            class="category-card bg-white rounded-lg shadow-sm border border-gray-100 p-6 flex flex-col items-center text-center"
+          >
+            <div
+              class="w-16 h-16 flex items-center justify-center bg-primary/10 text-primary rounded-full mb-4"
+            >
+              <i class="ri-shield-keyhole-line text-3xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-800 mb-2">
+              Privacy & Security
+            </h3>
+            <p class="text-gray-600 mb-4">
+              Data protection, privacy settings, and account security
+              information
+            </p>
+            <a
+              href="#"
+              class="text-primary hover:underline mt-auto flex items-center"
+            >
+              <span>View articles</span>
+              <i class="ri-arrow-right-line ml-1"></i>
+            </a>
+          </div>
+          <!-- Category 6 -->
+          <div
+            class="category-card bg-white rounded-lg shadow-sm border border-gray-100 p-6 flex flex-col items-center text-center"
+          >
+            <div
+              class="w-16 h-16 flex items-center justify-center bg-primary/10 text-primary rounded-full mb-4"
+            >
+              <i class="ri-group-line text-3xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-800 mb-2">
+              Community & Forum
+            </h3>
+            <p class="text-gray-600 mb-4">
+              Participating in discussions, community guidelines, and forum
+              features
+            </p>
+            <a
+              href="#"
+              class="text-primary hover:underline mt-auto flex items-center"
+            >
+              <span>View articles</span>
+              <i class="ri-arrow-right-line ml-1"></i>
+            </a>
+          </div>
+        </div>
+      </section>
+      <!-- Popular FAQs -->
+      <section id="popular-faqs" class="mb-16">
+        <div class="text-center mb-12">
+          <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
+            Frequently Asked Questions
+          </h2>
+          <p class="text-gray-600 max-w-2xl mx-auto">
+            Quick answers to our most common questions
+          </p>
+        </div>
+        <div class="max-w-3xl mx-auto">
+          <div class="space-y-4">
+            <!-- FAQ Item 1 -->
+            <div
+              class="faq-item bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden"
+            >
+              <button
+                class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left"
+              >
+                <h3 class="font-medium text-gray-800">
+                  How do I reset my password?
+                </h3>
+                <div
+                  class="w-6 h-6 flex items-center justify-center text-gray-400 transform transition-transform"
+                >
+                  <i class="ri-arrow-down-s-line text-xl"></i>
+                </div>
+              </button>
+              <div class="faq-answer px-6 pb-4">
+                <p class="text-gray-600">
+                  To reset your password, click on the "Forgot Password" link on
+                  the login page. Enter your email address, and we'll send you a
+                  password reset link. Follow the instructions in the email to
+                  create a new password. If you don't receive the email, check
+                  your spam folder or contact support for assistance.
+                </p>
+              </div>
+            </div>
+            <!-- FAQ Item 2 -->
+            <div
+              class="faq-item bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden"
+            >
+              <button
+                class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left"
+              >
+                <h3 class="font-medium text-gray-800">
+                  How are points calculated for surveys?
+                </h3>
+                <div
+                  class="w-6 h-6 flex items-center justify-center text-gray-400 transform transition-transform"
+                >
+                  <i class="ri-arrow-down-s-line text-xl"></i>
+                </div>
+              </button>
+              <div class="faq-answer px-6 pb-4">
+                <p class="text-gray-600">
+                  Points are calculated based on several factors, including the
+                  complexity of the survey, the time required to complete it,
+                  and the quality of your responses. Typically, longer surveys
+                  award more points. Bonus points may be given for completing
+                  surveys before their deadline or for providing particularly
+                  detailed responses. You can view the point value of each
+                  survey before starting it.
+                </p>
+              </div>
+            </div>
+            <!-- FAQ Item 3 -->
+            <div
+              class="faq-item bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden"
+            >
+              <button
+                class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left"
+              >
+                <h3 class="font-medium text-gray-800">
+                  Why can't I submit my survey?
+                </h3>
+                <div
+                  class="w-6 h-6 flex items-center justify-center text-gray-400 transform transition-transform"
+                >
+                  <i class="ri-arrow-down-s-line text-xl"></i>
+                </div>
+              </button>
+              <div class="faq-answer px-6 pb-4">
+                <p class="text-gray-600">
+                  There could be several reasons why you're unable to submit
+                  your survey:
+                </p>
+                <ul class="list-disc pl-5 mt-2 space-y-1 text-gray-600">
+                  <li>
+                    You may have missed required questions (marked with an
+                    asterisk *)
+                  </li>
+                  <li>Your internet connection might be unstable</li>
+                  <li>The survey may have expired</li>
+                  <li>There could be a technical issue with the platform</li>
+                </ul>
+                <p class="text-gray-600 mt-2">
+                  Try refreshing the page and ensuring all required fields are
+                  completed. If the problem persists, please contact our support
+                  team.
+                </p>
+              </div>
+            </div>
+            <!-- FAQ Item 4 -->
+            <div
+              class="faq-item bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden"
+            >
+              <button
+                class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left"
+              >
+                <h3 class="font-medium text-gray-800">How do I earn badges?</h3>
+                <div
+                  class="w-6 h-6 flex items-center justify-center text-gray-400 transform transition-transform"
+                >
+                  <i class="ri-arrow-down-s-line text-xl"></i>
+                </div>
+              </button>
+              <div class="faq-answer px-6 pb-4">
+                <p class="text-gray-600">
+                  Badges are earned by completing specific achievements or
+                  milestones on the platform. For example, you might earn a
+                  badge for completing your first survey, completing a certain
+                  number of surveys in a category, or reaching a specific point
+                  threshold. You can view available badges and their
+                  requirements in your profile under the "Achievements" tab.
+                </p>
+              </div>
+            </div>
+            <!-- FAQ Item 5 -->
+            <div
+              class="faq-item bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden"
+            >
+              <button
+                class="faq-toggle w-full px-6 py-4 flex items-center justify-between text-left"
+              >
+                <h3 class="font-medium text-gray-800">
+                  How do I update my profile information?
+                </h3>
+                <div
+                  class="w-6 h-6 flex items-center justify-center text-gray-400 transform transition-transform"
+                >
+                  <i class="ri-arrow-down-s-line text-xl"></i>
+                </div>
+              </button>
+              <div class="faq-answer px-6 pb-4">
+                <p class="text-gray-600">
+                  To update your profile information, navigate to your profile
+                  page by clicking on your name or profile picture in the top
+                  navigation bar. Then, click the "Edit Profile" button. From
+                  there, you can update your personal information, change your
+                  profile picture, and modify your preferences. Don't forget to
+                  save your changes when you're done.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="text-center mt-8">
+            <a href="#" class="text-primary hover:underline font-medium"
+              >View all FAQs</a
+            >
+          </div>
+        </div>
+      </section>
+      <!-- Knowledge Base -->
+      <section id="knowledge-base" class="mb-16">
+        <div class="text-center mb-12">
+          <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
+            Knowledge Base
+          </h2>
+          <p class="text-gray-600 max-w-2xl mx-auto">
+            Explore our comprehensive collection of help articles and guides
+          </p>
+        </div>
+        <div
+          class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden"
+        >
+          <!-- Knowledge Base Tabs -->
+          <div class="border-b border-gray-100">
+            <div class="flex overflow-x-auto">
+              <button
+                class="tab-button active px-6 py-4 text-primary font-medium"
+              >
+                All Articles
+              </button>
+              <button class="tab-button px-6 py-4 text-gray-600 font-medium">
+                Getting Started
+              </button>
+              <button class="tab-button px-6 py-4 text-gray-600 font-medium">
+                Surveys
+              </button>
+              <button class="tab-button px-6 py-4 text-gray-600 font-medium">
+                Account
+              </button>
+              <button class="tab-button px-6 py-4 text-gray-600 font-medium">
+                Troubleshooting
+              </button>
+            </div>
+          </div>
+          <!-- Knowledge Base Content -->
+          <div class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <!-- Article 1 -->
+              <a
+                href="#"
+                class="block bg-white rounded-lg border border-gray-100 hover:border-primary/20 hover:shadow-md transition-all"
+              >
+                <div class="p-5">
+                  <div
+                    class="w-10 h-10 flex items-center justify-center bg-primary/10 text-primary rounded-full mb-3"
+                  >
+                    <i class="ri-file-list-3-line"></i>
+                  </div>
+                  <h3 class="font-medium text-gray-800 mb-2">
+                    Getting Started with EcoSurvey
+                  </h3>
+                  <p class="text-sm text-gray-600 mb-3">
+                    A complete guide for new users to navigate the platform
+                  </p>
+                  <div class="flex items-center text-xs text-gray-500">
+                    <span>Last updated: April 25, 2025</span>
+                  </div>
+                </div>
+              </a>
+              <!-- Article 2 -->
+              <a
+                href="#"
+                class="block bg-white rounded-lg border border-gray-100 hover:border-primary/20 hover:shadow-md transition-all"
+              >
+                <div class="p-5">
+                  <div
+                    class="w-10 h-10 flex items-center justify-center bg-primary/10 text-primary rounded-full mb-3"
+                  >
+                    <i class="ri-survey-line"></i>
+                  </div>
+                  <h3 class="font-medium text-gray-800 mb-2">
+                    How to Complete Your First Survey
+                  </h3>
+                  <p class="text-sm text-gray-600 mb-3">
+                    Step-by-step instructions for finding and completing surveys
+                  </p>
+                  <div class="flex items-center text-xs text-gray-500">
+                    <span>Last updated: April 23, 2025</span>
+                  </div>
+                </div>
+              </a>
+              <!-- Article 3 -->
+              <a
+                href="#"
+                class="block bg-white rounded-lg border border-gray-100 hover:border-primary/20 hover:shadow-md transition-all"
+              >
+                <div class="p-5">
+                  <div
+                    class="w-10 h-10 flex items-center justify-center bg-primary/10 text-primary rounded-full mb-3"
+                  >
+                    <i class="ri-award-line"></i>
+                  </div>
+                  <h3 class="font-medium text-gray-800 mb-2">
+                    Understanding Points and Badges
+                  </h3>
+                  <p class="text-sm text-gray-600 mb-3">
+                    Learn how the reward system works and how to earn more
+                    points
+                  </p>
+                  <div class="flex items-center text-xs text-gray-500">
+                    <span>Last updated: April 20, 2025</span>
+                  </div>
+                </div>
+              </a>
+              <!-- Article 4 -->
+              <a
+                href="#"
+                class="block bg-white rounded-lg border border-gray-100 hover:border-primary/20 hover:shadow-md transition-all"
+              >
+                <div class="p-5">
+                  <div
+                    class="w-10 h-10 flex items-center justify-center bg-primary/10 text-primary rounded-full mb-3"
+                  >
+                    <i class="ri-user-settings-line"></i>
+                  </div>
+                  <h3 class="font-medium text-gray-800 mb-2">
+                    Managing Your Account Settings
+                  </h3>
+                  <p class="text-sm text-gray-600 mb-3">
+                    How to update your profile, preferences, and notification
+                    settings
+                  </p>
+                  <div class="flex items-center text-xs text-gray-500">
+                    <span>Last updated: April 18, 2025</span>
+                  </div>
+                </div>
+              </a>
+              <!-- Article 5 -->
+              <a
+                href="#"
+                class="block bg-white rounded-lg border border-gray-100 hover:border-primary/20 hover:shadow-md transition-all"
+              >
+                <div class="p-5">
+                  <div
+                    class="w-10 h-10 flex items-center justify-center bg-primary/10 text-primary rounded-full mb-3"
+                  >
+                    <i class="ri-error-warning-line"></i>
+                  </div>
+                  <h3 class="font-medium text-gray-800 mb-2">
+                    Troubleshooting Common Issues
+                  </h3>
+                  <p class="text-sm text-gray-600 mb-3">
+                    Solutions for frequent problems encountered on the platform
+                  </p>
+                  <div class="flex items-center text-xs text-gray-500">
+                    <span>Last updated: April 15, 2025</span>
+                  </div>
+                </div>
+              </a>
+              <!-- Article 6 -->
+              <a
+                href="#"
+                class="block bg-white rounded-lg border border-gray-100 hover:border-primary/20 hover:shadow-md transition-all"
+              >
+                <div class="p-5">
+                  <div
+                    class="w-10 h-10 flex items-center justify-center bg-primary/10 text-primary rounded-full mb-3"
+                  >
+                    <i class="ri-shield-keyhole-line"></i>
+                  </div>
+                  <h3 class="font-medium text-gray-800 mb-2">
+                    Privacy and Data Protection
+                  </h3>
+                  <p class="text-sm text-gray-600 mb-3">
+                    How we protect your data and manage your privacy settings
+                  </p>
+                  <div class="flex items-center text-xs text-gray-500">
+                    <span>Last updated: April 12, 2025</span>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <!-- Pagination -->
+            <div class="mt-8 flex items-center justify-between">
+              <div class="text-sm text-gray-600">
+                Showing <span class="font-medium">1</span> to
+                <span class="font-medium">6</span> of
+                <span class="font-medium">24</span> articles
+              </div>
+              <nav class="flex items-center space-x-2">
+                <button
+                  class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 hover:bg-gray-50"
+                >
+                  <i class="ri-arrow-left-s-line"></i>
+                </button>
+                <button
+                  class="w-9 h-9 flex items-center justify-center rounded-lg bg-primary text-white"
+                >
+                  1
+                </button>
+                <button
+                  class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-700 hover:bg-gray-50"
+                >
+                  2
+                </button>
+                <button
+                  class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-700 hover:bg-gray-50"
+                >
+                  3
+                </button>
+                <button
+                  class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-700 hover:bg-gray-50"
+                >
+                  4
+                </button>
+                <button
+                  class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 hover:bg-gray-50"
+                >
+                  <i class="ri-arrow-right-s-line"></i>
+                </button>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Troubleshooting Guides -->
+      <section id="troubleshooting" class="mb-16">
+        <div class="text-center mb-12">
+          <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
+            Troubleshooting Guides
+          </h2>
+          <p class="text-gray-600 max-w-2xl mx-auto">
+            Step-by-step solutions for common technical issues
+          </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Guide 1 -->
+          <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
+            <div class="flex items-start">
+              <div
+                class="w-12 h-12 flex items-center justify-center bg-red-100 text-red-600 rounded-full mr-4 flex-shrink-0"
+              >
+                <i class="ri-error-warning-line text-xl"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-medium text-gray-800 mb-2">
+                  Survey Submission Errors
+                </h3>
+                <p class="text-gray-600 mb-4">
+                  If you're experiencing issues submitting your survey, follow
+                  these steps:
+                </p>
+                <ol class="list-decimal pl-5 space-y-2 text-gray-600 mb-4">
+                  <li>Check your internet connection and refresh the page</li>
+                  <li>
+                    Ensure all required fields (marked with *) are completed
+                  </li>
+                  <li>Clear your browser cache and cookies</li>
+                  <li>Try using a different browser</li>
+                  <li>Contact support if the issue persists</li>
+                </ol>
+                <a
+                  href="#"
+                  class="text-primary hover:underline flex items-center"
+                >
+                  <span>View detailed guide</span>
+                  <i class="ri-arrow-right-line ml-1"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <!-- Guide 2 -->
+          <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
+            <div class="flex items-start">
+              <div
+                class="w-12 h-12 flex items-center justify-center bg-yellow-100 text-yellow-600 rounded-full mr-4 flex-shrink-0"
+              >
+                <i class="ri-login-circle-line text-xl"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-medium text-gray-800 mb-2">
+                  Login and Authentication Issues
+                </h3>
+                <p class="text-gray-600 mb-4">
+                  If you're having trouble logging in to your account:
+                </p>
+                <ol class="list-decimal pl-5 space-y-2 text-gray-600 mb-4">
+                  <li>Verify you're using the correct email and password</li>
+                  <li>Reset your password using the "Forgot Password" link</li>
+                  <li>
+                    Check if your account has been locked due to multiple failed
+                    attempts
+                  </li>
+                  <li>Ensure your browser has cookies enabled</li>
+                  <li>Try incognito/private browsing mode</li>
+                </ol>
+                <a
+                  href="#"
+                  class="text-primary hover:underline flex items-center"
+                >
+                  <span>View detailed guide</span>
+                  <i class="ri-arrow-right-line ml-1"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <!-- Guide 3 -->
+          <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
+            <div class="flex items-start">
+              <div
+                class="w-12 h-12 flex items-center justify-center bg-blue-100 text-blue-600 rounded-full mr-4 flex-shrink-0"
+              >
+                <i class="ri-file-damage-line text-xl"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-medium text-gray-800 mb-2">
+                  Missing Points or Badges
+                </h3>
+                <p class="text-gray-600 mb-4">
+                  If your points or badges aren't showing up correctly:
+                </p>
+                <ol class="list-decimal pl-5 space-y-2 text-gray-600 mb-4">
+                  <li>
+                    Allow up to 24 hours for points to be credited after survey
+                    completion
+                  </li>
+                  <li>
+                    Check if the survey was properly submitted and not saved as
+                    a draft
+                  </li>
+                  <li>Verify that you met all requirements for the badge</li>
+                  <li>Refresh your profile page</li>
+                  <li>
+                    Contact support with details about the missing rewards
+                  </li>
+                </ol>
+                <a
+                  href="#"
+                  class="text-primary hover:underline flex items-center"
+                >
+                  <span>View detailed guide</span>
+                  <i class="ri-arrow-right-line ml-1"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <!-- Guide 4 -->
+          <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
+            <div class="flex items-start">
+              <div
+                class="w-12 h-12 flex items-center justify-center bg-purple-100 text-purple-600 rounded-full mr-4 flex-shrink-0"
+              >
+                <i class="ri-device-line text-xl"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-medium text-gray-800 mb-2">
+                  Compatibility and Display Issues
+                </h3>
+                <p class="text-gray-600 mb-4">
+                  If the platform isn't displaying correctly on your device:
+                </p>
+                <ol class="list-decimal pl-5 space-y-2 text-gray-600 mb-4">
+                  <li>Update your browser to the latest version</li>
+                  <li>
+                    Try a different browser (Chrome, Firefox, Safari, Edge)
+                  </li>
+                  <li>Disable browser extensions that might interfere</li>
+                  <li>Adjust your display settings or zoom level</li>
+                  <li>
+                    On mobile devices, ensure you're using the responsive
+                    version
+                  </li>
+                </ol>
+                <a
+                  href="#"
+                  class="text-primary hover:underline flex items-center"
+                >
+                  <span>View detailed guide</span>
+                  <i class="ri-arrow-right-line ml-1"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="text-center mt-8">
+          <a
+            href="#"
+            class="bg-white text-primary border border-primary px-6 py-3 !rounded-button hover:bg-primary/5 transition-colors whitespace-nowrap inline-flex items-center"
+          >
+            <i class="ri-book-open-line mr-2"></i>
+            <span>View all troubleshooting guides</span>
+          </a>
+        </div>
+      </section>
+      <!-- Contact Support -->
+      <section id="contact-support" class="mb-16">
+        <div class="text-center mb-12">
+          <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
+            Contact Support
+          </h2>
+          <p class="text-gray-600 max-w-2xl mx-auto">
+            Can't find what you're looking for? Submit a support ticket or
+            contact us directly
+          </p>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- Support Ticket Form -->
+          <div
+            class="lg:col-span-2 bg-white rounded-lg shadow-sm border border-gray-100 p-6"
+          >
+            <h3 class="text-xl font-semibold text-gray-800 mb-6">
+              Submit a Support Ticket
+            </h3>
+            <form class="space-y-6">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label
+                    for="name"
+                    class="block text-sm font-medium text-gray-700 mb-1"
+                    >Your Name</label
+                  >
+                  <input
+                    type="text"
+                    id="name"
+                    value="Emily Johnson"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label
+                    for="email"
+                    class="block text-sm font-medium text-gray-700 mb-1"
+                    >Email Address</label
+                  >
+                  <input
+                    type="email"
+                    id="email"
+                    value="emily.johnson@university.edu"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  />
+                </div>
+              </div>
+              <div>
+                <label
+                  for="subject"
+                  class="block text-sm font-medium text-gray-700 mb-1"
+                  >Subject</label
+                >
+                <select
+                  id="subject"
+                  class="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none bg-white"
+                >
+                  <option>Please select a subject</option>
+                  <option>Technical Issue</option>
+                  <option>Account Problem</option>
+                  <option>Survey Question</option>
+                  <option>Billing Inquiry</option>
+                  <option>Feature Request</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label
+                    for="category"
+                    class="block text-sm font-medium text-gray-700 mb-1"
+                    >Category</label
+                  >
+                  <select
+                    id="category"
+                    class="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none bg-white"
+                  >
+                    <option>Select category</option>
+                    <option>Account & Profile</option>
+                    <option>Surveys & Submissions</option>
+                    <option>Points & Rewards</option>
+                    <option>Technical Issues</option>
+                    <option>Privacy & Security</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                <div>
+                  <label
+                    for="priority"
+                    class="block text-sm font-medium text-gray-700 mb-1"
+                    >Priority</label
+                  >
+                  <select
+                    id="priority"
+                    class="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none bg-white"
+                  >
+                    <option>Low</option>
+                    <option selected>Medium</option>
+                    <option>High</option>
+                    <option>Urgent</option>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <label
+                  for="description"
+                  class="block text-sm font-medium text-gray-700 mb-1"
+                  >Description</label
+                >
+                <textarea
+                  id="description"
+                  rows="5"
+                  placeholder="Please describe your issue in detail..."
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                ></textarea>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Attachments</label
+                >
+                <div
+                  class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center"
+                >
+                  <div
+                    class="w-12 h-12 mx-auto flex items-center justify-center bg-gray-100 rounded-full mb-3"
+                  >
+                    <i class="ri-upload-2-line text-gray-500 text-xl"></i>
+                  </div>
+                  <p class="text-gray-600 mb-2">
+                    Drag and drop files here, or click to browse
+                  </p>
+                  <p class="text-xs text-gray-500">
+                    Maximum 5 files. Supported formats: JPG, PNG, PDF (Max 10MB
+                    each)
+                  </p>
+                  <input type="file" class="hidden" multiple />
+                  <button
+                    type="button"
+                    class="mt-4 bg-white text-gray-700 border border-gray-300 px-4 py-2 !rounded-button hover:bg-gray-50 transition-colors whitespace-nowrap"
+                  >
+                    Browse Files
+                  </button>
+                </div>
+              </div>
+              <div class="flex justify-end">
+                <button
+                  type="submit"
+                  class="bg-primary text-white px-6 py-3 !rounded-button hover:bg-primary/90 transition-colors whitespace-nowrap"
+                >
+                  Submit Ticket
+                </button>
+              </div>
+            </form>
+          </div>
+          <!-- Direct Contact Information -->
+          <div class="space-y-6">
+            <!-- Contact Card -->
+            <div
+              class="bg-white rounded-lg shadow-sm border border-gray-100 p-6"
+            >
+              <h3 class="text-xl font-semibold text-gray-800 mb-4">
+                Contact Information
+              </h3>
+              <div class="space-y-4">
+                <div class="flex items-start">
+                  <div
+                    class="w-10 h-10 flex items-center justify-center bg-primary/10 text-primary rounded-full mr-3 flex-shrink-0"
+                  >
+                    <i class="ri-mail-line"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-medium text-gray-800">Email Support</h4>
+                    <p class="text-gray-600">support@ecosurvey.edu</p>
+                    <p class="text-sm text-gray-500 mt-1">
+                      Response within 24 hours
+                    </p>
+                  </div>
+                </div>
+                <div class="flex items-start">
+                  <div
+                    class="w-10 h-10 flex items-center justify-center bg-primary/10 text-primary rounded-full mr-3 flex-shrink-0"
+                  >
+                    <i class="ri-phone-line"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-medium text-gray-800">Phone Support</h4>
+                    <p class="text-gray-600">(555) 123-4567</p>
+                    <p class="text-sm text-gray-500 mt-1">
+                      Mon-Fri, 9am-5pm EST
+                    </p>
+                  </div>
+                </div>
+                <div class="flex items-start">
+                  <div
+                    class="w-10 h-10 flex items-center justify-center bg-primary/10 text-primary rounded-full mr-3 flex-shrink-0"
+                  >
+                    <i class="ri-chat-1-line"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-medium text-gray-800">Live Chat</h4>
+                    <p class="text-gray-600">Available on website</p>
+                    <p class="text-sm text-gray-500 mt-1">
+                      Mon-Fri, 8am-8pm EST
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Support Hours -->
+            <div
+              class="bg-white rounded-lg shadow-sm border border-gray-100 p-6"
+            >
+              <h3 class="text-xl font-semibold text-gray-800 mb-4">
+                Support Hours
+              </h3>
+              <div class="space-y-3">
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Monday - Friday</span>
+                  <span class="font-medium text-gray-800"
+                    >8:00 AM - 8:00 PM EST</span
+                  >
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Saturday</span>
+                  <span class="font-medium text-gray-800"
+                    >10:00 AM - 4:00 PM EST</span
+                  >
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-600">Sunday</span>
+                  <span class="font-medium text-gray-800">Closed</span>
+                </div>
+              </div>
+              <div class="mt-4 pt-4 border-t border-gray-100">
+                <p class="text-sm text-gray-600">
+                  Holiday hours may vary. Check our announcements for updates.
+                </p>
+              </div>
+            </div>
+            <!-- Regional Support -->
+            <div
+              class="bg-white rounded-lg shadow-sm border border-gray-100 p-6"
+            >
+              <h3 class="text-xl font-semibold text-gray-800 mb-4">
+                Regional Support
+              </h3>
+              <div class="space-y-4">
+                <div>
+                  <h4 class="font-medium text-gray-800">North America</h4>
+                  <p class="text-gray-600">support.na@ecosurvey.edu</p>
+                  <p class="text-sm text-gray-500">(555) 123-4567</p>
+                </div>
+                <div>
+                  <h4 class="font-medium text-gray-800">Europe</h4>
+                  <p class="text-gray-600">support.eu@ecosurvey.edu</p>
+                  <p class="text-sm text-gray-500">+44 20 1234 5678</p>
+                </div>
+                <div>
+                  <h4 class="font-medium text-gray-800">Asia Pacific</h4>
+                  <p class="text-gray-600">support.apac@ecosurvey.edu</p>
+                  <p class="text-sm text-gray-500">+61 2 1234 5678</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Community Forum -->
+      <section id="community-forum">
+        <div class="text-center mb-12">
+          <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
+            Community Forum
+          </h2>
+          <p class="text-gray-600 max-w-2xl mx-auto">
+            Connect with other users, share experiences, and find
+            community-driven solutions
+          </p>
+        </div>
+        <div
+          class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden"
+        >
+          <!-- Forum Header -->
+          <div
+            class="p-6 border-b border-gray-100 flex flex-col md:flex-row md:items-center md:justify-between gap-4"
+          >
+            <div class="flex items-center space-x-4">
+              <button
+                class="bg-primary text-white px-4 py-2 !rounded-button hover:bg-primary/90 transition-colors whitespace-nowrap"
+              >
+                <i class="ri-add-line mr-1"></i>
+                <span>New Topic</span>
+              </button>
+              <div class="relative">
+                <select
+                  class="w-full md:w-48 px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none bg-white"
+                >
+                  <option>All Categories</option>
+                  <option>General Discussion</option>
+                  <option>Technical Support</option>
+                  <option>Survey Tips</option>
+                  <option>Feature Requests</option>
+                </select>
+              </div>
+            </div>
+            <div class="relative w-full md:w-64">
+              <input
+                type="text"
+                placeholder="Search forum..."
+                class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              />
+              <div
+                class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 flex items-center justify-center text-gray-400"
+              >
+                <i class="ri-search-line"></i>
+              </div>
+            </div>
+          </div>
+          <!-- Forum Topics -->
+          <div>
+            <!-- Topic 1 -->
+            <div class="forum-topic p-6 border-b border-gray-100">
+              <div class="flex items-start">
+                <div
+                  class="w-10 h-10 rounded-full bg-gray-100 overflow-hidden mr-4 flex-shrink-0"
+                >
+                  <img
+                    src="https://readdy.ai/api/search-image?query=professional%2520headshot%2520of%2520a%2520young%2520woman%2520with%2520glasses%2520and%2520short%2520hair%252C%2520neutral%2520background%252C%2520warm%2520lighting%252C%2520friendly%2520smile&width=100&height=100&seq=forum1&orientation=squarish"
+                    alt="User Avatar"
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+                <div class="flex-1">
+                  <div
+                    class="flex flex-col md:flex-row md:items-center md:justify-between gap-2"
+                  >
+                    <h3 class="font-medium text-gray-800 hover:text-primary">
+                      <a href="#"
+                        >Tips for maximizing points on biodiversity surveys?</a
+                      >
+                    </h3>
+                    <div class="flex items-center space-x-2">
+                      <span
+                        class="text-xs px-2 py-1 bg-green-100 text-green-800 rounded-full"
+                        >Survey Tips</span
+                      >
+                      <span class="text-xs text-gray-500">2 hours ago</span>
+                    </div>
+                  </div>
+                  <p class="text-gray-600 text-sm mt-2">
+                    I'm working on the campus biodiversity assessment and
+                    wondering if anyone has tips for earning more points. Are
+                    there specific details I should focus on?
+                  </p>
+                  <div class="flex items-center mt-3 text-sm">
+                    <div class="flex items-center text-gray-500 mr-4">
+                      <i class="ri-message-2-line mr-1"></i>
+                      <span>12 replies</span>
+                    </div>
+                    <div class="flex items-center text-gray-500 mr-4">
+                      <i class="ri-eye-line mr-1"></i>
+                      <span>45 views</span>
+                    </div>
+                    <div class="flex items-center text-gray-500">
+                      <i class="ri-thumb-up-line mr-1"></i>
+                      <span>8 likes</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Topic 2 -->
+            <div class="forum-topic p-6 border-b border-gray-100">
+              <div class="flex items-start">
+                <div
+                  class="w-10 h-10 rounded-full bg-gray-100 overflow-hidden mr-4 flex-shrink-0"
+                >
+                  <img
+                    src="https://readdy.ai/api/search-image?query=professional%2520headshot%2520of%2520a%2520middle-aged%2520man%2520with%2520beard%252C%2520neutral%2520background%252C%2520warm%2520lighting%252C%2520confident%2520expression&width=100&height=100&seq=forum2&orientation=squarish"
+                    alt="User Avatar"
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+                <div class="flex-1">
+                  <div
+                    class="flex flex-col md:flex-row md:items-center md:justify-between gap-2"
+                  >
+                    <h3 class="font-medium text-gray-800 hover:text-primary">
+                      <a href="#"
+                        >App keeps crashing during water usage survey</a
+                      >
+                    </h3>
+                    <div class="flex items-center space-x-2">
+                      <span
+                        class="text-xs px-2 py-1 bg-red-100 text-red-800 rounded-full"
+                        >Technical Support</span
+                      >
+                      <span class="text-xs text-gray-500">5 hours ago</span>
+                    </div>
+                  </div>
+                  <p class="text-gray-600 text-sm mt-2">
+                    I'm trying to complete the water usage survey but the app
+                    keeps crashing when I reach the third page. Has anyone else
+                    experienced this issue?
+                  </p>
+                  <div class="flex items-center mt-3 text-sm">
+                    <div class="flex items-center text-gray-500 mr-4">
+                      <i class="ri-message-2-line mr-1"></i>
+                      <span>8 replies</span>
+                    </div>
+                    <div class="flex items-center text-gray-500 mr-4">
+                      <i class="ri-eye-line mr-1"></i>
+                      <span>32 views</span>
+                    </div>
+                    <div class="flex items-center text-gray-500">
+                      <i class="ri-thumb-up-line mr-1"></i>
+                      <span>3 likes</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Topic 3 -->
+            <div class="forum-topic p-6 border-b border-gray-100">
+              <div class="flex items-start">
+                <div
+                  class="w-10 h-10 rounded-full bg-gray-100 overflow-hidden mr-4 flex-shrink-0"
+                >
+                  <img
+                    src="https://readdy.ai/api/search-image?query=professional%2520headshot%2520of%2520a%2520young%2520person%2520with%2520curly%2520hair%252C%2520neutral%2520background%252C%2520warm%2520lighting%252C%2520friendly%2520expression&width=100&height=100&seq=forum3&orientation=squarish"
+                    alt="User Avatar"
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+                <div class="flex-1">
+                  <div
+                    class="flex flex-col md:flex-row md:items-center md:justify-between gap-2"
+                  >
+                    <h3 class="font-medium text-gray-800 hover:text-primary">
+                      <a href="#"
+                        >Feature request: Dark mode for the platform</a
+                      >
+                    </h3>
+                    <div class="flex items-center space-x-2">
+                      <span
+                        class="text-xs px-2 py-1 bg-blue-100 text-blue-800 rounded-full"
+                        >Feature Requests</span
+                      >
+                      <span class="text-xs text-gray-500">Yesterday</span>
+                    </div>
+                  </div>
+                  <p class="text-gray-600 text-sm mt-2">
+                    I'd love to see a dark mode option added to the platform. It
+                    would be easier on the eyes when completing surveys at
+                    night. Anyone else interested in this feature?
+                  </p>
+                  <div class="flex items-center mt-3 text-sm">
+                    <div class="flex items-center text-gray-500 mr-4">
+                      <i class="ri-message-2-line mr-1"></i>
+                      <span>24 replies</span>
+                    </div>
+                    <div class="flex items-center text-gray-500 mr-4">
+                      <i class="ri-eye-line mr-1"></i>
+                      <span>87 views</span>
+                    </div>
+                    <div class="flex items-center text-gray-500">
+                      <i class="ri-thumb-up-line mr-1"></i>
+                      <span>35 likes</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Topic 4 -->
+            <div class="forum-topic p-6 border-b border-gray-100">
+              <div class="flex items-start">
+                <div
+                  class="w-10 h-10 rounded-full bg-gray-100 overflow-hidden mr-4 flex-shrink-0"
+                >
+                  <img
+                    src="https://readdy.ai/api/search-image?query=professional%2520headshot%2520of%2520a%2520woman%2520with%2520long%2520hair%252C%2520neutral%2520background%252C%2520warm%2520lighting%252C%2520professional%2520appearance&width=100&height=100&seq=forum4&orientation=squarish"
+                    alt="User Avatar"
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+                <div class="flex-1">
+                  <div
+                    class="flex flex-col md:flex-row md:items-center md:justify-between gap-2"
+                  >
+                    <h3 class="font-medium text-gray-800 hover:text-primary">
+                      <a href="#"
+                        >Introducing myself - New environmental science
+                        student</a
+                      >
+                    </h3>
+                    <div class="flex items-center space-x-2">
+                      <span
+                        class="text-xs px-2 py-1 bg-gray-100 text-gray-800 rounded-full"
+                        >General Discussion</span
+                      >
+                      <span class="text-xs text-gray-500">2 days ago</span>
+                    </div>
+                  </div>
+                  <p class="text-gray-600 text-sm mt-2">
+                    Hello everyone! I'm a new environmental science student and
+                    just joined EcoSurvey. Looking forward to contributing to
+                    the surveys and learning from all of you!
+                  </p>
+                  <div class="flex items-center mt-3 text-sm">
+                    <div class="flex items-center text-gray-500 mr-4">
+                      <i class="ri-message-2-line mr-1"></i>
+                      <span>18 replies</span>
+                    </div>
+                    <div class="flex items-center text-gray-500 mr-4">
+                      <i class="ri-eye-line mr-1"></i>
+                      <span>52 views</span>
+                    </div>
+                    <div class="flex items-center text-gray-500">
+                      <i class="ri-thumb-up-line mr-1"></i>
+                      <span>15 likes</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Topic 5 -->
+            <div class="forum-topic p-6">
+              <div class="flex items-start">
+                <div
+                  class="w-10 h-10 rounded-full bg-gray-100 overflow-hidden mr-4 flex-shrink-0"
+                >
+                  <img
+                    src="https://readdy.ai/api/search-image?query=professional%2520headshot%2520of%2520a%2520person%2520with%2520glasses%252C%2520neutral%2520background%252C%2520warm%2520lighting%252C%2520thoughtful%2520expression&width=100&height=100&seq=forum5&orientation=squarish"
+                    alt="User Avatar"
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+                <div class="flex-1">
+                  <div
+                    class="flex flex-col md:flex-row md:items-center md:justify-between gap-2"
+                  >
+                    <h3 class="font-medium text-gray-800 hover:text-primary">
+                      <a href="#"
+                        >Best practices for organizing campus sustainability
+                        initiatives</a
+                      >
+                    </h3>
+                    <div class="flex items-center space-x-2">
+                      <span
+                        class="text-xs px-2 py-1 bg-green-100 text-green-800 rounded-full"
+                        >Survey Tips</span
+                      >
+                      <span class="text-xs text-gray-500">3 days ago</span>
+                    </div>
+                  </div>
+                  <p class="text-gray-600 text-sm mt-2">
+                    Our university is launching several sustainability
+                    initiatives based on survey results. Does anyone have
+                    experience organizing these efforts effectively?
+                  </p>
+                  <div class="flex items-center mt-3 text-sm">
+                    <div class="flex items-center text-gray-500 mr-4">
+                      <i class="ri-message-2-line mr-1"></i>
+                      <span>32 replies</span>
+                    </div>
+                    <div class="flex items-center text-gray-500 mr-4">
+                      <i class="ri-eye-line mr-1"></i>
+                      <span>128 views</span>
+                    </div>
+                    <div class="flex items-center text-gray-500">
+                      <i class="ri-thumb-up-line mr-1"></i>
+                      <span>42 likes</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Forum Footer -->
+          <div
+            class="p-6 border-t border-gray-100 flex items-center justify-between"
+          >
+            <div class="text-sm text-gray-600">
+              Showing <span class="font-medium">1</span> to
+              <span class="font-medium">5</span> of
+              <span class="font-medium">127</span> topics
+            </div>
+            <nav class="flex items-center space-x-2">
+              <button
+                class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 hover:bg-gray-50"
+              >
+                <i class="ri-arrow-left-s-line"></i>
+              </button>
+              <button
+                class="w-9 h-9 flex items-center justify-center rounded-lg bg-primary text-white"
+              >
+                1
+              </button>
+              <button
+                class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-700 hover:bg-gray-50"
+              >
+                2
+              </button>
+              <button
+                class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-700 hover:bg-gray-50"
+              >
+                3
+              </button>
+              <button
+                class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-700 hover:bg-gray-50"
+              >
+                4
+              </button>
+              <button
+                class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 hover:bg-gray-50"
+              >
+                <i class="ri-arrow-right-s-line"></i>
+              </button>
+            </nav>
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- Live Chat Button -->
+    <button
+      id="chat-button"
+      class="fixed bottom-6 right-6 w-16 h-16 bg-primary rounded-full shadow-lg flex items-center justify-center text-white z-50 hover:bg-primary/90 transition-colors"
+    >
+      <i class="ri-chat-3-line text-2xl"></i>
+    </button>
+    <!-- Chat Window -->
+    <div id="chat-window" class="chat-window">
+      <!-- Chat Header -->
+      <div class="bg-primary text-white p-4 flex items-center justify-between">
+        <div class="flex items-center">
+          <div
+            class="w-8 h-8 rounded-full bg-white flex items-center justify-center mr-3"
+          >
+            <i class="ri-customer-service-2-line text-primary"></i>
+          </div>
+          <div>
+            <h3 class="font-medium">EcoSurvey Support</h3>
+            <div class="flex items-center text-xs">
+              <span class="w-2 h-2 bg-green-300 rounded-full mr-1"></span>
+              <span>Online</span>
+            </div>
+          </div>
+        </div>
+        <button
+          id="close-chat"
+          class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-primary/80 transition-colors"
+        >
+          <i class="ri-close-line text-xl"></i>
+        </button>
+      </div>
+      <!-- Chat Messages -->
+      <div class="chat-messages flex flex-col">
+        <div class="message message-received">
+          <p>
+            👋 Hi there! Welcome to EcoSurvey support. How can I help you today?
+          </p>
+        </div>
+        <div class="message message-received">
+          <p>
+            I'm here to assist with any questions about surveys, account issues,
+            or technical problems.
+          </p>
+        </div>
+        <div class="message message-sent">
+          <p>
+            Hi! I'm having trouble submitting my biodiversity survey. It keeps
+            showing an error message.
+          </p>
+        </div>
+        <div class="message message-received">
+          <p>
+            I'm sorry to hear that. Could you tell me what error message you're
+            seeing? Also, what device and browser are you using?
+          </p>
+        </div>
+      </div>
+      <!-- Quick Responses -->
+      <div class="p-3 border-t border-gray-200 bg-gray-50">
+        <div class="flex flex-wrap gap-2">
+          <button
+            class="text-xs px-3 py-1 bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition-colors whitespace-nowrap"
+          >
+            Password Reset
+          </button>
+          <button
+            class="text-xs px-3 py-1 bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition-colors whitespace-nowrap"
+          >
+            Survey Issues
+          </button>
+          <button
+            class="text-xs px-3 py-1 bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition-colors whitespace-nowrap"
+          >
+            Points Not Showing
+          </button>
+          <button
+            class="text-xs px-3 py-1 bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition-colors whitespace-nowrap"
+          >
+            Account Help
+          </button>
+        </div>
+      </div>
+      <!-- Chat Input -->
+      <div class="border-t border-gray-200 p-3">
+        <div class="flex items-center">
+          <input
+            type="text"
+            placeholder="Type your message..."
+            class="flex-1 px-4 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+          />
+          <button
+            class="bg-primary text-white px-4 py-2 rounded-r-lg hover:bg-primary/90 transition-colors"
+          >
+            <i class="ri-send-plane-fill"></i>
+          </button>
+        </div>
+        <div
+          class="flex items-center justify-between mt-2 px-1 text-xs text-gray-500"
+        >
+          <span>Estimated response time: < 2 min</span>
+          <div class="flex items-center">
+            <button
+              class="w-6 h-6 flex items-center justify-center text-gray-500 hover:text-gray-700"
+            >
+              <i class="ri-attachment-2"></i>
+            </button>
+            <button
+              class="w-6 h-6 flex items-center justify-center text-gray-500 hover:text-gray-700 ml-1"
+            >
+              <i class="ri-emotion-line"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white pt-12 pb-6 mt-12">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+          <div>
+            <div class="flex items-center space-x-2 mb-4">
+              <div
+                class="w-10 h-10 bg-white rounded-full flex items-center justify-center"
+              >
+                <span class="text-primary font-['Pacifico'] text-lg">logo</span>
+              </div>
+              <span class="text-xl font-semibold">EcoSurvey</span>
+            </div>
+            <p class="text-gray-300 mb-4">
+              Empowering environmental change through digital surveys and
+              community engagement.
+            </p>
+            <div class="flex space-x-4">
+              <a
+                href="#"
+                class="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center hover:bg-primary transition-colors"
+              >
+                <i class="ri-facebook-fill text-white"></i>
+              </a>
+              <a
+                href="#"
+                class="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center hover:bg-primary transition-colors"
+              >
+                <i class="ri-twitter-x-fill text-white"></i>
+              </a>
+              <a
+                href="#"
+                class="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center hover:bg-primary transition-colors"
+              >
+                <i class="ri-instagram-fill text-white"></i>
+              </a>
+              <a
+                href="#"
+                class="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center hover:bg-primary transition-colors"
+              >
+                <i class="ri-linkedin-fill text-white"></i>
+              </a>
+            </div>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="https://readdy.ai/home/4181c56c-0bbb-4c84-ba2e-34f80e21ebda/927f8f97-6fb3-46aa-be9f-5240f94f8fd0"
+                  data-readdy="true"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >Home</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://readdy.ai/home/4181c56c-0bbb-4c84-ba2e-34f80e21ebda/a620e50a-315f-46ee-8f1d-4582d4e9b416"
+                  data-readdy="true"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >Survey Board</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://readdy.ai/home/4181c56c-0bbb-4c84-ba2e-34f80e21ebda/15366131-7d31-47f6-b012-28b73f51a205"
+                  data-readdy="true"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >Profile</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >Leaderboard</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >About Us</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Support</h3>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="#help-categories"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >Help Center</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#popular-faqs"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >FAQs</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#contact-support"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >Contact Support</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#community-forum"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >Community Forum</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >Privacy Policy</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >Terms of Service</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Contact</h3>
+            <ul class="space-y-2">
+              <li class="flex items-start">
+                <div
+                  class="w-5 h-5 flex items-center justify-center text-gray-300 mt-0.5"
+                >
+                  <i class="ri-map-pin-line"></i>
+                </div>
+                <span class="ml-2 text-gray-300"
+                  >123 University Avenue, Campus Green Building</span
+                >
+              </li>
+              <li class="flex items-center">
+                <div
+                  class="w-5 h-5 flex items-center justify-center text-gray-300"
+                >
+                  <i class="ri-mail-line"></i>
+                </div>
+                <span class="ml-2 text-gray-300">contact@ecosurvey.edu</span>
+              </li>
+              <li class="flex items-center">
+                <div
+                  class="w-5 h-5 flex items-center justify-center text-gray-300"
+                >
+                  <i class="ri-phone-line"></i>
+                </div>
+                <span class="ml-2 text-gray-300">(555) 123-4567</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="border-t border-gray-700 pt-6">
+          <div class="flex flex-col md:flex-row justify-between items-center">
+            <p class="text-gray-400 text-sm mb-4 md:mb-0">
+              © 2025 EcoSurvey Portal. All rights reserved.
+            </p>
+            <div class="flex items-center space-x-4">
+              <div class="w-6 h-6 flex items-center justify-center">
+                <i class="ri-visa-fill text-gray-300 text-xl"></i>
+              </div>
+              <div class="w-6 h-6 flex items-center justify-center">
+                <i class="ri-mastercard-fill text-gray-300 text-xl"></i>
+              </div>
+              <div class="w-6 h-6 flex items-center justify-center">
+                <i class="ri-paypal-fill text-gray-300 text-xl"></i>
+              </div>
+              <div class="w-6 h-6 flex items-center justify-center">
+                <i class="ri-apple-fill text-gray-300 text-xl"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Smooth scroll and active state for FAQs link
+        const faqsLink = document.getElementById("faqs-nav-link");
+        if (faqsLink) {
+          faqsLink.addEventListener("click", function (e) {
+            e.preventDefault();
+            const faqsSection = document.getElementById("popular-faqs");
+            if (faqsSection) {
+              faqsSection.scrollIntoView({ behavior: "smooth" });
+            }
+          });
+          // Handle active state on scroll
+          window.addEventListener("scroll", function () {
+            const faqsSection = document.getElementById("popular-faqs");
+            if (faqsSection) {
+              const rect = faqsSection.getBoundingClientRect();
+              if (rect.top <= 100 && rect.bottom >= 100) {
+                faqsLink.classList.add("text-primary");
+                faqsLink.classList.remove("text-gray-600");
+              } else {
+                faqsLink.classList.remove("text-primary");
+                faqsLink.classList.add("text-gray-600");
+              }
+            }
+          });
+        }
+        // FAQ Toggles
+        const faqToggles = document.querySelectorAll(".faq-toggle");
+        faqToggles.forEach((toggle) => {
+          toggle.addEventListener("click", function () {
+            const faqItem = this.closest(".faq-item");
+            const isActive = faqItem.classList.contains("active");
+            // Close all FAQs
+            document.querySelectorAll(".faq-item").forEach((item) => {
+              item.classList.remove("active");
+              const icon = item.querySelector(".faq-toggle i");
+              icon.style.transform = "rotate(0deg)";
+            });
+            // If the clicked FAQ wasn't active, open it
+            if (!isActive) {
+              faqItem.classList.add("active");
+              const icon = this.querySelector("i");
+              icon.style.transform = "rotate(180deg)";
+            }
+          });
+        });
+        // Search functionality
+        const searchInput = document.getElementById("support-search");
+        const searchResults = document.getElementById("search-results");
+        if (searchInput && searchResults) {
+          searchInput.addEventListener("focus", function () {
+            searchResults.classList.add("active");
+          });
+          // Close search results when clicking outside
+          document.addEventListener("click", function (event) {
+            if (
+              !searchInput.contains(event.target) &&
+              !searchResults.contains(event.target)
+            ) {
+              searchResults.classList.remove("active");
+            }
+          });
+        }
+        // Live Chat functionality
+        const chatButton = document.getElementById("chat-button");
+        const chatWindow = document.getElementById("chat-window");
+        const closeChat = document.getElementById("close-chat");
+        if (chatButton && chatWindow && closeChat) {
+          chatButton.addEventListener("click", function () {
+            chatWindow.style.display = "block";
+          });
+          closeChat.addEventListener("click", function () {
+            chatWindow.style.display = "none";
+          });
+        }
+        // Knowledge Base Tabs
+        const tabButtons = document.querySelectorAll(".tab-button");
+        tabButtons.forEach((button) => {
+          button.addEventListener("click", function () {
+            // Remove active class from all buttons
+            tabButtons.forEach((btn) => btn.classList.remove("active"));
+            // Add active class to clicked button
+            this.classList.add("active");
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1850 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Environmental Awareness Survey Portal</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#4CAF50",
+              secondary: "#8BC34A",
+            },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+    <style>
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+      body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f9fafb;
+      }
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+      }
+      .custom-checkbox {
+      position: relative;
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      margin-right: 8px;
+      }
+      .custom-checkbox input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      }
+      .checkmark {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 20px;
+      width: 20px;
+      background-color: #fff;
+      border: 2px solid #d1d5db;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+      }
+      .custom-checkbox input:checked ~ .checkmark {
+      background-color: #4CAF50;
+      border-color: #4CAF50;
+      }
+      .checkmark:after {
+      content: "";
+      position: absolute;
+      display: none;
+      }
+      .custom-checkbox input:checked ~ .checkmark:after {
+      display: block;
+      }
+      .custom-checkbox .checkmark:after {
+      left: 6px;
+      top: 2px;
+      width: 6px;
+      height: 12px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+      }
+      .custom-switch {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 24px;
+      }
+      .custom-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      }
+      .switch-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #e5e7eb;
+      transition: .4s;
+      border-radius: 24px;
+      }
+      .switch-slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+      }
+      .custom-switch input:checked + .switch-slider {
+      background-color: #4CAF50;
+      }
+      .custom-switch input:checked + .switch-slider:before {
+      transform: translateX(24px);
+      }
+      .custom-radio {
+      position: relative;
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      margin-right: 8px;
+      }
+      .custom-radio input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      }
+      .radio-mark {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 20px;
+      width: 20px;
+      background-color: #fff;
+      border: 2px solid #d1d5db;
+      border-radius: 50%;
+      }
+      .custom-radio input:checked ~ .radio-mark {
+      border-color: #4CAF50;
+      }
+      .radio-mark:after {
+      content: "";
+      position: absolute;
+      display: none;
+      top: 4px;
+      left: 4px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #4CAF50;
+      }
+      .custom-radio input:checked ~ .radio-mark:after {
+      display: block;
+      }
+      .custom-range {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 6px;
+      border-radius: 5px;
+      background: #e5e7eb;
+      outline: none;
+      }
+      .custom-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #4CAF50;
+      cursor: pointer;
+      }
+      .custom-range::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #4CAF50;
+      cursor: pointer;
+      border: none;
+      }
+      .custom-select {
+      position: relative;
+      display: inline-block;
+      }
+      .custom-select select {
+      display: none;
+      }
+      .select-selected {
+      background-color: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 8px 16px;
+      cursor: pointer;
+      user-select: none;
+      }
+      .select-items {
+      position: absolute;
+      background-color: white;
+      top: 100%;
+      left: 0;
+      right: 0;
+      z-index: 99;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      margin-top: 4px;
+      max-height: 200px;
+      overflow-y: auto;
+      display: none;
+      }
+      .select-items div {
+      padding: 8px 16px;
+      cursor: pointer;
+      user-select: none;
+      }
+      .select-items div:hover {
+      background-color: #f3f4f6;
+      }
+      .select-arrow {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      width: 0;
+      height: 0;
+      border: solid #6b7280;
+      border-width: 0 2px 2px 0;
+      display: inline-block;
+      padding: 3px;
+      transform: rotate(45deg);
+      }
+      .select-hide {
+      display: none;
+      }
+      .same-as-selected {
+      background-color: #f3f4f6;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="min-h-screen flex flex-col">
+      <!-- Header -->
+      <header class="bg-white shadow-sm">
+        <div class="flex items-center justify-between px-6 py-4">
+          <div class="flex items-center space-x-4">
+            <div class="text-2xl font-['Pacifico'] text-primary">EcoSurvey</div>
+            <nav class="hidden md:flex items-center space-x-6 ml-10">
+              <a href="index.html" class="text-primary font-medium">Dashboard</a>
+              <a
+                href="survey.html"
+                data-readdy="true"
+                class="text-gray-600 hover:text-primary transition-colors"
+                >Surveys</a
+              >
+              <a
+                href="leaderboard.html"
+                class="text-gray-600 hover:text-primary transition-colors"
+                >Leaderboard</a
+              >
+              <a
+                href="analytics.html"
+                class="text-gray-600 hover:text-primary transition-colors"
+                >Analytics</a
+              >
+              <a
+                href="resource.html"
+                class="text-gray-600 hover:text-primary transition-colors"
+                >Resources</a
+              >
+            </nav>
+          </div>
+          <div class="flex items-center space-x-4">
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                  <button
+                    id="notificationBtn"
+                    class="text-gray-600 hover:text-gray-800 relative w-10 h-10 flex items-center justify-center"
+                  >
+                    <i class="ri-notification-3-line ri-lg"></i>
+                    <span
+                      id="notificationBadge"
+                      class="absolute top-1 right-1 w-4 h-4 bg-red-500 rounded-full text-white text-xs flex items-center justify-center"
+                      >3</span
+                    >
+                  </button>
+                  <div
+                    id="notificationPanel"
+                    class="hidden absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-100 z-50"
+                  >
+                    <div class="p-4 border-b border-gray-100">
+                      <h3 class="text-lg font-medium text-gray-800">Notifications</h3>
+                    </div>
+                    <div class="max-h-96 overflow-y-auto">
+                      <div
+                        class="notification-item p-4 hover:bg-gray-50 border-b border-gray-100"
+                      >
+                        <div class="flex items-start">
+                          <div
+                            class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0"
+                          >
+                            <i class="ri-file-list-line text-blue-500"></i>
+                          </div>
+                          <div class="ml-3 flex-grow">
+                            <p class="text-sm text-gray-800">
+                              New survey response received for "Environmental
+                              Awareness 2025"
+                            </p>
+                            <span class="text-xs text-gray-500 block mt-1"
+                              >10 minutes ago</span
+                            >
+                            <button
+                              class="text-primary text-xs mt-2 hover:text-primary/80"
+                            >
+                              Mark as read
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="notification-item p-4 hover:bg-gray-50 border-b border-gray-100"
+                      >
+                        <div class="flex items-start">
+                          <div
+                            class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0"
+                          >
+                            <i class="ri-download-line text-green-500"></i>
+                          </div>
+                          <div class="ml-3 flex-grow">
+                            <p class="text-sm text-gray-800">
+                              Your report "Q1 Analytics Summary" is ready to download
+                            </p>
+                            <span class="text-xs text-gray-500 block mt-1"
+                              >2 hours ago</span
+                            >
+                            <button
+                              class="text-primary text-xs mt-2 hover:text-primary/80"
+                            >
+                              Mark as read
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="notification-item p-4 hover:bg-gray-50 border-b border-gray-100"
+                      >
+                        <div class="flex items-start">
+                          <div
+                            class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0"
+                          >
+                            <i class="ri-user-follow-line text-purple-500"></i>
+                          </div>
+                          <div class="ml-3 flex-grow">
+                            <p class="text-sm text-gray-800">
+                              New team member Sarah Chen joined the project
+                            </p>
+                            <span class="text-xs text-gray-500 block mt-1"
+                              >5 hours ago</span
+                            >
+                            <button
+                              class="text-primary text-xs mt-2 hover:text-primary/80"
+                            >
+                              Mark as read
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="p-4 bg-gray-50 rounded-b-lg">
+                      <button
+                        id="markAllRead"
+                        class="w-full bg-white border border-gray-200 text-gray-700 px-4 py-2 rounded hover:border-gray-300 mb-2 !rounded-button"
+                      >
+                        Mark all as read
+                      </button>
+                      <a
+                        href="#"
+                        class="block text-center text-primary text-sm hover:text-primary/80"
+                        >See all notifications</a
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="relative w-10 h-10 flex items-center justify-center">
+                  <button id="settingsBtn" class="text-gray-600 hover:text-gray-800">
+                    <i class="ri-settings-3-line ri-lg"></i>
+                  </button>
+                  <div
+                    id="settingsPanel"
+                    class="hidden absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-100 z-50"
+                  >
+                    <div class="py-2">
+                      <a
+                        href="#"
+                        class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors"
+                      >
+                        <i class="ri-user-settings-line mr-3"></i>
+                        <span>Account Settings</span>
+                      </a>
+                      <a
+                        href="#"
+                        class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors"
+                      >
+                        <i class="ri-notification-4-line mr-3"></i>
+                        <span>Notification Preferences</span>
+                      </a>
+                      <a
+                        href="#"
+                        class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors"
+                      >
+                        <i class="ri-shield-keyhole-line mr-3"></i>
+                        <span>Privacy Settings</span>
+                      </a>
+                      <a
+                        href="#"
+                        class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors"
+                      >
+                        <i class="ri-palette-line mr-3"></i>
+                        <span>Display Options</span>
+                      </a>
+                      <div class="border-t border-gray-100"></div>
+                      <a
+                        href="#"
+                        class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors"
+                      >
+                        <i class="ri-question-line mr-3"></i>
+                        <span>Help & Support</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center space-x-2">
+                <div
+                  class="bg-green-100 text-primary px-3 py-1 rounded-full text-xs font-medium"
+                >
+                  Admin
+                </div>
+                <div
+                  class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden"
+                >
+                  <img
+                    src="https://readdy.ai/api/search-image?query=professional%2520headshot%2520of%2520a%2520university%2520administrator%252C%2520neutral%2520expression%252C%2520business%2520casual%2520attire%252C%2520indoor%2520office%2520setting%252C%2520soft%2520lighting%252C%2520high%2520quality%2520portrait&width=100&height=100&seq=1&orientation=squarish"
+                    alt="Profile"
+                    class="w-full h-full object-cover object-top"
+                  />
+                </div>
+                <div class="hidden md:block">
+                  <div class="text-sm font-medium">Dr. Emily Richardson</div>
+                  <div class="text-xs text-gray-500">
+                    emily.richardson@eco.edu
+                  </div>
+                </div>
+                <button
+                  id="profileDropdownBtn"
+                  class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-primary transition-colors relative"
+                >
+                  <i class="ri-arrow-down-s-line ri-lg"></i>
+                </button>
+                <div
+                  id="profileDropdown"
+                  class="hidden absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-100 py-2 z-50 transform opacity-0 transition-all duration-300"
+                  style="top: 60px;"
+                >
+                  <a
+                    href="#"
+                    class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    <div
+                      class="w-8 h-8 flex items-center justify-center text-gray-500"
+                    >
+                      <i class="ri-user-line"></i>
+                    </div>
+                    <span>My Profile</span>
+                  </a>
+                  <a
+                    href="#"
+                    class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    <div
+                      class="w-8 h-8 flex items-center justify-center text-gray-500"
+                    >
+                      <i class="ri-settings-3-line"></i>
+                    </div>
+                    <span>Account Settings</span>
+                  </a>
+                  <a
+                    href="#"
+                    class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    <div
+                      class="w-8 h-8 flex items-center justify-center text-gray-500"
+                    >
+                      <i class="ri-notification-4-line"></i>
+                    </div>
+                    <span>Notification Preferences</span>
+                  </a>
+                  <a
+                    href="#"
+                    class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    <div
+                      class="w-8 h-8 flex items-center justify-center text-gray-500"
+                    >
+                      <i class="ri-question-line"></i>
+                    </div>
+                    <span>Help & Support</span>
+                  </a>
+                  <div class="h-px bg-gray-200 my-2"></div>
+                  <a
+                    href="#"
+                    class="flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                  >
+                    <div
+                      class="w-8 h-8 flex items-center justify-center text-red-600"
+                    >
+                      <i class="ri-logout-box-line"></i>
+                    </div>
+                    <span>Logout</span>
+                  </a>
+                </div>
+              </div>
+          </div>
+        </div>
+      </header>
+      <!-- Main Content -->
+      <main class="flex-grow">
+        <!-- Welcome Section -->
+        <div class="bg-white border-b">
+          <div class="max-w-7xl mx-auto px-6 py-8">
+            <div
+              class="flex flex-col md:flex-row justify-between items-start md:items-center"
+            >
+              <div>
+                <h1 class="text-2xl font-semibold text-gray-800">
+                  Welcome back, Dr. Richardson
+                </h1>
+                <p class="text-gray-600 mt-1">
+                  Here's what's happening with your environmental surveys today.
+                </p>
+              </div>
+              <div class="mt-4 md:mt-0 flex space-x-3">
+                <button
+                  class="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-button flex items-center space-x-2 hover:bg-gray-50 transition-colors whitespace-nowrap"
+                >
+                  <i class="ri-file-download-line"></i>
+                  <span>Export Data</span>
+                </button>
+                <a
+                    href="survey-form.html"
+                  data-readdy="true"
+                  class="bg-primary text-white px-4 py-2 rounded-button flex items-center space-x-2 hover:bg-opacity-90 transition-colors whitespace-nowrap"
+                >
+                  <i class="ri-add-line"></i>
+                  <span>Create Survey</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Dashboard Stats -->
+        <div class="max-w-7xl mx-auto px-6 py-8">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Stat Card 1 -->
+            <div class="bg-white rounded shadow-sm p-6 flex items-start">
+              <div
+                class="w-12 h-12 flex items-center justify-center rounded-full bg-green-100 text-primary mr-4"
+              >
+                <i class="ri-survey-line ri-lg"></i>
+              </div>
+              <div>
+                <div class="text-sm text-gray-500 font-medium">
+                  Active Surveys
+                </div>
+                <div class="text-2xl font-semibold mt-1">12</div>
+                <div class="text-xs text-green-600 mt-1 flex items-center">
+                  <i class="ri-arrow-up-line mr-1"></i>
+                  <span>3 more than last month</span>
+                </div>
+              </div>
+            </div>
+            <!-- Stat Card 2 -->
+            <div class="bg-white rounded shadow-sm p-6 flex items-start">
+              <div
+                class="w-12 h-12 flex items-center justify-center rounded-full bg-blue-100 text-blue-600 mr-4"
+              >
+                <i class="ri-user-line ri-lg"></i>
+              </div>
+              <div>
+                <div class="text-sm text-gray-500 font-medium">
+                  Total Participants
+                </div>
+                <div class="text-2xl font-semibold mt-1">1,248</div>
+                <div class="text-xs text-green-600 mt-1 flex items-center">
+                  <i class="ri-arrow-up-line mr-1"></i>
+                  <span>22% increase</span>
+                </div>
+              </div>
+            </div>
+            <!-- Stat Card 3 -->
+            <div class="bg-white rounded shadow-sm p-6 flex items-start">
+              <div
+                class="w-12 h-12 flex items-center justify-center rounded-full bg-amber-100 text-amber-600 mr-4"
+              >
+                <i class="ri-leaf-line ri-lg"></i>
+              </div>
+              <div>
+                <div class="text-sm text-gray-500 font-medium">Paper Saved</div>
+                <div class="text-2xl font-semibold mt-1">487 kg</div>
+                <div class="text-xs text-green-600 mt-1 flex items-center">
+                  <i class="ri-arrow-up-line mr-1"></i>
+                  <span>12.5% more than Q1</span>
+                </div>
+              </div>
+            </div>
+            <!-- Stat Card 4 -->
+            <div class="bg-white rounded shadow-sm p-6 flex items-start">
+              <div
+                class="w-12 h-12 flex items-center justify-center rounded-full bg-purple-100 text-purple-600 mr-4"
+              >
+                <i class="ri-award-line ri-lg"></i>
+              </div>
+              <div>
+                <div class="text-sm text-gray-500 font-medium">
+                  Completion Rate
+                </div>
+                <div class="text-2xl font-semibold mt-1">78.3%</div>
+                <div class="text-xs text-green-600 mt-1 flex items-center">
+                  <i class="ri-arrow-up-line mr-1"></i>
+                  <span>5.2% increase</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Charts Section -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+            <!-- Participation Chart -->
+            <div class="bg-white rounded shadow-sm p-6">
+              <div class="flex justify-between items-center mb-6">
+                <h2 class="text-lg font-semibold text-gray-800">
+                  Participation Trends
+                </h2>
+                <div class="flex items-center space-x-2">
+                  <button
+                    class="text-sm text-gray-500 hover:text-primary px-3 py-1 rounded-full bg-gray-100 whitespace-nowrap"
+                  >
+                    Weekly
+                  </button>
+                  <button
+                    class="text-sm text-primary px-3 py-1 rounded-full bg-green-100 whitespace-nowrap"
+                  >
+                    Monthly
+                  </button>
+                  <button
+                    class="text-sm text-gray-500 hover:text-primary px-3 py-1 rounded-full bg-gray-100 whitespace-nowrap"
+                  >
+                    Yearly
+                  </button>
+                </div>
+              </div>
+              <div id="participationChart" class="w-full h-64"></div>
+            </div>
+            <!-- Environmental Impact Chart -->
+            <div class="bg-white rounded shadow-sm p-6">
+              <div class="flex justify-between items-center mb-6">
+                <h2 class="text-lg font-semibold text-gray-800">
+                  Environmental Impact
+                </h2>
+                <div class="relative">
+                  <button
+                    class="text-sm text-gray-600 flex items-center space-x-1 px-3 py-1 rounded-full bg-gray-100 whitespace-nowrap"
+                  >
+                    <span>This Year</span>
+                    <i class="ri-arrow-down-s-line"></i>
+                  </button>
+                </div>
+              </div>
+              <div id="impactChart" class="w-full h-64"></div>
+            </div>
+          </div>
+          <!-- Recent Surveys & Leaderboard Section -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
+            <!-- Recent Surveys -->
+            <div class="lg:col-span-2 bg-white rounded shadow-sm p-6">
+              <div class="flex justify-between items-center mb-6">
+                <h2 class="text-lg font-semibold text-gray-800">
+                  Recent Surveys
+                </h2>
+                <a
+                  href="#"
+                  class="text-primary text-sm font-medium hover:underline"
+                  >View All</a
+                >
+              </div>
+              <div class="overflow-x-auto">
+                <table class="min-w-full">
+                  <thead>
+                    <tr class="border-b border-gray-200">
+                      <th
+                        class="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
+                        Survey Name
+                      </th>
+                      <th
+                        class="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
+                        Status
+                      </th>
+                      <th
+                        class="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
+                        Participants
+                      </th>
+                      <th
+                        class="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
+                        Deadline
+                      </th>
+                      <th
+                        class="text-left py-3 px-4 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="border-b border-gray-200 hover:bg-gray-50">
+                      <td class="py-3 px-4">
+                        <div class="flex items-center">
+                          <div
+                            class="w-8 h-8 flex items-center justify-center rounded bg-green-100 text-primary mr-3"
+                          >
+                            <i class="ri-file-list-3-line"></i>
+                          </div>
+                          <div>
+                            <div class="font-medium text-gray-800">
+                              Campus Recycling Habits
+                            </div>
+                            <div class="text-xs text-gray-500">
+                              Created on April 22, 2025
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="py-3 px-4">
+                        <span
+                          class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800"
+                          >Active</span
+                        >
+                      </td>
+                      <td class="py-3 px-4">
+                        <div class="text-sm">386</div>
+                        <div class="text-xs text-gray-500">64% completion</div>
+                      </td>
+                      <td class="py-3 px-4">
+                        <div class="text-sm">May 10, 2025</div>
+                        <div class="text-xs text-amber-600">13 days left</div>
+                      </td>
+                      <td class="py-3 px-4">
+                        <div class="flex space-x-2">
+                          <button
+                            class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 whitespace-nowrap"
+                          >
+                            <i class="ri-eye-line"></i>
+                          </button>
+                          <button
+                            class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 whitespace-nowrap"
+                          >
+                            <i class="ri-edit-line"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr class="border-b border-gray-200 hover:bg-gray-50">
+                      <td class="py-3 px-4">
+                        <div class="flex items-center">
+                          <div
+                            class="w-8 h-8 flex items-center justify-center rounded bg-blue-100 text-blue-600 mr-3"
+                          >
+                            <i class="ri-file-list-3-line"></i>
+                          </div>
+                          <div>
+                            <div class="font-medium text-gray-800">
+                              Water Conservation Awareness
+                            </div>
+                            <div class="text-xs text-gray-500">
+                              Created on April 15, 2025
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="py-3 px-4">
+                        <span
+                          class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800"
+                          >Active</span
+                        >
+                      </td>
+                      <td class="py-3 px-4">
+                        <div class="text-sm">294</div>
+                        <div class="text-xs text-gray-500">78% completion</div>
+                      </td>
+                      <td class="py-3 px-4">
+                        <div class="text-sm">May 5, 2025</div>
+                        <div class="text-xs text-amber-600">8 days left</div>
+                      </td>
+                      <td class="py-3 px-4">
+                        <div class="flex space-x-2">
+                          <button
+                            class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 whitespace-nowrap"
+                          >
+                            <i class="ri-eye-line"></i>
+                          </button>
+                          <button
+                            class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 whitespace-nowrap"
+                          >
+                            <i class="ri-edit-line"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr class="border-b border-gray-200 hover:bg-gray-50">
+                      <td class="py-3 px-4">
+                        <div class="flex items-center">
+                          <div
+                            class="w-8 h-8 flex items-center justify-center rounded bg-purple-100 text-purple-600 mr-3"
+                          >
+                            <i class="ri-file-list-3-line"></i>
+                          </div>
+                          <div>
+                            <div class="font-medium text-gray-800">
+                              Renewable Energy Knowledge
+                            </div>
+                            <div class="text-xs text-gray-500">
+                              Created on April 8, 2025
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="py-3 px-4">
+                        <span
+                          class="px-2 py-1 text-xs rounded-full bg-amber-100 text-amber-800"
+                          >Closing Soon</span
+                        >
+                      </td>
+                      <td class="py-3 px-4">
+                        <div class="text-sm">412</div>
+                        <div class="text-xs text-gray-500">92% completion</div>
+                      </td>
+                      <td class="py-3 px-4">
+                        <div class="text-sm">April 30, 2025</div>
+                        <div class="text-xs text-red-600">3 days left</div>
+                      </td>
+                      <td class="py-3 px-4">
+                        <div class="flex space-x-2">
+                          <button
+                            class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 whitespace-nowrap"
+                          >
+                            <i class="ri-eye-line"></i>
+                          </button>
+                          <button
+                            class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 whitespace-nowrap"
+                          >
+                            <i class="ri-edit-line"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                      <td class="py-3 px-4">
+                        <div class="flex items-center">
+                          <div
+                            class="w-8 h-8 flex items-center justify-center rounded bg-gray-100 text-gray-600 mr-3"
+                          >
+                            <i class="ri-file-list-3-line"></i>
+                          </div>
+                          <div>
+                            <div class="font-medium text-gray-800">
+                              Sustainable Transportation
+                            </div>
+                            <div class="text-xs text-gray-500">
+                              Created on March 30, 2025
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="py-3 px-4">
+                        <span
+                          class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800"
+                          >Completed</span
+                        >
+                      </td>
+                      <td class="py-3 px-4">
+                        <div class="text-sm">156</div>
+                        <div class="text-xs text-gray-500">100% completion</div>
+                      </td>
+                      <td class="py-3 px-4">
+                        <div class="text-sm">April 15, 2025</div>
+                        <div class="text-xs text-gray-500">Ended</div>
+                      </td>
+                      <td class="py-3 px-4">
+                        <div class="flex space-x-2">
+                          <button
+                            class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 whitespace-nowrap"
+                          >
+                            <i class="ri-eye-line"></i>
+                          </button>
+                          <button
+                            class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 whitespace-nowrap"
+                          >
+                            <i class="ri-file-chart-line"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- Leaderboard -->
+            <div class="bg-white rounded shadow-sm p-6">
+              <div class="flex justify-between items-center mb-6">
+                <h2 class="text-lg font-semibold text-gray-800">
+                  Top Performers
+                </h2>
+                <a
+                  href="#"
+                  class="text-primary text-sm font-medium hover:underline"
+                  >View All</a
+                >
+              </div>
+              <div class="space-y-4">
+                <!-- Top Performer 1 -->
+                <div
+                  class="flex items-center p-3 bg-gradient-to-r from-amber-50 to-amber-100 rounded-lg border border-amber-200"
+                >
+                  <div
+                    class="w-8 h-8 flex items-center justify-center rounded-full bg-amber-500 text-white font-bold text-sm mr-3"
+                  >
+                    1
+                  </div>
+                  <div class="flex-grow">
+                    <div class="flex items-center">
+                      <img
+                        src="https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20female%20university%20student%2C%20natural%20smile%2C%20casual%20attire%2C%20indoor%20setting%20with%20natural%20lighting%2C%20high%20quality%20portrait&width=40&height=40&seq=2&orientation=squarish"
+                        alt="Profile"
+                        class="w-8 h-8 rounded-full mr-2 object-cover"
+                      />
+                      <div>
+                        <div class="font-medium text-gray-800">
+                          Sophia Martinez
+                        </div>
+                        <div class="text-xs text-gray-500">
+                          Environmental Science
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <div class="font-semibold text-amber-600">1,245</div>
+                    <div class="text-xs text-gray-500">points</div>
+                  </div>
+                </div>
+                <!-- Top Performer 2 -->
+                <div
+                  class="flex items-center p-3 bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg border border-gray-200"
+                >
+                  <div
+                    class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-400 text-white font-bold text-sm mr-3"
+                  >
+                    2
+                  </div>
+                  <div class="flex-grow">
+                    <div class="flex items-center">
+                      <img
+                        src="https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20male%20university%20student%2C%20natural%20smile%2C%20casual%20attire%2C%20indoor%20setting%20with%20natural%20lighting%2C%20high%20quality%20portrait&width=40&height=40&seq=3&orientation=squarish"
+                        alt="Profile"
+                        class="w-8 h-8 rounded-full mr-2 object-cover"
+                      />
+                      <div>
+                        <div class="font-medium text-gray-800">
+                          James Wilson
+                        </div>
+                        <div class="text-xs text-gray-500">Biology</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <div class="font-semibold text-gray-600">1,182</div>
+                    <div class="text-xs text-gray-500">points</div>
+                  </div>
+                </div>
+                <!-- Top Performer 3 -->
+                <div
+                  class="flex items-center p-3 bg-gradient-to-r from-orange-50 to-orange-100 rounded-lg border border-orange-200"
+                >
+                  <div
+                    class="w-8 h-8 flex items-center justify-center rounded-full bg-orange-500 text-white font-bold text-sm mr-3"
+                  >
+                    3
+                  </div>
+                  <div class="flex-grow">
+                    <div class="flex items-center">
+                      <img
+                        src="https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20female%20university%20student%20with%20glasses%2C%20natural%20smile%2C%20casual%20attire%2C%20indoor%20setting%20with%20natural%20lighting%2C%20high%20quality%20portrait&width=40&height=40&seq=4&orientation=squarish"
+                        alt="Profile"
+                        class="w-8 h-8 rounded-full mr-2 object-cover"
+                      />
+                      <div>
+                        <div class="font-medium text-gray-800">
+                          Olivia Johnson
+                        </div>
+                        <div class="text-xs text-gray-500">Chemistry</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <div class="font-semibold text-orange-600">1,056</div>
+                    <div class="text-xs text-gray-500">points</div>
+                  </div>
+                </div>
+                <!-- Other Performers -->
+                <div
+                  class="flex items-center p-3 bg-white rounded-lg border border-gray-200"
+                >
+                  <div
+                    class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 text-gray-600 font-bold text-sm mr-3"
+                  >
+                    4
+                  </div>
+                  <div class="flex-grow">
+                    <div class="flex items-center">
+                      <img
+                        src="https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20male%20university%20student%20with%20glasses%2C%20natural%20smile%2C%20casual%20attire%2C%20indoor%20setting%20with%20natural%20lighting%2C%20high%20quality%20portrait&width=40&height=40&seq=5&orientation=squarish"
+                        alt="Profile"
+                        class="w-8 h-8 rounded-full mr-2 object-cover"
+                      />
+                      <div>
+                        <div class="font-medium text-gray-800">Ethan Brown</div>
+                        <div class="text-xs text-gray-500">Engineering</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <div class="font-semibold text-gray-600">987</div>
+                    <div class="text-xs text-gray-500">points</div>
+                  </div>
+                </div>
+                <div
+                  class="flex items-center p-3 bg-white rounded-lg border border-gray-200"
+                >
+                  <div
+                    class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 text-gray-600 font-bold text-sm mr-3"
+                  >
+                    5
+                  </div>
+                  <div class="flex-grow">
+                    <div class="flex items-center">
+                      <img
+                        src="https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20female%20university%20student%2C%20natural%20smile%2C%20casual%20attire%2C%20indoor%20setting%20with%20natural%20lighting%2C%20high%20quality%20portrait&width=40&height=40&seq=6&orientation=squarish"
+                        alt="Profile"
+                        class="w-8 h-8 rounded-full mr-2 object-cover"
+                      />
+                      <div>
+                        <div class="font-medium text-gray-800">
+                          Ava Thompson
+                        </div>
+                        <div class="text-xs text-gray-500">Geography</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <div class="font-semibold text-gray-600">943</div>
+                    <div class="text-xs text-gray-500">points</div>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-6">
+                <div class="flex items-center justify-between mb-2">
+                  <div class="text-sm font-medium text-gray-600">
+                    Your Ranking
+                  </div>
+                  <div class="text-sm font-medium text-primary">Top 10%</div>
+                </div>
+                <div
+                  class="flex items-center p-3 bg-green-50 rounded-lg border border-green-200"
+                >
+                  <div
+                    class="w-8 h-8 flex items-center justify-center rounded-full bg-primary text-white font-bold text-sm mr-3"
+                  >
+                    12
+                  </div>
+                  <div class="flex-grow">
+                    <div class="flex items-center">
+                      <img
+                        src="https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20university%20administrator%2C%20neutral%20expression%2C%20business%20casual%20attire%2C%20indoor%20office%20setting%2C%20soft%20lighting%2C%20high%20quality%20portrait&width=40&height=40&seq=7&orientation=squarish"
+                        alt="Profile"
+                        class="w-8 h-8 rounded-full mr-2 object-cover"
+                      />
+                      <div>
+                        <div class="font-medium text-gray-800">
+                          Dr. Emily Richardson
+                        </div>
+                        <div class="text-xs text-gray-500">
+                          Environmental Admin
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <div class="font-semibold text-primary">782</div>
+                    <div class="text-xs text-gray-500">points</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Recent Activities & Quick Actions -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
+            <!-- Recent Activities -->
+            <div class="lg:col-span-2 bg-white rounded shadow-sm p-6">
+              <div class="flex justify-between items-center mb-6">
+                <h2 class="text-lg font-semibold text-gray-800">
+                  Recent Activities
+                </h2>
+                <div class="relative">
+                  <button
+                    class="text-sm text-gray-600 flex items-center space-x-1 px-3 py-1 rounded-full bg-gray-100 whitespace-nowrap"
+                  >
+                    <span>Filter</span>
+                    <i class="ri-filter-3-line"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="space-y-4">
+                <div
+                  class="flex items-start p-4 border-l-4 border-green-500 bg-green-50 rounded-r-lg"
+                >
+                  <div
+                    class="w-10 h-10 flex items-center justify-center rounded-full bg-green-100 text-green-600 mr-4"
+                  >
+                    <i class="ri-file-add-line ri-lg"></i>
+                  </div>
+                  <div class="flex-grow">
+                    <div
+                      class="flex flex-col sm:flex-row sm:justify-between sm:items-center"
+                    >
+                      <div class="font-medium text-gray-800">
+                        New survey created: "Campus Recycling Habits"
+                      </div>
+                      <div class="text-xs text-gray-500 mt-1 sm:mt-0">
+                        Today, 10:23 AM
+                      </div>
+                    </div>
+                    <div class="text-sm text-gray-600 mt-1">
+                      You created a new survey with 15 questions focused on
+                      recycling habits.
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="flex items-start p-4 border-l-4 border-blue-500 bg-blue-50 rounded-r-lg"
+                >
+                  <div
+                    class="w-10 h-10 flex items-center justify-center rounded-full bg-blue-100 text-blue-600 mr-4"
+                  >
+                    <i class="ri-user-add-line ri-lg"></i>
+                  </div>
+                  <div class="flex-grow">
+                    <div
+                      class="flex flex-col sm:flex-row sm:justify-between sm:items-center"
+                    >
+                      <div class="font-medium text-gray-800">
+                        New faculty member added: "Dr. Robert Chen"
+                      </div>
+                      <div class="text-xs text-gray-500 mt-1 sm:mt-0">
+                        Yesterday, 3:45 PM
+                      </div>
+                    </div>
+                    <div class="text-sm text-gray-600 mt-1">
+                      You added Dr. Robert Chen from the Physics department to
+                      the platform.
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="flex items-start p-4 border-l-4 border-purple-500 bg-purple-50 rounded-r-lg"
+                >
+                  <div
+                    class="w-10 h-10 flex items-center justify-center rounded-full bg-purple-100 text-purple-600 mr-4"
+                  >
+                    <i class="ri-award-line ri-lg"></i>
+                  </div>
+                  <div class="flex-grow">
+                    <div
+                      class="flex flex-col sm:flex-row sm:justify-between sm:items-center"
+                    >
+                      <div class="font-medium text-gray-800">
+                        Milestone reached: "1,000 survey responses"
+                      </div>
+                      <div class="text-xs text-gray-500 mt-1 sm:mt-0">
+                        April 25, 2025
+                      </div>
+                    </div>
+                    <div class="text-sm text-gray-600 mt-1">
+                      The platform has received over 1,000 survey responses this
+                      month!
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="flex items-start p-4 border-l-4 border-amber-500 bg-amber-50 rounded-r-lg"
+                >
+                  <div
+                    class="w-10 h-10 flex items-center justify-center rounded-full bg-amber-100 text-amber-600 mr-4"
+                  >
+                    <i class="ri-notification-3-line ri-lg"></i>
+                  </div>
+                  <div class="flex-grow">
+                    <div
+                      class="flex flex-col sm:flex-row sm:justify-between sm:items-center"
+                    >
+                      <div class="font-medium text-gray-800">
+                        Reminder sent: "Water Conservation Survey"
+                      </div>
+                      <div class="text-xs text-gray-500 mt-1 sm:mt-0">
+                        April 24, 2025
+                      </div>
+                    </div>
+                    <div class="text-sm text-gray-600 mt-1">
+                      Reminder emails were sent to 156 participants who haven't
+                      completed the survey yet.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Quick Actions -->
+            <div class="bg-white rounded shadow-sm p-6">
+              <h2 class="text-lg font-semibold text-gray-800 mb-6">
+                Quick Actions
+              </h2>
+              <div class="space-y-4">
+                <button
+                  class="w-full flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors whitespace-nowrap"
+                >
+                  <div
+                    class="w-10 h-10 flex items-center justify-center rounded-full bg-primary bg-opacity-10 text-primary mr-4"
+                  >
+                    <i class="ri-add-line ri-lg"></i>
+                  </div>
+                  <div class="text-left">
+                    <div class="font-medium text-gray-800">
+                      Create New Survey
+                    </div>
+                    <div class="text-xs text-gray-500 mt-1">
+                      Design a new environmental survey
+                    </div>
+                  </div>
+                </button>
+                <button
+                  class="w-full flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors whitespace-nowrap"
+                >
+                  <div
+                    class="w-10 h-10 flex items-center justify-center rounded-full bg-blue-500 bg-opacity-10 text-blue-500 mr-4"
+                  >
+                    <i class="ri-user-add-line ri-lg"></i>
+                  </div>
+                  <div class="text-left">
+                    <div class="font-medium text-gray-800">Add New User</div>
+                    <div class="text-xs text-gray-500 mt-1">
+                      Register faculty or student accounts
+                    </div>
+                  </div>
+                </button>
+                <button
+                  class="w-full flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors whitespace-nowrap"
+                >
+                  <div
+                    class="w-10 h-10 flex items-center justify-center rounded-full bg-purple-500 bg-opacity-10 text-purple-500 mr-4"
+                  >
+                    <i class="ri-mail-send-line ri-lg"></i>
+                  </div>
+                  <div class="text-left">
+                    <div class="font-medium text-gray-800">
+                      Send Notifications
+                    </div>
+                    <div class="text-xs text-gray-500 mt-1">
+                      Remind users about pending surveys
+                    </div>
+                  </div>
+                </button>
+                <button
+                  class="w-full flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors whitespace-nowrap"
+                >
+                  <div
+                    class="w-10 h-10 flex items-center justify-center rounded-full bg-amber-500 bg-opacity-10 text-amber-500 mr-4"
+                  >
+                    <i class="ri-award-line ri-lg"></i>
+                  </div>
+                  <div class="text-left">
+                    <div class="font-medium text-gray-800">Manage Rewards</div>
+                    <div class="text-xs text-gray-500 mt-1">
+                      Set up prizes for top participants
+                    </div>
+                  </div>
+                </button>
+                <button
+                  class="w-full flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors whitespace-nowrap"
+                >
+                  <div
+                    class="w-10 h-10 flex items-center justify-center rounded-full bg-green-500 bg-opacity-10 text-green-500 mr-4"
+                  >
+                    <i class="ri-file-chart-line ri-lg"></i>
+                  </div>
+                  <div class="text-left">
+                    <div class="font-medium text-gray-800">
+                      Generate Reports
+                    </div>
+                    <div class="text-xs text-gray-500 mt-1">
+                      Create detailed analytics reports
+                    </div>
+                  </div>
+                </button>
+              </div>
+              <div
+                class="mt-6 p-4 bg-green-50 rounded-lg border border-green-200"
+              >
+                <div class="flex items-start">
+                  <div
+                    class="w-10 h-10 flex items-center justify-center rounded-full bg-green-100 text-green-600 mr-4"
+                  >
+                    <i class="ri-lightbulb-line ri-lg"></i>
+                  </div>
+                  <div>
+                    <div class="font-medium text-gray-800">
+                      Environmental Tip
+                    </div>
+                    <div class="text-sm text-gray-600 mt-1">
+                      Did you know? Digital surveys save approximately 0.25kg of
+                      paper per 100 responses compared to traditional paper
+                      surveys.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+      <!-- Footer -->
+      <footer class="bg-white border-t mt-12">
+        <div class="max-w-7xl mx-auto px-6 py-8">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="md:col-span-1">
+              <div class="text-2xl font-['Pacifico'] text-primary mb-4">
+                EcoSurvey
+              </div>
+              <p class="text-sm text-gray-600 mb-4">
+                Transforming environmental awareness through digital surveys and
+                student engagement.
+              </p>
+              <div class="flex space-x-4">
+                <a
+                  href="#"
+                  class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-primary hover:text-white transition-colors"
+                >
+                  <i class="ri-facebook-fill"></i>
+                </a>
+                <a
+                  href="#"
+                  class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-primary hover:text-white transition-colors"
+                >
+                  <i class="ri-twitter-fill"></i>
+                </a>
+                <a
+                  href="#"
+                  class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-primary hover:text-white transition-colors"
+                >
+                  <i class="ri-instagram-line"></i>
+                </a>
+                <a
+                  href="#"
+                  class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-primary hover:text-white transition-colors"
+                >
+                  <i class="ri-linkedin-fill"></i>
+                </a>
+              </div>
+            </div>
+            <div class="md:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-8">
+              <div>
+                <h3
+                  class="text-sm font-semibold text-gray-800 uppercase tracking-wider mb-4"
+                >
+                  Resources
+                </h3>
+                <ul class="space-y-2">
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Documentation</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >User Guides</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Survey Templates</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Environmental Resources</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >API Documentation</a
+                    >
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h3
+                  class="text-sm font-semibold text-gray-800 uppercase tracking-wider mb-4"
+                >
+                  Support
+                </h3>
+                <ul class="space-y-2">
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Help Center</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Contact Support</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >FAQ</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Community Forum</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Feedback</a
+                    >
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h3
+                  class="text-sm font-semibold text-gray-800 uppercase tracking-wider mb-4"
+                >
+                  Legal
+                </h3>
+                <ul class="space-y-2">
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Privacy Policy</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Terms of Service</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Data Protection</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Cookie Policy</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Accessibility</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div
+            class="border-t border-gray-200 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center"
+          >
+            <div class="text-sm text-gray-600">
+              © 2025 EcoSurvey. All rights reserved.
+            </div>
+            <div class="mt-4 md:mt-0 flex items-center space-x-4">
+              <span class="text-sm text-gray-500">Powered by:</span>
+              <div class="flex space-x-3">
+                <i class="ri-google-fill text-gray-400 text-xl"></i>
+                <i class="ri-microsoft-fill text-gray-400 text-xl"></i>
+                <i class="ri-amazon-fill text-gray-400 text-xl"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        //nofication
+        const notificationBtn = document.getElementById("notificationBtn");
+        const notificationPanel = document.getElementById("notificationPanel");
+        const settingsBtn = document.getElementById("settingsBtn");
+        const settingsPanel = document.getElementById("settingsPanel");
+        function toggleSettingsPanel(event) {
+          event.stopPropagation();
+          settingsPanel.classList.toggle("hidden");
+          if (!settingsPanel.classList.contains("hidden")) {
+            notificationPanel.classList.add("hidden");
+          }
+        }
+        settingsBtn.addEventListener("click", toggleSettingsPanel);
+        document.addEventListener("click", function (event) {
+          if (!settingsPanel.contains(event.target) && event.target !== settingsBtn) {
+            settingsPanel.classList.add("hidden");
+          }
+        });
+        const notificationBadge = document.getElementById("notificationBadge");
+        const markAllReadBtn = document.getElementById("markAllRead");
+        function toggleNotificationPanel(event) {
+          event.stopPropagation();
+          notificationPanel.classList.toggle("hidden");
+        }
+        function markAllNotificationsRead() {
+          const notificationItems = document.querySelectorAll(".notification-item");
+          notificationItems.forEach((item) => {
+            item.classList.add("opacity-50");
+            const markReadBtn = item.querySelector("button");
+            if (markReadBtn) {
+              markReadBtn.textContent = "Read";
+              markReadBtn.disabled = true;
+            }
+          });
+          notificationBadge.textContent = "0";
+          notificationBadge.classList.add("bg-gray-400");
+          notificationBadge.classList.remove("bg-red-500");
+        }
+        notificationBtn.addEventListener("click", toggleNotificationPanel);
+        markAllReadBtn.addEventListener("click", markAllNotificationsRead);
+        document.addEventListener("click", function (event) {
+          if (
+            !notificationPanel.contains(event.target) &&
+            event.target !== notificationBtn
+          ) {
+            notificationPanel.classList.add("hidden");
+          }
+        });
+        // Participation Chart
+        const participationChart = echarts.init(
+          document.getElementById("participationChart"),
+        );
+        const participationOption = {
+          animation: false,
+          tooltip: {
+            trigger: "axis",
+            backgroundColor: "rgba(255, 255, 255, 0.8)",
+            borderColor: "#e5e7eb",
+            borderWidth: 1,
+            textStyle: {
+              color: "#1f2937",
+            },
+          },
+          grid: {
+            top: 10,
+            right: 10,
+            bottom: 20,
+            left: 50,
+          },
+          xAxis: {
+            type: "category",
+            data: [
+              "Jan",
+              "Feb",
+              "Mar",
+              "Apr",
+              "May",
+              "Jun",
+              "Jul",
+              "Aug",
+              "Sep",
+              "Oct",
+              "Nov",
+              "Dec",
+            ],
+            axisLine: {
+              lineStyle: {
+                color: "#e5e7eb",
+              },
+            },
+            axisLabel: {
+              color: "#6b7280",
+            },
+          },
+          yAxis: {
+            type: "value",
+            axisLine: {
+              show: false,
+            },
+            axisLabel: {
+              color: "#6b7280",
+            },
+            splitLine: {
+              lineStyle: {
+                color: "#f3f4f6",
+              },
+            },
+          },
+          series: [
+            {
+              name: "Faculty",
+              type: "line",
+              smooth: true,
+              symbol: "none",
+              data: [120, 132, 101, 134, 90, 230, 210, 182, 191, 234, 290, 330],
+              lineStyle: {
+                color: "rgba(87, 181, 231, 1)",
+              },
+              areaStyle: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  { offset: 0, color: "rgba(87, 181, 231, 0.3)" },
+                  { offset: 1, color: "rgba(87, 181, 231, 0.1)" },
+                ]),
+              },
+            },
+            {
+              name: "Students",
+              type: "line",
+              smooth: true,
+              symbol: "none",
+              data: [220, 182, 191, 234, 290, 330, 310, 123, 442, 321, 90, 149],
+              lineStyle: {
+                color: "rgba(141, 211, 199, 1)",
+              },
+              areaStyle: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  { offset: 0, color: "rgba(141, 211, 199, 0.3)" },
+                  { offset: 1, color: "rgba(141, 211, 199, 0.1)" },
+                ]),
+              },
+            },
+          ],
+        };
+        participationChart.setOption(participationOption);
+        // Impact Chart
+        const impactChart = echarts.init(document.getElementById("impactChart"));
+        const impactOption = {
+          animation: false,
+          tooltip: {
+            trigger: "item",
+            backgroundColor: "rgba(255, 255, 255, 0.8)",
+            borderColor: "#e5e7eb",
+            borderWidth: 1,
+            textStyle: {
+              color: "#1f2937",
+            },
+          },
+          legend: {
+            top: "5%",
+            left: "center",
+            textStyle: {
+              color: "#1f2937",
+            },
+          },
+          series: [
+            {
+              name: "Environmental Impact",
+              type: "pie",
+              radius: ["40%", "70%"],
+              avoidLabelOverlap: false,
+              itemStyle: {
+                borderRadius: 10,
+                borderColor: "#fff",
+                borderWidth: 2,
+              },
+              label: {
+                show: false,
+                position: "center",
+              },
+              emphasis: {
+                label: {
+                  show: true,
+                  fontSize: "14",
+                  fontWeight: "bold",
+                  color: "#1f2937",
+                },
+              },
+              labelLine: {
+                show: false,
+              },
+              data: [
+                { value: 487, name: "Paper Saved (kg)" },
+                { value: 310, name: "CO₂ Reduced (kg)" },
+                { value: 234, name: "Water Saved (L)" },
+                { value: 135, name: "Energy Saved (kWh)" },
+              ],
+              color: [
+                "rgba(87, 181, 231, 1)",
+                "rgba(141, 211, 199, 1)",
+                "rgba(251, 191, 114, 1)",
+                "rgba(252, 141, 98, 1)",
+              ],
+            },
+          ],
+        };
+        impactChart.setOption(impactOption);
+        // Handle window resize
+        window.addEventListener("resize", function () {
+          participationChart.resize();
+          impactChart.resize();
+        });
+      });
+      // Custom Select Functionality
+      document.addEventListener("DOMContentLoaded", function () {
+        const customSelects = document.querySelectorAll(".custom-select");
+        for (let i = 0; i < customSelects.length; i++) {
+          const selectElement = customSelects[i].getElementsByTagName("select")[0];
+          // Create a new DIV that will act as the selected item
+          const selectedDiv = document.createElement("DIV");
+          selectedDiv.setAttribute("class", "select-selected");
+          selectedDiv.innerHTML =
+            selectElement.options[selectElement.selectedIndex].innerHTML;
+          customSelects[i].appendChild(selectedDiv);
+          // Create a new DIV that will contain the option list
+          const optionsDiv = document.createElement("DIV");
+          optionsDiv.setAttribute("class", "select-items select-hide");
+          for (let j = 0; j < selectElement.length; j++) {
+            // Create a DIV for each option
+            const optionDiv = document.createElement("DIV");
+            optionDiv.innerHTML = selectElement.options[j].innerHTML;
+            // When an item is clicked, update the original select box and the selected item
+            optionDiv.addEventListener("click", function (e) {
+              const originalSelect =
+                this.parentNode.parentNode.getElementsByTagName("select")[0];
+              const selectedItem = this.parentNode.previousSibling;
+              for (let k = 0; k < originalSelect.length; k++) {
+                if (originalSelect.options[k].innerHTML === this.innerHTML) {
+                  originalSelect.selectedIndex = k;
+                  selectedItem.innerHTML = this.innerHTML;
+                  const sameAsSelected =
+                    this.parentNode.getElementsByClassName("same-as-selected");
+                  for (let l = 0; l < sameAsSelected.length; l++) {
+                    sameAsSelected[l].removeAttribute("class");
+                  }
+                  this.setAttribute("class", "same-as-selected");
+                  break;
+                }
+              }
+              selectedItem.click();
+            });
+            optionsDiv.appendChild(optionDiv);
+          }
+          customSelects[i].appendChild(optionsDiv);
+          // When the select box is clicked, close any other select boxes and open/close this one
+          selectedDiv.addEventListener("click", function (e) {
+            e.stopPropagation();
+            closeAllSelect(this);
+            this.nextSibling.classList.toggle("select-hide");
+            this.classList.toggle("select-arrow-active");
+          });
+        }
+        // Close all select boxes when clicking elsewhere
+        function closeAllSelect(elmnt) {
+          const selectItems = document.getElementsByClassName("select-items");
+          const selectSelected = document.getElementsByClassName("select-selected");
+          for (let i = 0; i < selectSelected.length; i++) {
+            if (elmnt !== selectSelected[i]) {
+              selectSelected[i].classList.remove("select-arrow-active");
+            }
+          }
+          for (let i = 0; i < selectItems.length; i++) {
+            if (elmnt !== selectItems[i] && elmnt !== selectSelected[i]) {
+              selectItems[i].classList.add("select-hide");
+            }
+          }
+        }
+        document.addEventListener("click", closeAllSelect);
+      });
+      document.addEventListener("DOMContentLoaded", function () {
+        // Profile Dropdown
+        const profileBtn = document.getElementById("profileDropdownBtn");
+        const dropdown = document.getElementById("profileDropdown");
+        let isOpen = false;
+        if (profileBtn && dropdown) {
+          profileBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            isOpen = !isOpen;
+            if (isOpen) {
+              dropdown.classList.remove("hidden");
+              setTimeout(() => {
+                dropdown.classList.remove("opacity-0");
+                dropdown.classList.add("opacity-100");
+              }, 50);
+            } else {
+              dropdown.classList.remove("opacity-100");
+              dropdown.classList.add("opacity-0");
+              setTimeout(() => {
+                dropdown.classList.add("hidden");
+              }, 300);
+            }
+          });
+          document.addEventListener("click", function (e) {
+            if (!dropdown.contains(e.target) && !profileBtn.contains(e.target)) {
+              isOpen = false;
+              dropdown.classList.remove("opacity-100");
+              dropdown.classList.add("opacity-0");
+              setTimeout(() => {
+                dropdown.classList.add("hidden");
+              }, 300);
+            }
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

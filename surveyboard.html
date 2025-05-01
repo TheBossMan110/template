@@ -1,0 +1,1583 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Survey Board - EcoSurvey Portal</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#2E7D32", secondary: "#81C784" },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+    <style>
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+      body {
+          font-family: 'Poppins', sans-serif;
+      }
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+      }
+      input[type="number"] {
+          -moz-appearance: textfield;
+      }
+      .custom-checkbox {
+          position: relative;
+          cursor: pointer;
+      }
+      .custom-checkbox input {
+          position: absolute;
+          opacity: 0;
+          cursor: pointer;
+      }
+      .checkmark {
+          height: 20px;
+          width: 20px;
+          background-color: #f9fafb;
+          border: 2px solid #d1d5db;
+          border-radius: 4px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.2s ease;
+      }
+      .custom-checkbox input:checked ~ .checkmark {
+          background-color: #2E7D32;
+          border-color: #2E7D32;
+      }
+      .checkmark:after {
+          content: "";
+          display: none;
+          width: 6px;
+          height: 10px;
+          border: solid white;
+          border-width: 0 2px 2px 0;
+          transform: rotate(45deg);
+      }
+      .custom-checkbox input:checked ~ .checkmark:after {
+          display: block;
+      }
+      .custom-switch {
+          position: relative;
+          display: inline-block;
+          width: 50px;
+          height: 24px;
+      }
+      .custom-switch input {
+          opacity: 0;
+          width: 0;
+          height: 0;
+      }
+      .slider {
+          position: absolute;
+          cursor: pointer;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: #e5e7eb;
+          transition: .4s;
+          border-radius: 24px;
+      }
+      .slider:before {
+          position: absolute;
+          content: "";
+          height: 18px;
+          width: 18px;
+          left: 3px;
+          bottom: 3px;
+          background-color: white;
+          transition: .4s;
+          border-radius: 50%;
+      }
+      input:checked + .slider {
+          background-color: #2E7D32;
+      }
+      input:checked + .slider:before {
+          transform: translateX(26px);
+      }
+      .custom-range {
+          -webkit-appearance: none;
+          width: 100%;
+          height: 6px;
+          border-radius: 5px;
+          background: #e5e7eb;
+          outline: none;
+      }
+      .custom-range::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          appearance: none;
+          width: 18px;
+          height: 18px;
+          border-radius: 50%;
+          background: #2E7D32;
+          cursor: pointer;
+      }
+      .custom-range::-moz-range-thumb {
+          width: 18px;
+          height: 18px;
+          border-radius: 50%;
+          background: #2E7D32;
+          cursor: pointer;
+          border: none;
+      }
+      .difficulty-badge {
+          padding: 4px 8px;
+          border-radius: 9999px;
+          font-size: 0.75rem;
+          font-weight: 500;
+      }
+      .difficulty-easy {
+          background-color: #DCFCE7;
+          color: #166534;
+      }
+      .difficulty-medium {
+          background-color: #FEF9C3;
+          color: #854D0E;
+      }
+      .difficulty-hard {
+          background-color: #FEE2E2;
+          color: #B91C1C;
+      }
+      .category-tag {
+          display: inline-flex;
+          align-items: center;
+          padding: 4px 10px;
+          border-radius: 9999px;
+          font-size: 0.75rem;
+          font-weight: 500;
+      }
+      .category-waste {
+          background-color: #E8F5E9;
+          color: #2E7D32;
+      }
+      .category-energy {
+          background-color: #FFF8E1;
+          color: #F57F17;
+      }
+      .category-water {
+          background-color: #E1F5FE;
+          color: #0277BD;
+      }
+      .category-biodiversity {
+          background-color: #F3E5F5;
+          color: #7B1FA2;
+      }
+      .category-climate {
+          background-color: #E0F2F1;
+          color: #00796B;
+      }
+      .category-transportation {
+          background-color: #FFEBEE;
+          color: #C62828;
+      }
+      .survey-card {
+          transition: all 0.3s ease;
+      }
+      .survey-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      }
+      .progress-bar {
+          height: 8px;
+          border-radius: 4px;
+          background-color: #E5E7EB;
+          overflow: hidden;
+      }
+      .progress-fill {
+          height: 100%;
+          border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50">
+    <!-- Header/Navigation -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+      <div
+        class="container mx-auto px-4 py-3 flex items-center justify-between"
+      >
+        <div class="flex items-center space-x-2">
+          <div
+            class="w-10 h-10 bg-primary rounded-full flex items-center justify-center"
+          >
+            <span class="text-white font-['Pacifico'] text-lg">logo</span>
+          </div>
+          <span class="text-xl font-semibold text-gray-800">EcoSurvey</span>
+        </div>
+        <nav class="hidden md:flex items-center space-x-8">
+          <a
+            href="https://readdy.ai/home/4181c56c-0bbb-4c84-ba2e-34f80e21ebda/927f8f97-6fb3-46aa-be9f-5240f94f8fd0"
+            data-readdy="true"
+            class="text-gray-600 hover:text-primary transition-colors"
+            >Home</a
+          >
+          <a href="#" class="text-primary font-medium">Survey Board</a>
+          <a href="#" class="text-gray-600 hover:text-primary transition-colors"
+            >Profile</a
+          >
+          <a href="#" class="text-gray-600 hover:text-primary transition-colors"
+            >Support</a
+          >
+          <a href="#" class="text-gray-600 hover:text-primary transition-colors"
+            >FAQs</a
+          >
+        </nav>
+        <div class="flex items-center space-x-4">
+          <div
+            class="hidden md:flex items-center space-x-2 bg-green-50 px-3 py-1.5 rounded-full"
+          >
+            <div class="w-6 h-6 flex items-center justify-center">
+              <i class="ri-user-line text-primary"></i>
+            </div>
+            <span class="text-sm font-medium text-primary">Student</span>
+          </div>
+          <button
+            class="bg-primary text-white px-4 py-2 !rounded-button hover:bg-primary/90 transition-colors whitespace-nowrap"
+          >
+            Login / Register
+          </button>
+          <button class="md:hidden w-10 h-10 flex items-center justify-center">
+            <i class="ri-menu-line text-gray-700 text-xl"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page Title & Search Section -->
+    <section class="bg-white border-b border-gray-200">
+      <div class="container mx-auto px-4 py-8">
+        <div
+          class="flex flex-col md:flex-row md:items-center md:justify-between mb-6"
+        >
+          <div>
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
+              Survey Board
+            </h1>
+            <p class="text-gray-600">
+              Discover and participate in environmental surveys to make a
+              difference
+            </p>
+          </div>
+          <div class="mt-4 md:mt-0 relative">
+            <div class="relative">
+              <input
+                type="text"
+                placeholder="Search surveys..."
+                class="w-full md:w-80 pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
+              />
+              <div
+                class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 flex items-center justify-center text-gray-400"
+              >
+                <i class="ri-search-line"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="bg-white shadow-sm mb-6">
+      <div class="container mx-auto px-4 py-4">
+        <div class="flex flex-wrap items-center gap-4">
+          <!-- Category Filter -->
+          <div class="relative">
+            <button
+              id="categoryDropdown"
+              class="flex items-center space-x-2 px-4 py-2 border border-gray-200 rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-colors text-sm whitespace-nowrap"
+            >
+              <div class="w-5 h-5 flex items-center justify-center">
+                <i class="ri-filter-3-line"></i>
+              </div>
+              <span>Category</span>
+              <div class="w-5 h-5 flex items-center justify-center">
+                <i class="ri-arrow-down-s-line"></i>
+              </div>
+            </button>
+            <div
+              id="categoryMenu"
+              class="hidden absolute left-0 mt-2 w-56 rounded-lg bg-white shadow-lg border border-gray-200 z-10"
+            >
+              <div class="p-2">
+                <label
+                  class="custom-checkbox flex items-center p-2 hover:bg-gray-50 rounded cursor-pointer"
+                >
+                  <input type="checkbox" checked />
+                  <span class="checkmark mr-3"></span>
+                  <span>All Categories</span>
+                </label>
+                <label
+                  class="custom-checkbox flex items-center p-2 hover:bg-gray-50 rounded cursor-pointer"
+                >
+                  <input type="checkbox" />
+                  <span class="checkmark mr-3"></span>
+                  <span>Waste Management</span>
+                </label>
+                <label
+                  class="custom-checkbox flex items-center p-2 hover:bg-gray-50 rounded cursor-pointer"
+                >
+                  <input type="checkbox" />
+                  <span class="checkmark mr-3"></span>
+                  <span>Energy Conservation</span>
+                </label>
+                <label
+                  class="custom-checkbox flex items-center p-2 hover:bg-gray-50 rounded cursor-pointer"
+                >
+                  <input type="checkbox" />
+                  <span class="checkmark mr-3"></span>
+                  <span>Water Conservation</span>
+                </label>
+                <label
+                  class="custom-checkbox flex items-center p-2 hover:bg-gray-50 rounded cursor-pointer"
+                >
+                  <input type="checkbox" />
+                  <span class="checkmark mr-3"></span>
+                  <span>Biodiversity</span>
+                </label>
+                <label
+                  class="custom-checkbox flex items-center p-2 hover:bg-gray-50 rounded cursor-pointer"
+                >
+                  <input type="checkbox" />
+                  <span class="checkmark mr-3"></span>
+                  <span>Climate Action</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Difficulty Filter -->
+          <div class="relative">
+            <button
+              id="difficultyDropdown"
+              class="flex items-center space-x-2 px-4 py-2 border border-gray-200 rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-colors text-sm whitespace-nowrap"
+            >
+              <div class="w-5 h-5 flex items-center justify-center">
+                <i class="ri-bar-chart-line"></i>
+              </div>
+              <span>Difficulty</span>
+              <div class="w-5 h-5 flex items-center justify-center">
+                <i class="ri-arrow-down-s-line"></i>
+              </div>
+            </button>
+            <div
+              id="difficultyMenu"
+              class="hidden absolute left-0 mt-2 w-48 rounded-lg bg-white shadow-lg border border-gray-200 z-10"
+            >
+              <div class="p-2">
+                <label
+                  class="custom-checkbox flex items-center p-2 hover:bg-gray-50 rounded cursor-pointer"
+                >
+                  <input type="checkbox" checked />
+                  <span class="checkmark mr-3"></span>
+                  <span>All Difficulties</span>
+                </label>
+                <label
+                  class="custom-checkbox flex items-center p-2 hover:bg-gray-50 rounded cursor-pointer"
+                >
+                  <input type="checkbox" />
+                  <span class="checkmark mr-3"></span>
+                  <span>Easy</span>
+                </label>
+                <label
+                  class="custom-checkbox flex items-center p-2 hover:bg-gray-50 rounded cursor-pointer"
+                >
+                  <input type="checkbox" />
+                  <span class="checkmark mr-3"></span>
+                  <span>Medium</span>
+                </label>
+                <label
+                  class="custom-checkbox flex items-center p-2 hover:bg-gray-50 rounded cursor-pointer"
+                >
+                  <input type="checkbox" />
+                  <span class="checkmark mr-3"></span>
+                  <span>Hard</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Status Filter -->
+          <div class="relative">
+            <button
+              id="statusDropdown"
+              class="flex items-center space-x-2 px-4 py-2 border border-gray-200 rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-colors text-sm whitespace-nowrap"
+            >
+              <div class="w-5 h-5 flex items-center justify-center">
+                <i class="ri-checkbox-multiple-line"></i>
+              </div>
+              <span>Status</span>
+              <div class="w-5 h-5 flex items-center justify-center">
+                <i class="ri-arrow-down-s-line"></i>
+              </div>
+            </button>
+            <div
+              id="statusMenu"
+              class="hidden absolute left-0 mt-2 w-48 rounded-lg bg-white shadow-lg border border-gray-200 z-10"
+            >
+              <div class="p-2">
+                <label
+                  class="custom-checkbox flex items-center p-2 hover:bg-gray-50 rounded cursor-pointer"
+                >
+                  <input type="checkbox" checked />
+                  <span class="checkmark mr-3"></span>
+                  <span>All Statuses</span>
+                </label>
+                <label
+                  class="custom-checkbox flex items-center p-2 hover:bg-gray-50 rounded cursor-pointer"
+                >
+                  <input type="checkbox" />
+                  <span class="checkmark mr-3"></span>
+                  <span>Not Started</span>
+                </label>
+                <label
+                  class="custom-checkbox flex items-center p-2 hover:bg-gray-50 rounded cursor-pointer"
+                >
+                  <input type="checkbox" />
+                  <span class="checkmark mr-3"></span>
+                  <span>In Progress</span>
+                </label>
+                <label
+                  class="custom-checkbox flex items-center p-2 hover:bg-gray-50 rounded cursor-pointer"
+                >
+                  <input type="checkbox" />
+                  <span class="checkmark mr-3"></span>
+                  <span>Completed</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sort By -->
+          <div class="relative ml-auto">
+            <button
+              id="sortDropdown"
+              class="flex items-center space-x-2 px-4 py-2 border border-gray-200 rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-colors text-sm whitespace-nowrap"
+            >
+              <div class="w-5 h-5 flex items-center justify-center">
+                <i class="ri-sort-desc"></i>
+              </div>
+              <span>Sort by: Latest</span>
+              <div class="w-5 h-5 flex items-center justify-center">
+                <i class="ri-arrow-down-s-line"></i>
+              </div>
+            </button>
+            <div
+              id="sortMenu"
+              class="hidden absolute right-0 mt-2 w-48 rounded-lg bg-white shadow-lg border border-gray-200 z-10"
+            >
+              <div class="py-1">
+                <button
+                  class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                >
+                  Latest
+                </button>
+                <button
+                  class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                >
+                  Most Popular
+                </button>
+                <button
+                  class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                >
+                  Deadline (Soonest)
+                </button>
+                <button
+                  class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                >
+                  Difficulty (Easiest)
+                </button>
+                <button
+                  class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                >
+                  Difficulty (Hardest)
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Survey Grid -->
+    <main class="container mx-auto px-4 py-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Survey Card 1 -->
+        <a
+          href="https://readdy.ai/home/4181c56c-0bbb-4c84-ba2e-34f80e21ebda/927f8f97-6fb3-46aa-be9f-5240f94f8fd0"
+          data-readdy="true"
+          class="survey-card bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden"
+        >
+          <div class="relative">
+            <div class="h-36 bg-gray-100">
+              <img
+                src="https://readdy.ai/api/search-image?query=Campus%2520waste%2520audit%2520scene%2520with%2520students%2520analyzing%2520waste%2520bins%2520and%2520sorting%2520recyclables%2C%2520clean%2520educational%2520environment%2C%2520bright%2520lighting%2C%2520professional%2520waste%2520management%2520assessment%2C%2520high%2520quality%2520realistic%2520photography&width=600&height=300&seq=waste1&orientation=landscape"
+                alt="Campus Waste Audit"
+                class="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div class="absolute top-3 right-3">
+              <span class="difficulty-badge difficulty-easy">Easy</span>
+            </div>
+          </div>
+          <div class="p-5">
+            <div class="flex items-center mb-3">
+              <span class="category-tag category-waste">
+                <i class="ri-recycle-line mr-1"></i>
+                Waste Management
+              </span>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-800 mb-2">
+              Campus Waste Audit
+            </h3>
+            <p class="text-gray-600 text-sm mb-4">
+              Help assess the waste generation patterns across different campus
+              buildings to improve recycling initiatives.
+            </p>
+            <div
+              class="flex items-center justify-between text-sm text-gray-500 mb-3"
+            >
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-time-line"></i>
+                </div>
+                <span class="ml-1.5">10-15 min</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-user-line"></i>
+                </div>
+                <span class="ml-1.5">243 participants</span>
+              </div>
+            </div>
+            <div
+              class="flex items-center justify-between text-sm text-gray-500 mb-4"
+            >
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-calendar-line"></i>
+                </div>
+                <span class="ml-1.5">Ends: May 10, 2025</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-coin-line"></i>
+                </div>
+                <span class="ml-1.5">15 points</span>
+              </div>
+            </div>
+            <div class="mb-4">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-medium text-gray-500"
+                  >Completion status</span
+                >
+                <span class="text-xs font-medium text-primary">75%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill bg-primary" style="width: 75%"></div>
+              </div>
+            </div>
+            <button
+              class="w-full bg-primary text-white py-2.5 !rounded-button hover:bg-primary/90 transition-colors font-medium whitespace-nowrap"
+            >
+              Continue Survey
+            </button>
+          </div>
+        </a>
+
+        <!-- Survey Card 2 -->
+        <div
+          class="survey-card bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden"
+        >
+          <div class="relative">
+            <div class="h-36 bg-gray-100">
+              <img
+                src="https://readdy.ai/api/search-image?query=Energy%2520conservation%2520in%2520a%2520university%2520setting%2C%2520students%2520analyzing%2520energy%2520usage%2520data%2C%2520checking%2520smart%2520meters%2C%2520bright%2520modern%2520educational%2520environment%2C%2520professional%2520energy%2520audit%2C%2520high%2520quality%2520realistic%2520photography&width=600&height=300&seq=energy1&orientation=landscape"
+                alt="Energy Conservation"
+                class="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div class="absolute top-3 right-3">
+              <span class="difficulty-badge difficulty-medium">Medium</span>
+            </div>
+          </div>
+          <div class="p-5">
+            <div class="flex items-center mb-3">
+              <span class="category-tag category-energy">
+                <i class="ri-lightbulb-line mr-1"></i>
+                Energy Conservation
+              </span>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-800 mb-2">
+              Energy Usage Patterns
+            </h3>
+            <p class="text-gray-600 text-sm mb-4">
+              Share your energy usage habits to help develop more effective
+              conservation strategies for campus buildings.
+            </p>
+            <div
+              class="flex items-center justify-between text-sm text-gray-500 mb-3"
+            >
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-time-line"></i>
+                </div>
+                <span class="ml-1.5">15-20 min</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-user-line"></i>
+                </div>
+                <span class="ml-1.5">187 participants</span>
+              </div>
+            </div>
+            <div
+              class="flex items-center justify-between text-sm text-gray-500 mb-4"
+            >
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-calendar-line"></i>
+                </div>
+                <span class="ml-1.5">Ends: May 15, 2025</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-coin-line"></i>
+                </div>
+                <span class="ml-1.5">20 points</span>
+              </div>
+            </div>
+            <div class="mb-4">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-medium text-gray-500"
+                  >Completion status</span
+                >
+                <span class="text-xs font-medium text-gray-500"
+                  >Not started</span
+                >
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill bg-primary" style="width: 0%"></div>
+              </div>
+            </div>
+            <button
+              class="w-full bg-primary text-white py-2.5 !rounded-button hover:bg-primary/90 transition-colors font-medium whitespace-nowrap"
+            >
+              Take Survey
+            </button>
+          </div>
+        </div>
+
+        <!-- Survey Card 3 -->
+        <div
+          class="survey-card bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden"
+        >
+          <div class="relative">
+            <div class="h-36 bg-gray-100">
+              <img
+                src="https://readdy.ai/api/search-image?query=Water%2520conservation%2520assessment%2520in%2520university%2520campus%2C%2520students%2520checking%2520water%2520fixtures%2C%2520analyzing%2520water%2520usage%2520data%2C%2520bright%2520educational%2520setting%2C%2520professional%2520water%2520audit%2C%2520high%2520quality%2520realistic%2520photography&width=600&height=300&seq=water1&orientation=landscape"
+                alt="Water Conservation"
+                class="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div class="absolute top-3 right-3">
+              <span class="difficulty-badge difficulty-easy">Easy</span>
+            </div>
+          </div>
+          <div class="p-5">
+            <div class="flex items-center mb-3">
+              <span class="category-tag category-water">
+                <i class="ri-drop-line mr-1"></i>
+                Water Conservation
+              </span>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-800 mb-2">
+              Water Usage Survey
+            </h3>
+            <p class="text-gray-600 text-sm mb-4">
+              Provide insights on water consumption habits to improve campus
+              water conservation efforts.
+            </p>
+            <div
+              class="flex items-center justify-between text-sm text-gray-500 mb-3"
+            >
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-time-line"></i>
+                </div>
+                <span class="ml-1.5">5-10 min</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-user-line"></i>
+                </div>
+                <span class="ml-1.5">312 participants</span>
+              </div>
+            </div>
+            <div
+              class="flex items-center justify-between text-sm text-gray-500 mb-4"
+            >
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-calendar-line"></i>
+                </div>
+                <span class="ml-1.5">Ends: May 8, 2025</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-coin-line"></i>
+                </div>
+                <span class="ml-1.5">10 points</span>
+              </div>
+            </div>
+            <div class="mb-4">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-medium text-gray-500"
+                  >Completion status</span
+                >
+                <span class="text-xs font-medium text-primary">100%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill bg-primary" style="width: 100%"></div>
+              </div>
+            </div>
+            <button
+              class="w-full bg-gray-200 text-gray-500 py-2.5 !rounded-button cursor-not-allowed font-medium whitespace-nowrap"
+            >
+              Completed
+            </button>
+          </div>
+        </div>
+
+        <!-- Survey Card 4 -->
+        <div
+          class="survey-card bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden"
+        >
+          <div class="relative">
+            <div class="h-36 bg-gray-100">
+              <img
+                src="https://readdy.ai/api/search-image?query=Biodiversity%2520assessment%2520in%2520university%2520campus%2C%2520students%2520documenting%2520plant%2520and%2520animal%2520species%2C%2520outdoor%2520educational%2520setting%2C%2520bright%2520natural%2520lighting%2C%2520professional%2520ecological%2520survey%2C%2520high%2520quality%2520realistic%2520photography&width=600&height=300&seq=bio1&orientation=landscape"
+                alt="Biodiversity Assessment"
+                class="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div class="absolute top-3 right-3">
+              <span class="difficulty-badge difficulty-hard">Hard</span>
+            </div>
+          </div>
+          <div class="p-5">
+            <div class="flex items-center mb-3">
+              <span class="category-tag category-biodiversity">
+                <i class="ri-plant-line mr-1"></i>
+                Biodiversity
+              </span>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-800 mb-2">
+              Campus Biodiversity Assessment
+            </h3>
+            <p class="text-gray-600 text-sm mb-4">
+              Help document and assess the biodiversity in our campus green
+              spaces and suggest improvement areas.
+            </p>
+            <div
+              class="flex items-center justify-between text-sm text-gray-500 mb-3"
+            >
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-time-line"></i>
+                </div>
+                <span class="ml-1.5">25-30 min</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-user-line"></i>
+                </div>
+                <span class="ml-1.5">98 participants</span>
+              </div>
+            </div>
+            <div
+              class="flex items-center justify-between text-sm text-gray-500 mb-4"
+            >
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-calendar-line"></i>
+                </div>
+                <span class="ml-1.5">Ends: May 20, 2025</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-coin-line"></i>
+                </div>
+                <span class="ml-1.5">30 points</span>
+              </div>
+            </div>
+            <div class="mb-4">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-medium text-gray-500"
+                  >Completion status</span
+                >
+                <span class="text-xs font-medium text-primary">25%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill bg-primary" style="width: 25%"></div>
+              </div>
+            </div>
+            <button
+              class="w-full bg-primary text-white py-2.5 !rounded-button hover:bg-primary/90 transition-colors font-medium whitespace-nowrap"
+            >
+              Continue Survey
+            </button>
+          </div>
+        </div>
+
+        <!-- Survey Card 5 -->
+        <div
+          class="survey-card bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden"
+        >
+          <div class="relative">
+            <div class="h-36 bg-gray-100">
+              <img
+                src="https://readdy.ai/api/search-image?query=Climate%2520action%2520planning%2520in%2520university%2520setting%2C%2520students%2520discussing%2520climate%2520initiatives%2C%2520analyzing%2520climate%2520data%2C%2520bright%2520educational%2520environment%2C%2520professional%2520climate%2520workshop%2C%2520high%2520quality%2520realistic%2520photography&width=600&height=300&seq=climate1&orientation=landscape"
+                alt="Climate Action"
+                class="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div class="absolute top-3 right-3">
+              <span class="difficulty-badge difficulty-medium">Medium</span>
+            </div>
+          </div>
+          <div class="p-5">
+            <div class="flex items-center mb-3">
+              <span class="category-tag category-climate">
+                <i class="ri-cloud-line mr-1"></i>
+                Climate Action
+              </span>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-800 mb-2">
+              Climate Action Priorities
+            </h3>
+            <p class="text-gray-600 text-sm mb-4">
+              Share your perspectives on climate action priorities for our
+              campus community and administration.
+            </p>
+            <div
+              class="flex items-center justify-between text-sm text-gray-500 mb-3"
+            >
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-time-line"></i>
+                </div>
+                <span class="ml-1.5">15-20 min</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-user-line"></i>
+                </div>
+                <span class="ml-1.5">176 participants</span>
+              </div>
+            </div>
+            <div
+              class="flex items-center justify-between text-sm text-gray-500 mb-4"
+            >
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-calendar-line"></i>
+                </div>
+                <span class="ml-1.5">Ends: May 25, 2025</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-coin-line"></i>
+                </div>
+                <span class="ml-1.5">20 points</span>
+              </div>
+            </div>
+            <div class="mb-4">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-medium text-gray-500"
+                  >Completion status</span
+                >
+                <span class="text-xs font-medium text-gray-500"
+                  >Not started</span
+                >
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill bg-primary" style="width: 0%"></div>
+              </div>
+            </div>
+            <button
+              class="w-full bg-primary text-white py-2.5 !rounded-button hover:bg-primary/90 transition-colors font-medium whitespace-nowrap"
+            >
+              Take Survey
+            </button>
+          </div>
+        </div>
+
+        <!-- Survey Card 6 -->
+        <div
+          class="survey-card bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden"
+        >
+          <div class="relative">
+            <div class="h-36 bg-gray-100">
+              <img
+                src="https://readdy.ai/api/search-image?query=Sustainable%2520transportation%2520assessment%2520on%2520university%2520campus%2C%2520students%2520analyzing%2520commuting%2520patterns%2C%2520bike%2520sharing%2C%2520electric%2520vehicles%2C%2520bright%2520educational%2520setting%2C%2520professional%2520transportation%2520survey%2C%2520high%2520quality%2520realistic%2520photography&width=600&height=300&seq=transport1&orientation=landscape"
+                alt="Sustainable Transportation"
+                class="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div class="absolute top-3 right-3">
+              <span class="difficulty-badge difficulty-easy">Easy</span>
+            </div>
+          </div>
+          <div class="p-5">
+            <div class="flex items-center mb-3">
+              <span class="category-tag category-transportation">
+                <i class="ri-bike-line mr-1"></i>
+                Transportation
+              </span>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-800 mb-2">
+              Sustainable Transportation
+            </h3>
+            <p class="text-gray-600 text-sm mb-4">
+              Share your commuting habits and preferences to help improve
+              sustainable transportation options on campus.
+            </p>
+            <div
+              class="flex items-center justify-between text-sm text-gray-500 mb-3"
+            >
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-time-line"></i>
+                </div>
+                <span class="ml-1.5">10-15 min</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-user-line"></i>
+                </div>
+                <span class="ml-1.5">289 participants</span>
+              </div>
+            </div>
+            <div
+              class="flex items-center justify-between text-sm text-gray-500 mb-4"
+            >
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-calendar-line"></i>
+                </div>
+                <span class="ml-1.5">Ends: May 12, 2025</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-coin-line"></i>
+                </div>
+                <span class="ml-1.5">15 points</span>
+              </div>
+            </div>
+            <div class="mb-4">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-medium text-gray-500"
+                  >Completion status</span
+                >
+                <span class="text-xs font-medium text-primary">50%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill bg-primary" style="width: 50%"></div>
+              </div>
+            </div>
+            <button
+              class="w-full bg-primary text-white py-2.5 !rounded-button hover:bg-primary/90 transition-colors font-medium whitespace-nowrap"
+            >
+              Continue Survey
+            </button>
+          </div>
+        </div>
+
+        <!-- Survey Card 7 -->
+        <div
+          class="survey-card bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden"
+        >
+          <div class="relative">
+            <div class="h-36 bg-gray-100">
+              <img
+                src="https://readdy.ai/api/search-image?query=Renewable%2520energy%2520assessment%2520on%2520university%2520campus%2C%2520solar%2520panels%2C%2520students%2520analyzing%2520renewable%2520energy%2520data%2C%2520bright%2520educational%2520setting%2C%2520professional%2520energy%2520survey%2C%2520high%2520quality%2520realistic%2520photography&width=600&height=300&seq=renewable1&orientation=landscape"
+                alt="Renewable Energy"
+                class="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div class="absolute top-3 right-3">
+              <span class="difficulty-badge difficulty-medium">Medium</span>
+            </div>
+          </div>
+          <div class="p-5">
+            <div class="flex items-center mb-3">
+              <span class="category-tag category-energy">
+                <i class="ri-sun-line mr-1"></i>
+                Energy Conservation
+              </span>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-800 mb-2">
+              Renewable Energy Adoption
+            </h3>
+            <p class="text-gray-600 text-sm mb-4">
+              Share your views on renewable energy initiatives and potential
+              implementation strategies for our campus.
+            </p>
+            <div
+              class="flex items-center justify-between text-sm text-gray-500 mb-3"
+            >
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-time-line"></i>
+                </div>
+                <span class="ml-1.5">15-20 min</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-user-line"></i>
+                </div>
+                <span class="ml-1.5">142 participants</span>
+              </div>
+            </div>
+            <div
+              class="flex items-center justify-between text-sm text-gray-500 mb-4"
+            >
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-calendar-line"></i>
+                </div>
+                <span class="ml-1.5">Ends: May 18, 2025</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-coin-line"></i>
+                </div>
+                <span class="ml-1.5">20 points</span>
+              </div>
+            </div>
+            <div class="mb-4">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-medium text-gray-500"
+                  >Completion status</span
+                >
+                <span class="text-xs font-medium text-gray-500"
+                  >Not started</span
+                >
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill bg-primary" style="width: 0%"></div>
+              </div>
+            </div>
+            <button
+              class="w-full bg-primary text-white py-2.5 !rounded-button hover:bg-primary/90 transition-colors font-medium whitespace-nowrap"
+            >
+              Take Survey
+            </button>
+          </div>
+        </div>
+
+        <!-- Survey Card 8 -->
+        <div
+          class="survey-card bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden"
+        >
+          <div class="relative">
+            <div class="h-36 bg-gray-100">
+              <img
+                src="https://readdy.ai/api/search-image?query=Sustainable%2520food%2520assessment%2520in%2520university%2520cafeteria%2C%2520students%2520analyzing%2520food%2520waste%2C%2520local%2520sourcing%2C%2520bright%2520educational%2520setting%2C%2520professional%2520food%2520sustainability%2520survey%2C%2520high%2520quality%2520realistic%2520photography&width=600&height=300&seq=food1&orientation=landscape"
+                alt="Sustainable Food"
+                class="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div class="absolute top-3 right-3">
+              <span class="difficulty-badge difficulty-easy">Easy</span>
+            </div>
+          </div>
+          <div class="p-5">
+            <div class="flex items-center mb-3">
+              <span class="category-tag category-waste">
+                <i class="ri-restaurant-line mr-1"></i>
+                Waste Management
+              </span>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-800 mb-2">
+              Campus Food Sustainability
+            </h3>
+            <p class="text-gray-600 text-sm mb-4">
+              Provide feedback on campus dining options and suggest improvements
+              for reducing food waste.
+            </p>
+            <div
+              class="flex items-center justify-between text-sm text-gray-500 mb-3"
+            >
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-time-line"></i>
+                </div>
+                <span class="ml-1.5">10-15 min</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-user-line"></i>
+                </div>
+                <span class="ml-1.5">356 participants</span>
+              </div>
+            </div>
+            <div
+              class="flex items-center justify-between text-sm text-gray-500 mb-4"
+            >
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-calendar-line"></i>
+                </div>
+                <span class="ml-1.5">Ends: May 5, 2025</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-coin-line"></i>
+                </div>
+                <span class="ml-1.5">15 points</span>
+              </div>
+            </div>
+            <div class="mb-4">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-medium text-gray-500"
+                  >Completion status</span
+                >
+                <span class="text-xs font-medium text-primary">100%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill bg-primary" style="width: 100%"></div>
+              </div>
+            </div>
+            <button
+              class="w-full bg-gray-200 text-gray-500 py-2.5 !rounded-button cursor-not-allowed font-medium whitespace-nowrap"
+            >
+              Completed
+            </button>
+          </div>
+        </div>
+
+        <!-- Survey Card 9 -->
+        <div
+          class="survey-card bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden"
+        >
+          <div class="relative">
+            <div class="h-36 bg-gray-100">
+              <img
+                src="https://readdy.ai/api/search-image?query=Green%2520building%2520assessment%2520on%2520university%2520campus%2C%2520students%2520analyzing%2520building%2520efficiency%2C%2520sustainable%2520architecture%2C%2520bright%2520educational%2520setting%2C%2520professional%2520building%2520survey%2C%2520high%2520quality%2520realistic%2520photography&width=600&height=300&seq=building1&orientation=landscape"
+                alt="Green Building"
+                class="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div class="absolute top-3 right-3">
+              <span class="difficulty-badge difficulty-hard">Hard</span>
+            </div>
+          </div>
+          <div class="p-5">
+            <div class="flex items-center mb-3">
+              <span class="category-tag category-energy">
+                <i class="ri-building-line mr-1"></i>
+                Energy Conservation
+              </span>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-800 mb-2">
+              Green Building Assessment
+            </h3>
+            <p class="text-gray-600 text-sm mb-4">
+              Help evaluate campus buildings for sustainability features and
+              suggest improvements for green certification.
+            </p>
+            <div
+              class="flex items-center justify-between text-sm text-gray-500 mb-3"
+            >
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-time-line"></i>
+                </div>
+                <span class="ml-1.5">25-30 min</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-user-line"></i>
+                </div>
+                <span class="ml-1.5">87 participants</span>
+              </div>
+            </div>
+            <div
+              class="flex items-center justify-between text-sm text-gray-500 mb-4"
+            >
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-calendar-line"></i>
+                </div>
+                <span class="ml-1.5">Ends: May 30, 2025</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-coin-line"></i>
+                </div>
+                <span class="ml-1.5">30 points</span>
+              </div>
+            </div>
+            <div class="mb-4">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-medium text-gray-500"
+                  >Completion status</span
+                >
+                <span class="text-xs font-medium text-gray-500"
+                  >Not started</span
+                >
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill bg-primary" style="width: 0%"></div>
+              </div>
+            </div>
+            <button
+              class="w-full bg-primary text-white py-2.5 !rounded-button hover:bg-primary/90 transition-colors font-medium whitespace-nowrap"
+            >
+              Take Survey
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <div class="mt-10 flex justify-center">
+        <nav class="flex items-center space-x-2">
+          <button
+            class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 hover:bg-gray-50"
+          >
+            <i class="ri-arrow-left-s-line"></i>
+          </button>
+          <button
+            class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary text-white"
+          >
+            1
+          </button>
+          <button
+            class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-700 hover:bg-gray-50"
+          >
+            2
+          </button>
+          <button
+            class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-700 hover:bg-gray-50"
+          >
+            3
+          </button>
+          <span class="px-2 text-gray-500">...</span>
+          <button
+            class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-700 hover:bg-gray-50"
+          >
+            8
+          </button>
+          <button
+            class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 hover:bg-gray-50"
+          >
+            <i class="ri-arrow-right-s-line"></i>
+          </button>
+        </nav>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white pt-12 pb-6">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+          <div>
+            <div class="flex items-center space-x-2 mb-4">
+              <div
+                class="w-10 h-10 bg-white rounded-full flex items-center justify-center"
+              >
+                <span class="text-primary font-['Pacifico'] text-lg">logo</span>
+              </div>
+              <span class="text-xl font-semibold">EcoSurvey</span>
+            </div>
+            <p class="text-gray-300 mb-4">
+              Empowering environmental change through digital surveys and
+              community engagement.
+            </p>
+            <div class="flex space-x-4">
+              <a
+                href="#"
+                class="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center hover:bg-primary transition-colors"
+              >
+                <i class="ri-facebook-fill text-white"></i>
+              </a>
+              <a
+                href="#"
+                class="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center hover:bg-primary transition-colors"
+              >
+                <i class="ri-twitter-x-fill text-white"></i>
+              </a>
+              <a
+                href="#"
+                class="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center hover:bg-primary transition-colors"
+              >
+                <i class="ri-instagram-fill text-white"></i>
+              </a>
+              <a
+                href="#"
+                class="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center hover:bg-primary transition-colors"
+              >
+                <i class="ri-linkedin-fill text-white"></i>
+              </a>
+            </div>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="https://readdy.ai/home/4181c56c-0bbb-4c84-ba2e-34f80e21ebda/927f8f97-6fb3-46aa-be9f-5240f94f8fd0"
+                  data-readdy="true"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >Home</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >Survey Board</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >Leaderboard</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >Events</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >About Us</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Resources</h3>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >FAQs</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >Support</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >Privacy Policy</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >Terms of Service</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >Contact Us</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Contact</h3>
+            <ul class="space-y-2">
+              <li class="flex items-start">
+                <div
+                  class="w-5 h-5 flex items-center justify-center text-gray-300 mt-0.5"
+                >
+                  <i class="ri-map-pin-line"></i>
+                </div>
+                <span class="ml-2 text-gray-300"
+                  >123 University Avenue, Campus Green Building</span
+                >
+              </li>
+              <li class="flex items-center">
+                <div
+                  class="w-5 h-5 flex items-center justify-center text-gray-300"
+                >
+                  <i class="ri-mail-line"></i>
+                </div>
+                <span class="ml-2 text-gray-300">contact@ecosurvey.edu</span>
+              </li>
+              <li class="flex items-center">
+                <div
+                  class="w-5 h-5 flex items-center justify-center text-gray-300"
+                >
+                  <i class="ri-phone-line"></i>
+                </div>
+                <span class="ml-2 text-gray-300">(555) 123-4567</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="border-t border-gray-700 pt-6">
+          <div class="flex flex-col md:flex-row justify-between items-center">
+            <p class="text-gray-400 text-sm mb-4 md:mb-0">
+              © 2025 EcoSurvey Portal. All rights reserved.
+            </p>
+            <div class="flex items-center space-x-4">
+              <div class="w-6 h-6 flex items-center justify-center">
+                <i class="ri-visa-fill text-gray-300 text-xl"></i>
+              </div>
+              <div class="w-6 h-6 flex items-center justify-center">
+                <i class="ri-mastercard-fill text-gray-300 text-xl"></i>
+              </div>
+              <div class="w-6 h-6 flex items-center justify-center">
+                <i class="ri-paypal-fill text-gray-300 text-xl"></i>
+              </div>
+              <div class="w-6 h-6 flex items-center justify-center">
+                <i class="ri-apple-fill text-gray-300 text-xl"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Category dropdown toggle
+        const categoryDropdown = document.getElementById("categoryDropdown");
+        const categoryMenu = document.getElementById("categoryMenu");
+
+        categoryDropdown.addEventListener("click", function () {
+          categoryMenu.classList.toggle("hidden");
+          difficultyMenu.classList.add("hidden");
+          statusMenu.classList.add("hidden");
+          sortMenu.classList.add("hidden");
+        });
+
+        // Difficulty dropdown toggle
+        const difficultyDropdown = document.getElementById("difficultyDropdown");
+        const difficultyMenu = document.getElementById("difficultyMenu");
+
+        difficultyDropdown.addEventListener("click", function () {
+          difficultyMenu.classList.toggle("hidden");
+          categoryMenu.classList.add("hidden");
+          statusMenu.classList.add("hidden");
+          sortMenu.classList.add("hidden");
+        });
+
+        // Status dropdown toggle
+        const statusDropdown = document.getElementById("statusDropdown");
+        const statusMenu = document.getElementById("statusMenu");
+
+        statusDropdown.addEventListener("click", function () {
+          statusMenu.classList.toggle("hidden");
+          categoryMenu.classList.add("hidden");
+          difficultyMenu.classList.add("hidden");
+          sortMenu.classList.add("hidden");
+        });
+
+        // Sort dropdown toggle
+        const sortDropdown = document.getElementById("sortDropdown");
+        const sortMenu = document.getElementById("sortMenu");
+
+        sortDropdown.addEventListener("click", function () {
+          sortMenu.classList.toggle("hidden");
+          categoryMenu.classList.add("hidden");
+          difficultyMenu.classList.add("hidden");
+          statusMenu.classList.add("hidden");
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener("click", function (event) {
+          if (
+            !categoryDropdown.contains(event.target) &&
+            !categoryMenu.contains(event.target)
+          ) {
+            categoryMenu.classList.add("hidden");
+          }
+
+          if (
+            !difficultyDropdown.contains(event.target) &&
+            !difficultyMenu.contains(event.target)
+          ) {
+            difficultyMenu.classList.add("hidden");
+          }
+
+          if (
+            !statusDropdown.contains(event.target) &&
+            !statusMenu.contains(event.target)
+          ) {
+            statusMenu.classList.add("hidden");
+          }
+
+          if (
+            !sortDropdown.contains(event.target) &&
+            !sortMenu.contains(event.target)
+          ) {
+            sortMenu.classList.add("hidden");
+          }
+        });
+
+        // Checkbox functionality
+        const checkboxes = document.querySelectorAll(".custom-checkbox input");
+        checkboxes.forEach((checkbox) => {
+          checkbox.addEventListener("change", function () {
+            // Filter functionality can be implemented here
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

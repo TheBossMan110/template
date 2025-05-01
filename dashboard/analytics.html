@@ -1,0 +1,1981 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Analytics - Environmental Awareness Survey Portal</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#4CAF50",
+              secondary: "#8BC34A",
+            },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+    <style>
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+      body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f9fafb;
+      }
+      .date-range-picker {
+      position: relative;
+      }
+      .date-range-picker input {
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      width: 100%;
+      color: #374151;
+      }
+      .date-range-picker input:focus {
+      outline: none;
+      border-color: #4CAF50;
+      box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+      }
+      .custom-select {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+      }
+      .custom-select select {
+      display: none;
+      }
+      .select-selected {
+      background-color: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      color: #374151;
+      cursor: pointer;
+      user-select: none;
+      }
+      .select-selected:after {
+      position: absolute;
+      content: "";
+      top: 50%;
+      right: 1rem;
+      width: 0;
+      height: 0;
+      border: 6px solid transparent;
+      border-color: #374151 transparent transparent transparent;
+      transform: translateY(-25%);
+      }
+      .select-selected.select-arrow-active:after {
+      border-color: transparent transparent #374151 transparent;
+      transform: translateY(-75%);
+      }
+      .select-items {
+      position: absolute;
+      background-color: white;
+      top: 100%;
+      left: 0;
+      right: 0;
+      z-index: 99;
+      border: 1px solid #e5e7eb;
+      border-top: none;
+      border-radius: 0 0 8px 8px;
+      max-height: 300px;
+      overflow-y: auto;
+      }
+      .select-items div {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      color: #374151;
+      cursor: pointer;
+      user-select: none;
+      }
+      .select-items div:hover {
+      background-color: rgba(76, 175, 80, 0.1);
+      }
+      .select-hide {
+      display: none;
+      }
+      .same-as-selected {
+      background-color: rgba(76, 175, 80, 0.1);
+      }
+      .metric-card {
+      transition: all 0.3s ease;
+      }
+      .metric-card:hover {
+      transform: translateY(-5px);
+      }
+      .progress-ring {
+      transform: rotate(-90deg);
+      }
+      .progress-ring__circle {
+      stroke-dasharray: 251.2;
+      transition: stroke-dashoffset 0.35s;
+      transform-origin: 50% 50%;
+      }
+      .table-row {
+      transition: all 0.2s ease;
+      }
+      .table-row:hover {
+      background-color: rgba(76, 175, 80, 0.05);
+      }
+      .tab-button {
+      transition: all 0.2s ease;
+      }
+      .tab-button.active {
+      background-color: #4CAF50;
+      color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="min-h-screen flex flex-col">
+      <!-- Header -->
+      <header class="bg-white shadow-sm">
+        <div class="flex items-center justify-between px-6 py-4">
+          <div class="flex items-center space-x-4">
+            <div class="text-2xl font-['Pacifico'] text-primary">EcoSurvey</div>
+            <nav class="hidden md:flex items-center space-x-6 ml-10">
+              <a href="index.html" class="text-gray-600 hover:text-primary transition-colors">Dashboard</a>
+              <a
+                href="survey.html"
+                data-readdy="true"
+                class="text-gray-600 hover:text-primary transition-colors"
+                >Surveys</a
+              >
+              <a
+                href="leaderboard.html"
+                class="text-gray-600 hover:text-primary transition-colors"
+                >Leaderboard</a
+              >
+              <a
+                href="analytics.html"
+                class="text-primary font-medium"
+                >Analytics</a
+              >
+              <a
+                href="resource.html"
+                class="text-gray-600 hover:text-primary transition-colors"
+                >Resources</a
+              >
+            </nav>
+          </div>
+          <div class="flex items-center space-x-4">
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                  <button
+                    id="notificationBtn"
+                    class="text-gray-600 hover:text-gray-800 relative w-10 h-10 flex items-center justify-center"
+                  >
+                    <i class="ri-notification-3-line ri-lg"></i>
+                    <span
+                      id="notificationBadge"
+                      class="absolute top-1 right-1 w-4 h-4 bg-red-500 rounded-full text-white text-xs flex items-center justify-center"
+                      >3</span
+                    >
+                  </button>
+                  <div
+                    id="notificationPanel"
+                    class="hidden absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-100 z-50"
+                  >
+                    <div class="p-4 border-b border-gray-100">
+                      <h3 class="text-lg font-medium text-gray-800">Notifications</h3>
+                    </div>
+                    <div class="max-h-96 overflow-y-auto">
+                      <div
+                        class="notification-item p-4 hover:bg-gray-50 border-b border-gray-100"
+                      >
+                        <div class="flex items-start">
+                          <div
+                            class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0"
+                          >
+                            <i class="ri-file-list-line text-blue-500"></i>
+                          </div>
+                          <div class="ml-3 flex-grow">
+                            <p class="text-sm text-gray-800">
+                              New survey response received for "Environmental
+                              Awareness 2025"
+                            </p>
+                            <span class="text-xs text-gray-500 block mt-1"
+                              >10 minutes ago</span
+                            >
+                            <button
+                              class="text-primary text-xs mt-2 hover:text-primary/80"
+                            >
+                              Mark as read
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="notification-item p-4 hover:bg-gray-50 border-b border-gray-100"
+                      >
+                        <div class="flex items-start">
+                          <div
+                            class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0"
+                          >
+                            <i class="ri-download-line text-green-500"></i>
+                          </div>
+                          <div class="ml-3 flex-grow">
+                            <p class="text-sm text-gray-800">
+                              Your report "Q1 Analytics Summary" is ready to download
+                            </p>
+                            <span class="text-xs text-gray-500 block mt-1"
+                              >2 hours ago</span
+                            >
+                            <button
+                              class="text-primary text-xs mt-2 hover:text-primary/80"
+                            >
+                              Mark as read
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="notification-item p-4 hover:bg-gray-50 border-b border-gray-100"
+                      >
+                        <div class="flex items-start">
+                          <div
+                            class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0"
+                          >
+                            <i class="ri-user-follow-line text-purple-500"></i>
+                          </div>
+                          <div class="ml-3 flex-grow">
+                            <p class="text-sm text-gray-800">
+                              New team member Sarah Chen joined the project
+                            </p>
+                            <span class="text-xs text-gray-500 block mt-1"
+                              >5 hours ago</span
+                            >
+                            <button
+                              class="text-primary text-xs mt-2 hover:text-primary/80"
+                            >
+                              Mark as read
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="p-4 bg-gray-50 rounded-b-lg">
+                      <button
+                        id="markAllRead"
+                        class="w-full bg-white border border-gray-200 text-gray-700 px-4 py-2 rounded hover:border-gray-300 mb-2 !rounded-button"
+                      >
+                        Mark all as read
+                      </button>
+                      <a
+                        href="#"
+                        class="block text-center text-primary text-sm hover:text-primary/80"
+                        >See all notifications</a
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="relative w-10 h-10 flex items-center justify-center">
+                  <button id="settingsBtn" class="text-gray-600 hover:text-gray-800">
+                    <i class="ri-settings-3-line ri-lg"></i>
+                  </button>
+                  <div
+                    id="settingsPanel"
+                    class="hidden absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-100 z-50"
+                  >
+                    <div class="py-2">
+                      <a
+                        href="#"
+                        class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors"
+                      >
+                        <i class="ri-user-settings-line mr-3"></i>
+                        <span>Account Settings</span>
+                      </a>
+                      <a
+                        href="#"
+                        class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors"
+                      >
+                        <i class="ri-notification-4-line mr-3"></i>
+                        <span>Notification Preferences</span>
+                      </a>
+                      <a
+                        href="#"
+                        class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors"
+                      >
+                        <i class="ri-shield-keyhole-line mr-3"></i>
+                        <span>Privacy Settings</span>
+                      </a>
+                      <a
+                        href="#"
+                        class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors"
+                      >
+                        <i class="ri-palette-line mr-3"></i>
+                        <span>Display Options</span>
+                      </a>
+                      <div class="border-t border-gray-100"></div>
+                      <a
+                        href="#"
+                        class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors"
+                      >
+                        <i class="ri-question-line mr-3"></i>
+                        <span>Help & Support</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center space-x-2">
+                <div
+                  class="bg-green-100 text-primary px-3 py-1 rounded-full text-xs font-medium"
+                >
+                  Admin
+                </div>
+                <div
+                  class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden"
+                >
+                  <img
+                    src="https://readdy.ai/api/search-image?query=professional%2520headshot%2520of%2520a%2520university%2520administrator%252C%2520neutral%2520expression%252C%2520business%2520casual%2520attire%252C%2520indoor%2520office%2520setting%252C%2520soft%2520lighting%252C%2520high%2520quality%2520portrait&width=100&height=100&seq=1&orientation=squarish"
+                    alt="Profile"
+                    class="w-full h-full object-cover object-top"
+                  />
+                </div>
+                <div class="hidden md:block">
+                  <div class="text-sm font-medium">Dr. Emily Richardson</div>
+                  <div class="text-xs text-gray-500">
+                    emily.richardson@eco.edu
+                  </div>
+                </div>
+                <button
+                  id="profileDropdownBtn"
+                  class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-primary transition-colors relative"
+                >
+                  <i class="ri-arrow-down-s-line ri-lg"></i>
+                </button>
+                <div
+                  id="profileDropdown"
+                  class="hidden absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-100 py-2 z-50 transform opacity-0 transition-all duration-300"
+                  style="top: 60px;"
+                >
+                  <a
+                    href="#"
+                    class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    <div
+                      class="w-8 h-8 flex items-center justify-center text-gray-500"
+                    >
+                      <i class="ri-user-line"></i>
+                    </div>
+                    <span>My Profile</span>
+                  </a>
+                  <a
+                    href="#"
+                    class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    <div
+                      class="w-8 h-8 flex items-center justify-center text-gray-500"
+                    >
+                      <i class="ri-settings-3-line"></i>
+                    </div>
+                    <span>Account Settings</span>
+                  </a>
+                  <a
+                    href="#"
+                    class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    <div
+                      class="w-8 h-8 flex items-center justify-center text-gray-500"
+                    >
+                      <i class="ri-notification-4-line"></i>
+                    </div>
+                    <span>Notification Preferences</span>
+                  </a>
+                  <a
+                    href="#"
+                    class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    <div
+                      class="w-8 h-8 flex items-center justify-center text-gray-500"
+                    >
+                      <i class="ri-question-line"></i>
+                    </div>
+                    <span>Help & Support</span>
+                  </a>
+                  <div class="h-px bg-gray-200 my-2"></div>
+                  <a
+                    href="#"
+                    class="flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                  >
+                    <div
+                      class="w-8 h-8 flex items-center justify-center text-red-600"
+                    >
+                      <i class="ri-logout-box-line"></i>
+                    </div>
+                    <span>Logout</span>
+                  </a>
+                </div>
+              </div>
+          </div>
+        </div>
+      </header>
+      <!-- Main Content -->
+      <main class="flex-grow">
+        <!-- Page Header -->
+        <div class="bg-white border-b">
+          <div class="max-w-7xl mx-auto px-6 py-6">
+            <div
+              class="flex flex-col md:flex-row justify-between items-start md:items-center"
+            >
+              <div>
+                <h1 class="text-2xl font-semibold text-gray-800">Analytics</h1>
+                <p class="text-gray-600 mt-1">
+                  Track environmental awareness metrics and survey performance
+                </p>
+              </div>
+              <div
+                class="mt-4 md:mt-0 flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-3"
+              >
+                <div class="date-range-picker">
+                  <div class="relative">
+                    <input
+                      type="text"
+                      id="dateRange"
+                      placeholder="Date Range"
+                      value="Apr 01, 2025 - Apr 27, 2025"
+                      class="pl-10 pr-4 py-2 border border-gray-300 rounded-button text-sm"
+                    />
+                    <div
+                      class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                    >
+                      <i class="ri-calendar-line text-gray-500"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="relative">
+                  <button
+                    id="categoryFilterBtn"
+                    class="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-button text-gray-700 bg-white hover:bg-gray-50 transition-colors whitespace-nowrap"
+                  >
+                    <i class="ri-filter-3-line"></i>
+                    <span>All Categories</span>
+                    <i class="ri-arrow-down-s-line"></i>
+                  </button>
+                  <div
+                    id="categoryFilterDropdown"
+                    class="hidden absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-100 py-2 z-10"
+                  >
+                    <div
+                      class="px-3 py-2 text-xs font-semibold text-gray-500 uppercase"
+                    >
+                      Categories
+                    </div>
+                    <div
+                      class="category-filter active flex items-center px-3 py-2 text-sm hover:bg-gray-50 cursor-pointer"
+                    >
+                      <span class="ml-2">All Categories</span>
+                    </div>
+                    <div
+                      class="category-filter flex items-center px-3 py-2 text-sm hover:bg-gray-50 cursor-pointer"
+                    >
+                      <span class="ml-2">Recycling</span>
+                    </div>
+                    <div
+                      class="category-filter flex items-center px-3 py-2 text-sm hover:bg-gray-50 cursor-pointer"
+                    >
+                      <span class="ml-2">Water Conservation</span>
+                    </div>
+                    <div
+                      class="category-filter flex items-center px-3 py-2 text-sm hover:bg-gray-50 cursor-pointer"
+                    >
+                      <span class="ml-2">Energy Efficiency</span>
+                    </div>
+                    <div
+                      class="category-filter flex items-center px-3 py-2 text-sm hover:bg-gray-50 cursor-pointer"
+                    >
+                      <span class="ml-2">Sustainable Transport</span>
+                    </div>
+                    <div
+                      class="category-filter flex items-center px-3 py-2 text-sm hover:bg-gray-50 cursor-pointer"
+                    >
+                      <span class="ml-2">Waste Management</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Analytics Content -->
+        <div class="max-w-7xl mx-auto px-6 py-8">
+          <!-- Key Metrics -->
+          <section class="mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <!-- Total Survey Participants -->
+              <div class="metric-card bg-white rounded-lg shadow-sm p-6">
+                <div class="flex items-center justify-between mb-4">
+                  <h3 class="text-sm font-medium text-gray-500">
+                    Total Survey Participants
+                  </h3>
+                  <div
+                    class="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-primary"
+                  >
+                    <i class="ri-user-line ri-lg"></i>
+                  </div>
+                </div>
+                <div class="flex items-end space-x-2">
+                  <div class="text-3xl font-bold text-gray-800">2,847</div>
+                  <div
+                    class="flex items-center text-sm font-medium text-green-600 mb-1"
+                  >
+                    <i class="ri-arrow-up-line mr-1"></i>
+                    <span>12.5%</span>
+                  </div>
+                </div>
+                <div class="text-xs text-gray-500 mt-1">
+                  Compared to previous period
+                </div>
+              </div>
+              <!-- Completion Rate -->
+              <div class="metric-card bg-white rounded-lg shadow-sm p-6">
+                <div class="flex items-center justify-between mb-4">
+                  <h3 class="text-sm font-medium text-gray-500">
+                    Completion Rate
+                  </h3>
+                  <div
+                    class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-500"
+                  >
+                    <i class="ri-checkbox-circle-line ri-lg"></i>
+                  </div>
+                </div>
+                <div class="flex items-end space-x-2">
+                  <div class="text-3xl font-bold text-gray-800">78.3%</div>
+                  <div
+                    class="flex items-center text-sm font-medium text-green-600 mb-1"
+                  >
+                    <i class="ri-arrow-up-line mr-1"></i>
+                    <span>4.2%</span>
+                  </div>
+                </div>
+                <div class="text-xs text-gray-500 mt-1">
+                  Compared to previous period
+                </div>
+              </div>
+              <!-- Environmental Impact Score -->
+              <div class="metric-card bg-white rounded-lg shadow-sm p-6">
+                <div class="flex items-center justify-between mb-4">
+                  <h3 class="text-sm font-medium text-gray-500">
+                    Environmental Impact Score
+                  </h3>
+                  <div
+                    class="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center text-amber-500"
+                  >
+                    <i class="ri-earth-line ri-lg"></i>
+                  </div>
+                </div>
+                <div class="flex items-end space-x-2">
+                  <div class="text-3xl font-bold text-gray-800">8.4</div>
+                  <div
+                    class="flex items-center text-sm font-medium text-green-600 mb-1"
+                  >
+                    <i class="ri-arrow-up-line mr-1"></i>
+                    <span>0.7</span>
+                  </div>
+                </div>
+                <div class="text-xs text-gray-500 mt-1">Scale of 1-10</div>
+              </div>
+              <!-- Active Departments -->
+              <div class="metric-card bg-white rounded-lg shadow-sm p-6">
+                <div class="flex items-center justify-between mb-4">
+                  <h3 class="text-sm font-medium text-gray-500">
+                    Active Departments
+                  </h3>
+                  <div
+                    class="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center text-purple-500"
+                  >
+                    <i class="ri-building-line ri-lg"></i>
+                  </div>
+                </div>
+                <div class="flex items-end space-x-2">
+                  <div class="text-3xl font-bold text-gray-800">24</div>
+                  <div
+                    class="flex items-center text-sm font-medium text-green-600 mb-1"
+                  >
+                    <i class="ri-arrow-up-line mr-1"></i>
+                    <span>3</span>
+                  </div>
+                </div>
+                <div class="text-xs text-gray-500 mt-1">
+                  Out of 28 total departments
+                </div>
+              </div>
+            </div>
+          </section>
+          <!-- Survey Participation Charts -->
+          <section class="mb-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <!-- Department Completion Rates -->
+              <div class="bg-white rounded-lg shadow-sm p-6">
+                <div class="flex justify-between items-center mb-6">
+                  <h3 class="text-lg font-semibold text-gray-800">
+                    Completion Rates by Department
+                  </h3>
+                  <div class="flex space-x-2">
+                    <button
+                      class="w-8 h-8 flex items-center justify-center rounded-full text-gray-500 hover:bg-gray-100 transition-colors whitespace-nowrap"
+                    >
+                      <i class="ri-download-line"></i>
+                    </button>
+                    <button
+                      class="w-8 h-8 flex items-center justify-center rounded-full text-gray-500 hover:bg-gray-100 transition-colors whitespace-nowrap"
+                    >
+                      <i class="ri-more-2-fill"></i>
+                    </button>
+                  </div>
+                </div>
+                <div
+                  id="departmentChart"
+                  style="width: 100%; height: 320px;"
+                ></div>
+              </div>
+              <!-- Participation Trends -->
+              <div class="bg-white rounded-lg shadow-sm p-6">
+                <div class="flex justify-between items-center mb-6">
+                  <h3 class="text-lg font-semibold text-gray-800">
+                    Participation Trends
+                  </h3>
+                  <div class="flex space-x-2">
+                    <button
+                      class="w-8 h-8 flex items-center justify-center rounded-full text-gray-500 hover:bg-gray-100 transition-colors whitespace-nowrap"
+                    >
+                      <i class="ri-download-line"></i>
+                    </button>
+                    <button
+                      class="w-8 h-8 flex items-center justify-center rounded-full text-gray-500 hover:bg-gray-100 transition-colors whitespace-nowrap"
+                    >
+                      <i class="ri-more-2-fill"></i>
+                    </button>
+                  </div>
+                </div>
+                <div id="trendsChart" style="width: 100%; height: 320px;"></div>
+              </div>
+            </div>
+          </section>
+          <!-- Environmental Impact Metrics -->
+          <section class="mb-8">
+            <h3 class="text-lg font-semibold text-gray-800 mb-6">
+              Environmental Impact Metrics
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <!-- Waste Reduction -->
+              <div class="bg-white rounded-lg shadow-sm p-6">
+                <div class="flex flex-col items-center">
+                  <h4 class="text-base font-medium text-gray-700 mb-4">
+                    Waste Reduction
+                  </h4>
+                  <div class="relative w-32 h-32 mb-4">
+                    <svg class="progress-ring" width="128" height="128">
+                      <circle
+                        class="progress-ring__circle"
+                        stroke="#E5E7EB"
+                        stroke-width="8"
+                        fill="transparent"
+                        r="56"
+                        cx="64"
+                        cy="64"
+                      />
+                      <circle
+                        class="progress-ring__circle"
+                        stroke="#57B5E7"
+                        stroke-width="8"
+                        fill="transparent"
+                        r="56"
+                        cx="64"
+                        cy="64"
+                        stroke-dashoffset="52.8"
+                      />
+                    </svg>
+                    <div
+                      class="absolute inset-0 flex items-center justify-center flex-col"
+                    >
+                      <div class="text-2xl font-bold text-gray-800">85%</div>
+                    </div>
+                  </div>
+                  <div class="flex justify-between w-full text-sm">
+                    <div class="text-gray-500">Target: 90%</div>
+                    <div class="text-primary font-medium">Good</div>
+                  </div>
+                </div>
+              </div>
+              <!-- Energy Conservation -->
+              <div class="bg-white rounded-lg shadow-sm p-6">
+                <div class="flex flex-col items-center">
+                  <h4 class="text-base font-medium text-gray-700 mb-4">
+                    Energy Conservation
+                  </h4>
+                  <div class="relative w-32 h-32 mb-4">
+                    <svg class="progress-ring" width="128" height="128">
+                      <circle
+                        class="progress-ring__circle"
+                        stroke="#E5E7EB"
+                        stroke-width="8"
+                        fill="transparent"
+                        r="56"
+                        cx="64"
+                        cy="64"
+                      />
+                      <circle
+                        class="progress-ring__circle"
+                        stroke="#8DD3C7"
+                        stroke-width="8"
+                        fill="transparent"
+                        r="56"
+                        cx="64"
+                        cy="64"
+                        stroke-dashoffset="70.4"
+                      />
+                    </svg>
+                    <div
+                      class="absolute inset-0 flex items-center justify-center flex-col"
+                    >
+                      <div class="text-2xl font-bold text-gray-800">75%</div>
+                    </div>
+                  </div>
+                  <div class="flex justify-between w-full text-sm">
+                    <div class="text-gray-500">Target: 80%</div>
+                    <div class="text-amber-500 font-medium">Average</div>
+                  </div>
+                </div>
+              </div>
+              <!-- Water Usage -->
+              <div class="bg-white rounded-lg shadow-sm p-6">
+                <div class="flex flex-col items-center">
+                  <h4 class="text-base font-medium text-gray-700 mb-4">
+                    Water Usage
+                  </h4>
+                  <div class="relative w-32 h-32 mb-4">
+                    <svg class="progress-ring" width="128" height="128">
+                      <circle
+                        class="progress-ring__circle"
+                        stroke="#E5E7EB"
+                        stroke-width="8"
+                        fill="transparent"
+                        r="56"
+                        cx="64"
+                        cy="64"
+                      />
+                      <circle
+                        class="progress-ring__circle"
+                        stroke="#FBBF72"
+                        stroke-width="8"
+                        fill="transparent"
+                        r="56"
+                        cx="64"
+                        cy="64"
+                        stroke-dashoffset="35.2"
+                      />
+                    </svg>
+                    <div
+                      class="absolute inset-0 flex items-center justify-center flex-col"
+                    >
+                      <div class="text-2xl font-bold text-gray-800">92%</div>
+                    </div>
+                  </div>
+                  <div class="flex justify-between w-full text-sm">
+                    <div class="text-gray-500">Target: 85%</div>
+                    <div class="text-green-600 font-medium">Excellent</div>
+                  </div>
+                </div>
+              </div>
+              <!-- Carbon Footprint -->
+              <div class="bg-white rounded-lg shadow-sm p-6">
+                <div class="flex flex-col items-center">
+                  <h4 class="text-base font-medium text-gray-700 mb-4">
+                    Carbon Footprint
+                  </h4>
+                  <div class="relative w-32 h-32 mb-4">
+                    <svg class="progress-ring" width="128" height="128">
+                      <circle
+                        class="progress-ring__circle"
+                        stroke="#E5E7EB"
+                        stroke-width="8"
+                        fill="transparent"
+                        r="56"
+                        cx="64"
+                        cy="64"
+                      />
+                      <circle
+                        class="progress-ring__circle"
+                        stroke="#FC8D62"
+                        stroke-width="8"
+                        fill="transparent"
+                        r="56"
+                        cx="64"
+                        cy="64"
+                        stroke-dashoffset="88"
+                      />
+                    </svg>
+                    <div
+                      class="absolute inset-0 flex items-center justify-center flex-col"
+                    >
+                      <div class="text-2xl font-bold text-gray-800">65%</div>
+                    </div>
+                  </div>
+                  <div class="flex justify-between w-full text-sm">
+                    <div class="text-gray-500">Target: 75%</div>
+                    <div class="text-red-500 font-medium">
+                      Needs Improvement
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <!-- Category Performance -->
+          <section class="mb-8">
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+              <div
+                class="px-6 py-4 border-b border-gray-100 flex justify-between items-center"
+              >
+                <h3 class="text-lg font-semibold text-gray-800">
+                  Category Performance
+                </h3>
+                <div class="relative">
+                  <input
+                    type="text"
+                    placeholder="Search categories..."
+                    class="pl-10 pr-4 py-2 border border-gray-300 rounded-button text-sm"
+                  />
+                  <div
+                    class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                  >
+                    <i class="ri-search-line text-gray-500"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full">
+                  <thead>
+                    <tr class="text-left bg-gray-50">
+                      <th
+                        class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
+                        Category
+                      </th>
+                      <th
+                        class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
+                        Responses
+                      </th>
+                      <th
+                        class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
+                        Completion Rate
+                      </th>
+                      <th
+                        class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
+                        Impact Score
+                      </th>
+                      <th
+                        class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
+                        Trend
+                      </th>
+                      <th
+                        class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-100">
+                    <tr class="table-row">
+                      <td class="px-6 py-4">
+                        <div class="flex items-center">
+                          <div
+                            class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-primary mr-3"
+                          >
+                            <i class="ri-recycle-line"></i>
+                          </div>
+                          <div class="text-sm font-medium text-gray-900">
+                            Recycling Practices
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">1,247</div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">92.4%</div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-medium text-primary">9.1</div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div
+                          class="flex items-center text-sm font-medium text-green-600"
+                        >
+                          <i class="ri-arrow-up-line mr-1"></i>
+                          <span>5.2%</span>
+                        </div>
+                      </td>
+                      <td
+                        class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+                      >
+                        <button
+                          class="text-primary hover:text-primary-dark mr-3"
+                        >
+                          View Details
+                        </button>
+                        <button class="text-gray-500 hover:text-gray-700">
+                          <i class="ri-download-line"></i>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr class="table-row">
+                      <td class="px-6 py-4">
+                        <div class="flex items-center">
+                          <div
+                            class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-500 mr-3"
+                          >
+                            <i class="ri-water-flash-line"></i>
+                          </div>
+                          <div class="text-sm font-medium text-gray-900">
+                            Water Conservation
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">986</div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">87.2%</div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-medium text-primary">8.7</div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div
+                          class="flex items-center text-sm font-medium text-green-600"
+                        >
+                          <i class="ri-arrow-up-line mr-1"></i>
+                          <span>3.8%</span>
+                        </div>
+                      </td>
+                      <td
+                        class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+                      >
+                        <button
+                          class="text-primary hover:text-primary-dark mr-3"
+                        >
+                          View Details
+                        </button>
+                        <button class="text-gray-500 hover:text-gray-700">
+                          <i class="ri-download-line"></i>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr class="table-row">
+                      <td class="px-6 py-4">
+                        <div class="flex items-center">
+                          <div
+                            class="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center text-amber-500 mr-3"
+                          >
+                            <i class="ri-sun-line"></i>
+                          </div>
+                          <div class="text-sm font-medium text-gray-900">
+                            Energy Efficiency
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">1,105</div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">81.5%</div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-medium text-primary">7.9</div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div
+                          class="flex items-center text-sm font-medium text-green-600"
+                        >
+                          <i class="ri-arrow-up-line mr-1"></i>
+                          <span>2.1%</span>
+                        </div>
+                      </td>
+                      <td
+                        class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+                      >
+                        <button
+                          class="text-primary hover:text-primary-dark mr-3"
+                        >
+                          View Details
+                        </button>
+                        <button class="text-gray-500 hover:text-gray-700">
+                          <i class="ri-download-line"></i>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr class="table-row">
+                      <td class="px-6 py-4">
+                        <div class="flex items-center">
+                          <div
+                            class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center text-purple-500 mr-3"
+                          >
+                            <i class="ri-bus-line"></i>
+                          </div>
+                          <div class="text-sm font-medium text-gray-900">
+                            Sustainable Transport
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">872</div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">76.8%</div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-medium text-primary">7.2</div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div
+                          class="flex items-center text-sm font-medium text-red-500"
+                        >
+                          <i class="ri-arrow-down-line mr-1"></i>
+                          <span>1.3%</span>
+                        </div>
+                      </td>
+                      <td
+                        class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+                      >
+                        <button
+                          class="text-primary hover:text-primary-dark mr-3"
+                        >
+                          View Details
+                        </button>
+                        <button class="text-gray-500 hover:text-gray-700">
+                          <i class="ri-download-line"></i>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr class="table-row">
+                      <td class="px-6 py-4">
+                        <div class="flex items-center">
+                          <div
+                            class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center text-red-500 mr-3"
+                          >
+                            <i class="ri-delete-bin-line"></i>
+                          </div>
+                          <div class="text-sm font-medium text-gray-900">
+                            Waste Management
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">1,034</div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">89.3%</div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-medium text-primary">8.5</div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div
+                          class="flex items-center text-sm font-medium text-green-600"
+                        >
+                          <i class="ri-arrow-up-line mr-1"></i>
+                          <span>4.7%</span>
+                        </div>
+                      </td>
+                      <td
+                        class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+                      >
+                        <button
+                          class="text-primary hover:text-primary-dark mr-3"
+                        >
+                          View Details
+                        </button>
+                        <button class="text-gray-500 hover:text-gray-700">
+                          <i class="ri-download-line"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div
+                class="px-6 py-4 border-t border-gray-100 flex justify-between items-center"
+              >
+                <div class="text-sm text-gray-500">
+                  Showing 5 of 12 categories
+                </div>
+                <div class="flex space-x-1">
+                  <button
+                    class="w-8 h-8 flex items-center justify-center rounded border border-gray-300 text-gray-500 hover:bg-gray-50 transition-colors whitespace-nowrap"
+                  >
+                    <i class="ri-arrow-left-s-line"></i>
+                  </button>
+                  <button
+                    class="w-8 h-8 flex items-center justify-center rounded bg-primary text-white whitespace-nowrap"
+                  >
+                    1
+                  </button>
+                  <button
+                    class="w-8 h-8 flex items-center justify-center rounded border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors whitespace-nowrap"
+                  >
+                    2
+                  </button>
+                  <button
+                    class="w-8 h-8 flex items-center justify-center rounded border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors whitespace-nowrap"
+                  >
+                    3
+                  </button>
+                  <button
+                    class="w-8 h-8 flex items-center justify-center rounded border border-gray-300 text-gray-500 hover:bg-gray-50 transition-colors whitespace-nowrap"
+                  >
+                    <i class="ri-arrow-right-s-line"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+          <!-- Trend Analysis -->
+          <section class="mb-8">
+            <div class="bg-white rounded-lg shadow-sm p-6">
+              <div class="flex justify-between items-center mb-6">
+                <h3 class="text-lg font-semibold text-gray-800">
+                  Environmental Awareness Growth
+                </h3>
+                <div class="flex space-x-3">
+                  <div class="flex space-x-1 p-1 bg-gray-100 rounded-full">
+                    <button
+                      class="tab-button active px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap"
+                    >
+                      Monthly
+                    </button>
+                    <button
+                      class="tab-button px-3 py-1 rounded-full text-xs font-medium text-gray-600 whitespace-nowrap"
+                    >
+                      Quarterly
+                    </button>
+                    <button
+                      class="tab-button px-3 py-1 rounded-full text-xs font-medium text-gray-600 whitespace-nowrap"
+                    >
+                      Yearly
+                    </button>
+                  </div>
+                  <button
+                    class="flex items-center space-x-1 px-3 py-1 border border-gray-300 rounded-button text-sm text-gray-700 hover:bg-gray-50 transition-colors whitespace-nowrap"
+                  >
+                    <i class="ri-download-line"></i>
+                    <span>Export</span>
+                  </button>
+                </div>
+              </div>
+              <div
+                id="awarenessChart"
+                style="width: 100%; height: 350px;"
+              ></div>
+            </div>
+          </section>
+          <!-- Report Generation -->
+          <section>
+            <h3 class="text-lg font-semibold text-gray-800 mb-6">Reports</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <!-- Summary Report -->
+              <div class="bg-white rounded-lg shadow-sm p-6">
+                <div class="flex items-center mb-4">
+                  <div
+                    class="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center text-blue-500 mr-4"
+                  >
+                    <i class="ri-file-chart-line ri-lg"></i>
+                  </div>
+                  <div>
+                    <h4 class="text-base font-medium text-gray-800">
+                      Summary Report
+                    </h4>
+                    <p class="text-sm text-gray-500">Overview of all metrics</p>
+                  </div>
+                </div>
+                <p class="text-sm text-gray-600 mb-4">
+                  A high-level overview of survey participation and
+                  environmental impact metrics.
+                </p>
+                <div class="flex space-x-2">
+                  <button
+                    class="flex-1 flex items-center justify-center space-x-1 px-4 py-2 bg-primary text-white rounded-button hover:bg-green-600 transition-colors whitespace-nowrap"
+                  >
+                    <i class="ri-download-line"></i>
+                    <span>Download</span>
+                  </button>
+                  <div
+                    class="flex border border-gray-300 rounded-button overflow-hidden"
+                  >
+                    <button
+                      class="px-3 py-2 text-gray-700 hover:bg-gray-100 transition-colors whitespace-nowrap"
+                    >
+                      <i class="ri-file-pdf-line"></i>
+                    </button>
+                    <button
+                      class="px-3 py-2 text-gray-700 hover:bg-gray-100 transition-colors border-l border-gray-300 whitespace-nowrap"
+                    >
+                      <i class="ri-file-excel-line"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <!-- Detailed Report -->
+              <div class="bg-white rounded-lg shadow-sm p-6">
+                <div class="flex items-center mb-4">
+                  <div
+                    class="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center text-purple-500 mr-4"
+                  >
+                    <i class="ri-file-list-3-line ri-lg"></i>
+                  </div>
+                  <div>
+                    <h4 class="text-base font-medium text-gray-800">
+                      Detailed Report
+                    </h4>
+                    <p class="text-sm text-gray-500">In-depth analysis</p>
+                  </div>
+                </div>
+                <p class="text-sm text-gray-600 mb-4">
+                  Comprehensive breakdown of all survey data with
+                  department-specific insights.
+                </p>
+                <div class="flex space-x-2">
+                  <button
+                    class="flex-1 flex items-center justify-center space-x-1 px-4 py-2 bg-primary text-white rounded-button hover:bg-green-600 transition-colors whitespace-nowrap"
+                  >
+                    <i class="ri-download-line"></i>
+                    <span>Download</span>
+                  </button>
+                  <div
+                    class="flex border border-gray-300 rounded-button overflow-hidden"
+                  >
+                    <button
+                      class="px-3 py-2 text-gray-700 hover:bg-gray-100 transition-colors whitespace-nowrap"
+                    >
+                      <i class="ri-file-pdf-line"></i>
+                    </button>
+                    <button
+                      class="px-3 py-2 text-gray-700 hover:bg-gray-100 transition-colors border-l border-gray-300 whitespace-nowrap"
+                    >
+                      <i class="ri-file-excel-line"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <!-- Custom Report -->
+              <div class="bg-white rounded-lg shadow-sm p-6">
+                <div class="flex items-center mb-4">
+                  <div
+                    class="w-12 h-12 rounded-lg bg-amber-100 flex items-center justify-center text-amber-500 mr-4"
+                  >
+                    <i class="ri-settings-line ri-lg"></i>
+                  </div>
+                  <div>
+                    <h4 class="text-base font-medium text-gray-800">
+                      Custom Report
+                    </h4>
+                    <p class="text-sm text-gray-500">Build your own</p>
+                  </div>
+                </div>
+                <p class="text-sm text-gray-600 mb-4">
+                  Create a tailored report with specific metrics and date
+                  ranges.
+                </p>
+                <div class="flex space-x-2">
+                  <button
+                    class="flex-1 flex items-center justify-center space-x-1 px-4 py-2 bg-primary text-white rounded-button hover:bg-green-600 transition-colors whitespace-nowrap"
+                  >
+                    <i class="ri-settings-3-line"></i>
+                    <span>Configure</span>
+                  </button>
+                  <button
+                    class="flex-1 flex items-center justify-center space-x-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-button hover:bg-gray-50 transition-colors whitespace-nowrap"
+                  >
+                    <i class="ri-time-line"></i>
+                    <span>Schedule</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+      <!-- Footer -->
+      <footer class="bg-white border-t mt-12">
+        <div class="max-w-7xl mx-auto px-6 py-8">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="md:col-span-1">
+              <div class="text-2xl font-['Pacifico'] text-primary mb-4">
+                EcoSurvey
+              </div>
+              <p class="text-sm text-gray-600 mb-4">
+                Transforming environmental awareness through digital surveys and
+                student engagement.
+              </p>
+              <div class="flex space-x-4">
+                <a
+                  href="#"
+                  class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-primary hover:text-white transition-colors"
+                >
+                  <i class="ri-facebook-fill"></i>
+                </a>
+                <a
+                  href="#"
+                  class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-primary hover:text-white transition-colors"
+                >
+                  <i class="ri-twitter-fill"></i>
+                </a>
+                <a
+                  href="#"
+                  class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-primary hover:text-white transition-colors"
+                >
+                  <i class="ri-instagram-line"></i>
+                </a>
+                <a
+                  href="#"
+                  class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-primary hover:text-white transition-colors"
+                >
+                  <i class="ri-linkedin-fill"></i>
+                </a>
+              </div>
+            </div>
+            <div class="md:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-8">
+              <div>
+                <h3
+                  class="text-sm font-semibold text-gray-800 uppercase tracking-wider mb-4"
+                >
+                  Resources
+                </h3>
+                <ul class="space-y-2">
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Documentation</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >User Guides</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Survey Templates</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Environmental Resources</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >API Documentation</a
+                    >
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h3
+                  class="text-sm font-semibold text-gray-800 uppercase tracking-wider mb-4"
+                >
+                  Support
+                </h3>
+                <ul class="space-y-2">
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Help Center</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Contact Support</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >FAQ</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Community Forum</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Feedback</a
+                    >
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h3
+                  class="text-sm font-semibold text-gray-800 uppercase tracking-wider mb-4"
+                >
+                  Legal
+                </h3>
+                <ul class="space-y-2">
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Privacy Policy</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Terms of Service</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Data Protection</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Cookie Policy</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Accessibility</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div
+            class="border-t border-gray-200 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center"
+          >
+            <div class="text-sm text-gray-600">
+              © 2025 EcoSurvey. All rights reserved.
+            </div>
+            <div class="mt-4 md:mt-0 flex items-center space-x-4">
+              <span class="text-sm text-gray-500">Powered by:</span>
+              <div class="flex space-x-3">
+                <i class="ri-google-fill text-gray-400 text-xl"></i>
+                <i class="ri-microsoft-fill text-gray-400 text-xl"></i>
+                <i class="ri-amazon-fill text-gray-400 text-xl"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        //nofication
+        const notificationBtn = document.getElementById("notificationBtn");
+        const notificationPanel = document.getElementById("notificationPanel");
+        const settingsBtn = document.getElementById("settingsBtn");
+        const settingsPanel = document.getElementById("settingsPanel");
+        function toggleSettingsPanel(event) {
+          event.stopPropagation();
+          settingsPanel.classList.toggle("hidden");
+          if (!settingsPanel.classList.contains("hidden")) {
+            notificationPanel.classList.add("hidden");
+          }
+        }
+        settingsBtn.addEventListener("click", toggleSettingsPanel);
+        document.addEventListener("click", function (event) {
+          if (!settingsPanel.contains(event.target) && event.target !== settingsBtn) {
+            settingsPanel.classList.add("hidden");
+          }
+        });
+        const notificationBadge = document.getElementById("notificationBadge");
+        const markAllReadBtn = document.getElementById("markAllRead");
+        function toggleNotificationPanel(event) {
+          event.stopPropagation();
+          notificationPanel.classList.toggle("hidden");
+        }
+        function markAllNotificationsRead() {
+          const notificationItems = document.querySelectorAll(".notification-item");
+          notificationItems.forEach((item) => {
+            item.classList.add("opacity-50");
+            const markReadBtn = item.querySelector("button");
+            if (markReadBtn) {
+              markReadBtn.textContent = "Read";
+              markReadBtn.disabled = true;
+            }
+          });
+          notificationBadge.textContent = "0";
+          notificationBadge.classList.add("bg-gray-400");
+          notificationBadge.classList.remove("bg-red-500");
+        }
+        notificationBtn.addEventListener("click", toggleNotificationPanel);
+        markAllReadBtn.addEventListener("click", markAllNotificationsRead);
+        document.addEventListener("click", function (event) {
+          if (
+            !notificationPanel.contains(event.target) &&
+            event.target !== notificationBtn
+          ) {
+            notificationPanel.classList.add("hidden");
+          }
+        });
+        // Profile Dropdown
+        const profileBtn = document.getElementById("profileDropdownBtn");
+        const dropdown = document.getElementById("profileDropdown");
+        let isOpen = false;
+        if (profileBtn && dropdown) {
+          profileBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            isOpen = !isOpen;
+            if (isOpen) {
+              dropdown.classList.remove("hidden");
+              setTimeout(() => {
+                dropdown.classList.remove("opacity-0");
+                dropdown.classList.add("opacity-100");
+              }, 50);
+            } else {
+              dropdown.classList.remove("opacity-100");
+              dropdown.classList.add("opacity-0");
+              setTimeout(() => {
+                dropdown.classList.add("hidden");
+              }, 300);
+            }
+          });
+          document.addEventListener("click", function (e) {
+            if (!dropdown.contains(e.target) && !profileBtn.contains(e.target)) {
+              isOpen = false;
+              dropdown.classList.remove("opacity-100");
+              dropdown.classList.add("opacity-0");
+              setTimeout(() => {
+                dropdown.classList.add("hidden");
+              }, 300);
+            }
+          });
+        }
+        // Category Filter Dropdown
+        const categoryBtn = document.getElementById("categoryFilterBtn");
+        const categoryDropdown = document.getElementById("categoryFilterDropdown");
+        let isCategoryOpen = false;
+        if (categoryBtn && categoryDropdown) {
+          categoryBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            isCategoryOpen = !isCategoryOpen;
+            if (isCategoryOpen) {
+              categoryDropdown.classList.remove("hidden");
+            } else {
+              categoryDropdown.classList.add("hidden");
+            }
+          });
+          document.addEventListener("click", function (e) {
+            if (
+              !categoryDropdown.contains(e.target) &&
+              !categoryBtn.contains(e.target)
+            ) {
+              isCategoryOpen = false;
+              categoryDropdown.classList.add("hidden");
+            }
+          });
+          // Category Filter Selection
+          const categoryFilters = document.querySelectorAll(".category-filter");
+          categoryFilters.forEach((filter) => {
+            filter.addEventListener("click", function () {
+              categoryFilters.forEach((f) => f.classList.remove("active"));
+              this.classList.add("active");
+              const selectedCategory = this.querySelector("span").textContent.trim();
+              categoryBtn.querySelector("span").textContent = selectedCategory;
+              categoryDropdown.classList.add("hidden");
+              isCategoryOpen = false;
+            });
+          });
+        }
+        // Tab Buttons
+        const tabButtons = document.querySelectorAll(".tab-button");
+        tabButtons.forEach((button) => {
+          button.addEventListener("click", function () {
+            tabButtons.forEach((btn) => btn.classList.remove("active"));
+            this.classList.add("active");
+          });
+        });
+      });
+      document.addEventListener("DOMContentLoaded", function () {
+        // Department Completion Chart
+        if (document.getElementById("departmentChart")) {
+          const departmentChart = echarts.init(
+            document.getElementById("departmentChart"),
+          );
+          const departmentOption = {
+            animation: false,
+            tooltip: {
+              trigger: "axis",
+              backgroundColor: "rgba(255, 255, 255, 0.8)",
+              borderColor: "#E5E7EB",
+              borderWidth: 1,
+              textStyle: {
+                color: "#1F2937",
+              },
+            },
+            grid: {
+              left: "3%",
+              right: "3%",
+              bottom: "3%",
+              top: "3%",
+              containLabel: true,
+            },
+            xAxis: {
+              type: "value",
+              axisLine: {
+                lineStyle: {
+                  color: "#E5E7EB",
+                },
+              },
+              axisLabel: {
+                color: "#6B7280",
+              },
+              splitLine: {
+                lineStyle: {
+                  color: "#F3F4F6",
+                },
+              },
+            },
+            yAxis: {
+              type: "category",
+              data: [
+                "Computer Science",
+                "Biology",
+                "Chemistry",
+                "Environmental Science",
+                "Business",
+                "Engineering",
+                "Physics",
+                "Social Sciences",
+              ],
+              axisLine: {
+                lineStyle: {
+                  color: "#E5E7EB",
+                },
+              },
+              axisLabel: {
+                color: "#6B7280",
+              },
+            },
+            series: [
+              {
+                name: "Completion Rate",
+                type: "bar",
+                data: [92, 88, 85, 95, 78, 82, 76, 80],
+                itemStyle: {
+                  color: "#57B5E7",
+                  borderRadius: [0, 4, 4, 0],
+                },
+                label: {
+                  show: true,
+                  position: "right",
+                  formatter: "{c}%",
+                  color: "#6B7280",
+                },
+              },
+            ],
+          };
+          departmentChart.setOption(departmentOption);
+          window.addEventListener("resize", function () {
+            departmentChart.resize();
+          });
+        }
+        // Participation Trends Chart
+        if (document.getElementById("trendsChart")) {
+          const trendsChart = echarts.init(document.getElementById("trendsChart"));
+          const trendsOption = {
+            animation: false,
+            tooltip: {
+              trigger: "axis",
+              backgroundColor: "rgba(255, 255, 255, 0.8)",
+              borderColor: "#E5E7EB",
+              borderWidth: 1,
+              textStyle: {
+                color: "#1F2937",
+              },
+            },
+            legend: {
+              data: ["Total Participants", "Completion Rate"],
+              bottom: 0,
+              textStyle: {
+                color: "#6B7280",
+              },
+            },
+            grid: {
+              left: "3%",
+              right: "3%",
+              bottom: "10%",
+              top: "3%",
+              containLabel: true,
+            },
+            xAxis: {
+              type: "category",
+              boundaryGap: false,
+              data: [
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "May",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep",
+                "Oct",
+                "Nov",
+                "Dec",
+              ],
+              axisLine: {
+                lineStyle: {
+                  color: "#E5E7EB",
+                },
+              },
+              axisLabel: {
+                color: "#6B7280",
+              },
+            },
+            yAxis: [
+              {
+                type: "value",
+                name: "Participants",
+                position: "left",
+                axisLine: {
+                  show: false,
+                },
+                axisLabel: {
+                  color: "#6B7280",
+                },
+                splitLine: {
+                  lineStyle: {
+                    color: "#F3F4F6",
+                  },
+                },
+              },
+              {
+                type: "value",
+                name: "Rate (%)",
+                min: 0,
+                max: 100,
+                position: "right",
+                axisLine: {
+                  show: false,
+                },
+                axisLabel: {
+                  color: "#6B7280",
+                  formatter: "{value}%",
+                },
+                splitLine: {
+                  show: false,
+                },
+              },
+            ],
+            series: [
+              {
+                name: "Total Participants",
+                type: "line",
+                smooth: true,
+                symbol: "none",
+                lineStyle: {
+                  width: 3,
+                  color: "#57B5E7",
+                },
+                areaStyle: {
+                  color: {
+                    type: "linear",
+                    x: 0,
+                    y: 0,
+                    x2: 0,
+                    y2: 1,
+                    colorStops: [
+                      {
+                        offset: 0,
+                        color: "rgba(87, 181, 231, 0.2)",
+                      },
+                      {
+                        offset: 1,
+                        color: "rgba(87, 181, 231, 0.01)",
+                      },
+                    ],
+                  },
+                },
+                data: [
+                  1200, 1350, 1500, 1700, 1850, 2000, 2200, 2350, 2500, 2650, 2750,
+                  2847,
+                ],
+              },
+              {
+                name: "Completion Rate",
+                type: "line",
+                yAxisIndex: 1,
+                smooth: true,
+                symbol: "none",
+                lineStyle: {
+                  width: 3,
+                  color: "#8DD3C7",
+                },
+                data: [65, 68, 70, 72, 74, 75, 76, 76, 77, 77, 78, 78.3],
+              },
+            ],
+          };
+          trendsChart.setOption(trendsOption);
+          window.addEventListener("resize", function () {
+            trendsChart.resize();
+          });
+        }
+        // Environmental Awareness Chart
+        if (document.getElementById("awarenessChart")) {
+          const awarenessChart = echarts.init(
+            document.getElementById("awarenessChart"),
+          );
+          const awarenessOption = {
+            animation: false,
+            tooltip: {
+              trigger: "axis",
+              backgroundColor: "rgba(255, 255, 255, 0.8)",
+              borderColor: "#E5E7EB",
+              borderWidth: 1,
+              textStyle: {
+                color: "#1F2937",
+              },
+            },
+            legend: {
+              data: [
+                "Recycling",
+                "Water Conservation",
+                "Energy Efficiency",
+                "Waste Management",
+              ],
+              bottom: 0,
+              textStyle: {
+                color: "#6B7280",
+              },
+            },
+            grid: {
+              left: "3%",
+              right: "3%",
+              bottom: "10%",
+              top: "3%",
+              containLabel: true,
+            },
+            xAxis: {
+              type: "category",
+              boundaryGap: false,
+              data: [
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "May",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep",
+                "Oct",
+                "Nov",
+                "Dec",
+              ],
+              axisLine: {
+                lineStyle: {
+                  color: "#E5E7EB",
+                },
+              },
+              axisLabel: {
+                color: "#6B7280",
+              },
+            },
+            yAxis: {
+              type: "value",
+              axisLine: {
+                show: false,
+              },
+              axisLabel: {
+                color: "#6B7280",
+              },
+              splitLine: {
+                lineStyle: {
+                  color: "#F3F4F6",
+                },
+              },
+            },
+            series: [
+              {
+                name: "Recycling",
+                type: "line",
+                smooth: true,
+                symbol: "none",
+                lineStyle: {
+                  width: 3,
+                  color: "#57B5E7",
+                },
+                data: [6.5, 6.8, 7.1, 7.3, 7.6, 7.9, 8.2, 8.4, 8.6, 8.8, 9.0, 9.1],
+              },
+              {
+                name: "Water Conservation",
+                type: "line",
+                smooth: true,
+                symbol: "none",
+                lineStyle: {
+                  width: 3,
+                  color: "#8DD3C7",
+                },
+                data: [6.2, 6.5, 6.8, 7.0, 7.3, 7.6, 7.9, 8.1, 8.3, 8.5, 8.6, 8.7],
+              },
+              {
+                name: "Energy Efficiency",
+                type: "line",
+                smooth: true,
+                symbol: "none",
+                lineStyle: {
+                  width: 3,
+                  color: "#FBBF72",
+                },
+                data: [5.8, 6.0, 6.3, 6.5, 6.8, 7.0, 7.2, 7.4, 7.6, 7.7, 7.8, 7.9],
+              },
+              {
+                name: "Waste Management",
+                type: "line",
+                smooth: true,
+                symbol: "none",
+                lineStyle: {
+                  width: 3,
+                  color: "#FC8D62",
+                },
+                data: [6.0, 6.3, 6.6, 6.9, 7.2, 7.5, 7.8, 8.0, 8.2, 8.3, 8.4, 8.5],
+              },
+            ],
+          };
+          awarenessChart.setOption(awarenessOption);
+          window.addEventListener("resize", function () {
+            awarenessChart.resize();
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

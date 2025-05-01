@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Environmental Quiz Competition</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#4CAF50",
+              secondary: "#8BC34A",
+            },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+            fontFamily: {
+              poppins: ["Poppins", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+      body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8f9fa;
+      }
+      .quiz-container {
+      display: none;
+      }
+      .results-container {
+      display: none;
+      }
+      .option-label {
+      cursor: pointer;
+      transition: all 0.2s ease;
+      }
+      .option-label:hover {
+      background-color: rgba(76, 175, 80, 0.1);
+      }
+      input[type="radio"] {
+      display: none;
+      }
+      input[type="radio"] + .custom-radio {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #4CAF50;
+      border-radius: 50%;
+      position: relative;
+      margin-right: 10px;
+      vertical-align: middle;
+      }
+      input[type="radio"]:checked + .custom-radio:after {
+      content: "";
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: #4CAF50;
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      }
+      .progress-bar {
+      height: 8px;
+      background-color: #e0e0e0;
+      border-radius: 4px;
+      overflow: hidden;
+      }
+      .progress-fill {
+      height: 100%;
+      background-color: #4CAF50;
+      width: 0%;
+      transition: width 0.3s ease;
+      }
+      .medal {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      }
+      .gold {
+      background: linear-gradient(145deg, #FFD700, #FFA500);
+      }
+      .silver {
+      background: linear-gradient(145deg, #C0C0C0, #A9A9A9);
+      }
+      .bronze {
+      background: linear-gradient(145deg, #CD7F32, #8B4513);
+      }
+    </style>
+  </head>
+  <body class="min-h-screen">
+    <header class="bg-white shadow-sm">
+      <div
+        class="container mx-auto px-4 py-6 flex justify-between items-center"
+      >
+        <div class="flex items-center">
+          <h1 class="text-2xl font-['Pacifico'] text-primary mr-2">logo</h1>
+          <span class="text-gray-700 font-medium">Environmental Quiz</span>
+        </div>
+        <div class="flex items-center space-x-4">
+          <span class="text-sm text-gray-600">April 28, 2025</span>
+          <div
+            class="w-8 h-8 flex items-center justify-center rounded-full bg-primary/10 text-primary"
+          >
+            <i class="ri-user-line"></i>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="container mx-auto px-4 py-8 min-h-[calc(100vh-180px)]">
+      <!-- Registration Section -->
+      <div
+        id="registration-container"
+        class="max-w-3xl mx-auto bg-white rounded-lg shadow-md p-8"
+      >
+        <div class="text-center mb-8">
+          <h2 class="text-3xl font-bold text-gray-800 mb-4">
+            Environmental Quiz Competition
+          </h2>
+          <div class="w-20 h-1 bg-primary mx-auto mb-6"></div>
+          <p class="text-gray-600 mb-4">
+            Test your knowledge about environmental issues and sustainability in
+            this exciting competition!
+          </p>
+          <div class="flex justify-center mb-6">
+            <div
+              class="w-10 h-10 flex items-center justify-center rounded-full bg-primary/10 text-primary mx-2"
+            >
+              <i class="ri-earth-line ri-lg"></i>
+            </div>
+            <div
+              class="w-10 h-10 flex items-center justify-center rounded-full bg-primary/10 text-primary mx-2"
+            >
+              <i class="ri-plant-line ri-lg"></i>
+            </div>
+            <div
+              class="w-10 h-10 flex items-center justify-center rounded-full bg-primary/10 text-primary mx-2"
+            >
+              <i class="ri-recycle-line ri-lg"></i>
+            </div>
+          </div>
+        </div>
+        <div class="bg-green-50 rounded-lg p-6 mb-8">
+          <h3 class="text-xl font-semibold text-gray-800 mb-4">
+            Competition Rules
+          </h3>
+          <ul class="space-y-2 text-gray-700">
+            <li class="flex items-start">
+              <div
+                class="w-5 h-5 flex items-center justify-center text-primary mt-0.5 mr-2"
+              >
+                <i class="ri-checkbox-circle-line"></i>
+              </div>
+              <span
+                >Answer all 10 multiple-choice questions about environmental
+                topics</span
+              >
+            </li>
+            <li class="flex items-start">
+              <div
+                class="w-5 h-5 flex items-center justify-center text-primary mt-0.5 mr-2"
+              >
+                <i class="ri-checkbox-circle-line"></i>
+              </div>
+              <span
+                >The participant with the highest percentage score wins</span
+              >
+            </li>
+            <li class="flex items-start">
+              <div
+                class="w-5 h-5 flex items-center justify-center text-primary mt-0.5 mr-2"
+              >
+                <i class="ri-checkbox-circle-line"></i>
+              </div>
+              <span>Prizes awarded for 1st, 2nd, and 3rd place finishers</span>
+            </li>
+            <li class="flex items-start">
+              <div
+                class="w-5 h-5 flex items-center justify-center text-primary mt-0.5 mr-2"
+              >
+                <i class="ri-checkbox-circle-line"></i>
+              </div>
+              <span
+                >You can see your results immediately after completing the
+                quiz</span
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="mb-8">
+          <h3 class="text-xl font-semibold text-gray-800 mb-4">Prizes</h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div
+              class="bg-white border border-gray-200 rounded-lg p-4 text-center shadow-sm"
+            >
+              <div class="medal gold mx-auto mb-2">1</div>
+              <h4 class="font-semibold text-gray-800">1st Place</h4>
+              <p class="text-sm text-gray-600">Eco-friendly Gift Set</p>
+            </div>
+            <div
+              class="bg-white border border-gray-200 rounded-lg p-4 text-center shadow-sm"
+            >
+              <div class="medal silver mx-auto mb-2">2</div>
+              <h4 class="font-semibold text-gray-800">2nd Place</h4>
+              <p class="text-sm text-gray-600">Reusable Water Bottle</p>
+            </div>
+            <div
+              class="bg-white border border-gray-200 rounded-lg p-4 text-center shadow-sm"
+            >
+              <div class="medal bronze mx-auto mb-2">3</div>
+              <h4 class="font-semibold text-gray-800">3rd Place</h4>
+              <p class="text-sm text-gray-600">Organic Seed Kit</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white rounded-lg p-6 border border-gray-200 shadow-sm">
+          <h3 class="text-xl font-semibold text-gray-800 mb-4">
+            Register & Start
+          </h3>
+          <form id="registration-form" class="space-y-4">
+            <div>
+              <label
+                for="name"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Full Name</label
+              >
+              <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label
+                for="email"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Email Address</label
+              >
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              />
+            </div>
+            <div class="pt-2">
+              <button
+                type="submit"
+                class="w-full bg-primary text-white py-3 px-6 rounded-button font-medium hover:bg-primary/90 transition-colors whitespace-nowrap"
+              >
+                Start Quiz
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- Quiz Section -->
+      <div
+        id="quiz-container"
+        class="quiz-container max-w-3xl mx-auto bg-white rounded-lg shadow-md p-8"
+      >
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-2xl font-bold text-gray-800">Environmental Quiz</h2>
+          <div class="flex items-center">
+            <span
+              id="question-counter"
+              class="text-sm font-medium text-gray-600 mr-2"
+              >Question 1/10</span
+            >
+            <div
+              class="w-8 h-8 flex items-center justify-center rounded-full bg-primary/10 text-primary"
+            >
+              <i class="ri-question-line"></i>
+            </div>
+          </div>
+        </div>
+        <div class="mb-6">
+          <div class="progress-bar">
+            <div id="progress-fill" class="progress-fill"></div>
+          </div>
+        </div>
+        <div id="question-container" class="mb-8">
+          <h3 id="question-text" class="text-xl font-medium text-gray-800 mb-6">
+            Question text will appear here
+          </h3>
+          <div id="options-container" class="space-y-3">
+            <!-- Options will be generated here -->
+          </div>
+        </div>
+        <div class="flex justify-between">
+          <button
+            id="prev-btn"
+            class="bg-gray-100 text-gray-700 py-2 px-6 rounded-button font-medium hover:bg-gray-200 transition-colors whitespace-nowrap hidden"
+          >
+            Previous
+          </button>
+          <div class="flex-grow"></div>
+          <button
+            id="next-btn"
+            class="bg-primary text-white py-2 px-6 rounded-button font-medium hover:bg-primary/90 transition-colors whitespace-nowrap"
+          >
+            Next Question
+          </button>
+        </div>
+      </div>
+      <!-- Results Section -->
+      <div
+        id="results-container"
+        class="results-container max-w-3xl mx-auto bg-white rounded-lg shadow-md p-8"
+      >
+        <div class="text-center mb-8">
+          <h2 class="text-3xl font-bold text-gray-800 mb-2">Quiz Results</h2>
+          <div class="w-20 h-1 bg-primary mx-auto mb-6"></div>
+          <div id="user-score-container" class="mb-6">
+            <div class="inline-block rounded-full bg-primary/10 p-6 mb-4">
+              <div
+                id="score-circle"
+                class="relative w-32 h-32 rounded-full border-8 border-primary flex items-center justify-center"
+              >
+                <span id="user-score" class="text-4xl font-bold text-gray-800"
+                  >0%</span
+                >
+              </div>
+            </div>
+            <h3
+              id="result-message"
+              class="text-xl font-semibold text-gray-800 mb-2"
+            >
+              Great effort!
+            </h3>
+            <p id="user-rank" class="text-gray-600">
+              Your rank will appear here
+            </p>
+          </div>
+        </div>
+        <div class="mb-8">
+          <h3 class="text-xl font-semibold text-gray-800 mb-4">Leaderboard</h3>
+          <div class="bg-gray-50 rounded-lg p-6">
+            <div id="leaderboard-container" class="space-y-4">
+              <!-- Leaderboard entries will be generated here -->
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <button
+            id="retry-btn"
+            class="flex-1 bg-white border border-primary text-primary py-3 px-6 rounded-button font-medium hover:bg-primary/5 transition-colors whitespace-nowrap"
+          >
+            Try Again
+          </button>
+          <button
+            id="share-btn"
+            class="flex-1 bg-primary text-white py-3 px-6 rounded-button font-medium hover:bg-primary/90 transition-colors whitespace-nowrap"
+          >
+            Share Results
+          </button>
+          <div
+            id="share-modal"
+            class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50"
+          >
+            <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold text-gray-800">
+                  Share Your Results
+                </h3>
+                <button
+                  id="close-share-modal"
+                  class="text-gray-500 hover:text-gray-700"
+                >
+                  <i class="ri-close-line ri-lg"></i>
+                </button>
+              </div>
+              <div class="mb-6">
+                <p class="text-gray-600 mb-2">
+                  Your Score:
+                  <span
+                    id="share-score"
+                    class="font-semibold text-gray-800"
+                  ></span>
+                </p>
+                <p class="text-gray-600 mb-4">
+                  Your Rank:
+                  <span
+                    id="share-rank"
+                    class="font-semibold text-gray-800"
+                  ></span>
+                </p>
+                <textarea
+                  id="share-message"
+                  class="w-full p-3 border border-gray-300 rounded resize-none focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  rows="3"
+                  placeholder="Add a personal message..."
+                >
+I just completed the Environmental Quiz! Check out my score!</textarea
+                >
+              </div>
+              <div class="grid grid-cols-2 gap-3">
+                <button
+                  id="share-facebook"
+                  class="flex items-center justify-center gap-2 bg-[#1877F2] text-white py-2 px-4 rounded-button hover:bg-[#1877F2]/90 transition-colors whitespace-nowrap"
+                >
+                  <i class="ri-facebook-fill"></i>
+                  Facebook
+                </button>
+                <button
+                  id="share-twitter"
+                  class="flex items-center justify-center gap-2 bg-[#1DA1F2] text-white py-2 px-4 rounded-button hover:bg-[#1DA1F2]/90 transition-colors whitespace-nowrap"
+                >
+                  <i class="ri-twitter-fill"></i>
+                  Twitter
+                </button>
+                <button
+                  id="share-instagram"
+                  class="flex items-center justify-center gap-2 bg-[#E4405F] text-white py-2 px-4 rounded-button hover:bg-[#E4405F]/90 transition-colors whitespace-nowrap"
+                >
+                  <i class="ri-instagram-fill"></i>
+                  Instagram
+                </button>
+                <button
+                  id="share-email"
+                  class="flex items-center justify-center gap-2 bg-gray-600 text-white py-2 px-4 rounded-button hover:bg-gray-700 transition-colors whitespace-nowrap"
+                >
+                  <i class="ri-mail-fill"></i>
+                  Email
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="bg-gray-800 text-white py-8">
+      <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <div class="mb-4 md:mb-0">
+            <h2 class="text-xl font-['Pacifico'] mb-2">logo</h2>
+            <p class="text-gray-400 text-sm">
+              Environmental Quiz Competition 2025
+            </p>
+          </div>
+          <div class="flex space-x-4">
+            <a
+              href="#"
+              class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-700 hover:bg-gray-600 transition-colors"
+            >
+              <i class="ri-facebook-fill"></i>
+            </a>
+            <a
+              href="#"
+              class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-700 hover:bg-gray-600 transition-colors"
+            >
+              <i class="ri-twitter-fill"></i>
+            </a>
+            <a
+              href="#"
+              class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-700 hover:bg-gray-600 transition-colors"
+            >
+              <i class="ri-instagram-fill"></i>
+            </a>
+          </div>
+        </div>
+        <div
+          class="mt-6 pt-6 border-t border-gray-700 text-center text-gray-400 text-sm"
+        >
+          &copy; 2025 Environmental Quiz Competition. All rights reserved.
+        </div>
+      </div>
+    </footer>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Quiz questions
+        const questions = [
+          {
+            question:
+              "Which of the following is the largest contributor to global greenhouse gas emissions?",
+            options: [
+              "Transportation",
+              "Electricity and heat production",
+              "Agriculture",
+              "Buildings",
+            ],
+            correctAnswer: 1,
+          },
+          {
+            question: "What is the primary cause of ocean acidification?",
+            options: [
+              "Oil spills",
+              "Plastic pollution",
+              "Absorption of carbon dioxide from the atmosphere",
+              "Agricultural runoff",
+            ],
+            correctAnswer: 2,
+          },
+          {
+            question: "Which of these is NOT a renewable energy source?",
+            options: [
+              "Solar power",
+              "Wind power",
+              "Natural gas",
+              "Hydroelectric power",
+            ],
+            correctAnswer: 2,
+          },
+          {
+            question:
+              "What percentage of Earth's water is freshwater available for human use?",
+            options: ["About 0.3%", "About 3%", "About 10%", "About 30%"],
+            correctAnswer: 0,
+          },
+          {
+            question:
+              "Which of the following is considered the most effective action an individual can take to reduce their carbon footprint?",
+            options: [
+              "Recycling regularly",
+              "Having one fewer child",
+              "Switching to a plant-based diet",
+              "Using public transportation",
+            ],
+            correctAnswer: 1,
+          },
+          {
+            question:
+              "What is the primary cause of deforestation in tropical rainforests?",
+            options: [
+              "Logging for timber",
+              "Mining operations",
+              "Agricultural expansion",
+              "Urban development",
+            ],
+            correctAnswer: 2,
+          },
+          {
+            question: "Which ecosystem contains the highest biodiversity on Earth?",
+            options: [
+              "Coral reefs",
+              "Tropical rainforests",
+              "Temperate grasslands",
+              "Mangrove swamps",
+            ],
+            correctAnswer: 1,
+          },
+          {
+            question: "What is the primary goal of the Paris Climate Agreement?",
+            options: [
+              "Eliminate all fossil fuel use by 2050",
+              "Limit global warming to well below 2°C above pre-industrial levels",
+              "Achieve 100% renewable energy worldwide",
+              "End deforestation completely",
+            ],
+            correctAnswer: 1,
+          },
+          {
+            question:
+              "Which of the following is NOT one of the 3Rs of waste management?",
+            options: ["Reduce", "Reuse", "Recycle", "Restore"],
+            correctAnswer: 3,
+          },
+          {
+            question:
+              "What is the term for species that are at risk of becoming extinct in the near future?",
+            options: [
+              "Vulnerable species",
+              "Endangered species",
+              "Threatened species",
+              "Critical species",
+            ],
+            correctAnswer: 1,
+          },
+        ];
+        // Mock leaderboard data
+        const leaderboard = [
+          { name: "Emma Thompson", score: 90 },
+          { name: "Michael Chen", score: 80 },
+          { name: "Sophia Rodriguez", score: 70 },
+        ];
+        // Variables
+        let currentQuestion = 0;
+        const userAnswers = Array(questions.length).fill(null);
+        let userName = "";
+        let userEmail = "";
+        // DOM Elements
+        const registrationContainer = document.getElementById(
+          "registration-container",
+        );
+        const quizContainer = document.getElementById("quiz-container");
+        const resultsContainer = document.getElementById("results-container");
+        const registrationForm = document.getElementById("registration-form");
+        const questionCounter = document.getElementById("question-counter");
+        const progressFill = document.getElementById("progress-fill");
+        const questionText = document.getElementById("question-text");
+        const optionsContainer = document.getElementById("options-container");
+        const prevBtn = document.getElementById("prev-btn");
+        const nextBtn = document.getElementById("next-btn");
+        const userScore = document.getElementById("user-score");
+        const resultMessage = document.getElementById("result-message");
+        const userRank = document.getElementById("user-rank");
+        const leaderboardContainer = document.getElementById("leaderboard-container");
+        const retryBtn = document.getElementById("retry-btn");
+        const shareBtn = document.getElementById("share-btn");
+        // Event Listeners
+        registrationForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+          userName = document.getElementById("name").value;
+          userEmail = document.getElementById("email").value;
+          registrationContainer.style.display = "none";
+          quizContainer.style.display = "block";
+          loadQuestion(currentQuestion);
+        });
+        prevBtn.addEventListener("click", function () {
+          if (currentQuestion > 0) {
+            currentQuestion--;
+            loadQuestion(currentQuestion);
+          }
+        });
+        nextBtn.addEventListener("click", function () {
+          const selectedOption = document.querySelector(
+            'input[name="option"]:checked',
+          );
+          if (!selectedOption && nextBtn.textContent !== "Submit Quiz") {
+            alert("Please select an answer before proceeding.");
+            return;
+          }
+          if (selectedOption) {
+            userAnswers[currentQuestion] = parseInt(selectedOption.value);
+          }
+          if (currentQuestion < questions.length - 1) {
+            currentQuestion++;
+            loadQuestion(currentQuestion);
+          } else if (nextBtn.textContent === "Submit Quiz") {
+            showResults();
+          } else {
+            nextBtn.textContent = "Submit Quiz";
+          }
+        });
+        retryBtn.addEventListener("click", function () {
+          resetQuiz();
+          resultsContainer.style.display = "none";
+          registrationContainer.style.display = "block";
+        });
+        const shareModal = document.getElementById("share-modal");
+        const closeShareModal = document.getElementById("close-share-modal");
+        const shareScore = document.getElementById("share-score");
+        const shareRank = document.getElementById("share-rank");
+        const shareMessage = document.getElementById("share-message");
+        const shareFacebook = document.getElementById("share-facebook");
+        const shareTwitter = document.getElementById("share-twitter");
+        const shareInstagram = document.getElementById("share-instagram");
+        const shareEmail = document.getElementById("share-email");
+        shareBtn.addEventListener("click", function () {
+          const score = userScore.textContent;
+          const rank = userRank.textContent;
+
+          shareScore.textContent = score;
+          shareRank.textContent = rank;
+          shareModal.classList.remove("hidden");
+          shareModal.classList.add("flex");
+        });
+        closeShareModal.addEventListener("click", function () {
+          shareModal.classList.add("hidden");
+          shareModal.classList.remove("flex");
+        });
+        shareModal.addEventListener("click", function (e) {
+          if (e.target === shareModal) {
+            shareModal.classList.add("hidden");
+            shareModal.classList.remove("flex");
+          }
+        });
+        function shareResults(platform) {
+          const message = shareMessage.value;
+          const score = shareScore.textContent;
+          const rank = shareRank.textContent;
+          const shareText = `${message}\nScore: ${score}\n${rank}`;
+
+          switch (platform) {
+            case "facebook":
+              window.open(
+                `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&quote=${encodeURIComponent(shareText)}`,
+                "_blank",
+              );
+              break;
+            case "twitter":
+              window.open(
+                `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(window.location.href)}`,
+                "_blank",
+              );
+              break;
+            case "instagram":
+              const tempInput = document.createElement("textarea");
+              tempInput.value = shareText;
+              document.body.appendChild(tempInput);
+              tempInput.select();
+              document.execCommand("copy");
+              document.body.removeChild(tempInput);
+              window.open("https://www.instagram.com", "_blank");
+              break;
+            case "email":
+              window.location.href = `mailto:?subject=My Environmental Quiz Results&body=${encodeURIComponent(shareText)}`;
+              break;
+          }
+        }
+        shareFacebook.addEventListener("click", () => shareResults("facebook"));
+        shareTwitter.addEventListener("click", () => shareResults("twitter"));
+        shareInstagram.addEventListener("click", () => shareResults("instagram"));
+        shareEmail.addEventListener("click", () => shareResults("email"));
+        // Functions
+        function loadQuestion(index) {
+          const question = questions[index];
+          questionCounter.textContent = `Question ${index + 1}/${questions.length}`;
+          progressFill.style.width = `${((index + 1) / questions.length) * 100}%`;
+          questionText.textContent = question.question;
+          optionsContainer.innerHTML = "";
+          question.options.forEach((option, i) => {
+            const optionDiv = document.createElement("div");
+            optionDiv.className =
+              "option-label flex items-center p-3 border border-gray-200 rounded hover:border-primary";
+            if (userAnswers[index] === i) {
+              optionDiv.classList.add("bg-primary/10", "border-primary");
+            }
+            optionDiv.innerHTML = `
+      <input type="radio" id="option-${i}" name="option" value="${i}" ${userAnswers[index] === i ? "checked" : ""}>
+      <span class="custom-radio"></span>
+      <label for="option-${i}" class="flex-grow cursor-pointer">${option}</label>
+      `;
+            optionDiv.addEventListener("click", function () {
+              const radio = this.querySelector('input[type="radio"]');
+              radio.checked = true;
+              document.querySelectorAll(".option-label").forEach((el) => {
+                el.classList.remove("bg-primary/10", "border-primary");
+              });
+              this.classList.add("bg-primary/10", "border-primary");
+            });
+            optionsContainer.appendChild(optionDiv);
+          });
+          prevBtn.style.display = index > 0 ? "block" : "none";
+          nextBtn.textContent =
+            index === questions.length - 1 ? "Submit Quiz" : "Next Question";
+        }
+        function calculateScore() {
+          let correctAnswers = 0;
+          userAnswers.forEach((answer, index) => {
+            if (answer === questions[index].correctAnswer) {
+              correctAnswers++;
+            }
+          });
+          return Math.round((correctAnswers / questions.length) * 100);
+        }
+        function showResults() {
+          quizContainer.style.display = "none";
+          resultsContainer.style.display = "block";
+          const score = calculateScore();
+          userScore.textContent = `${score}%`;
+          // Add user to leaderboard
+          const userEntry = { name: userName, score: score };
+          leaderboard.push(userEntry);
+          // Sort leaderboard
+          leaderboard.sort((a, b) => b.score - a.score);
+          // Get user rank
+          const userRankIndex = leaderboard.findIndex(
+            (entry) => entry.name === userName,
+          );
+          // Display rank message
+          if (userRankIndex === 0) {
+            resultMessage.textContent = "Congratulations! You took 1st place!";
+            userRank.textContent = "You are the champion!";
+          } else if (userRankIndex === 1) {
+            resultMessage.textContent = "Well done! You took 2nd place!";
+            userRank.textContent = "Silver medal winner!";
+          } else if (userRankIndex === 2) {
+            resultMessage.textContent = "Good job! You took 3rd place!";
+            userRank.textContent = "Bronze medal winner!";
+          } else if (userRankIndex > 2) {
+            resultMessage.textContent = "Thanks for participating!";
+            userRank.textContent = `Your rank: ${userRankIndex + 1}th place`;
+          }
+          // Display top 3 in leaderboard
+          leaderboardContainer.innerHTML = "";
+          for (let i = 0; i < Math.min(3, leaderboard.length); i++) {
+            const entry = leaderboard[i];
+            const medalClass = i === 0 ? "gold" : i === 1 ? "silver" : "bronze";
+            const leaderboardEntry = document.createElement("div");
+            leaderboardEntry.className = `flex items-center p-4 bg-white rounded-lg shadow-sm ${entry.name === userName ? "border-2 border-primary" : "border border-gray-200"}`;
+            leaderboardEntry.innerHTML = `
+      <div class="medal ${medalClass} mr-4">${i + 1}</div>
+      <div class="flex-grow">
+      <h4 class="font-semibold text-gray-800">${entry.name}</h4>
+      <p class="text-sm text-gray-600">Score: ${entry.score}%</p>
+      </div>
+      `;
+            leaderboardContainer.appendChild(leaderboardEntry);
+          }
+        }
+        function resetQuiz() {
+          currentQuestion = 0;
+          userAnswers.fill(null);
+          document.getElementById("name").value = "";
+          document.getElementById("email").value = "";
+          nextBtn.textContent = "Next Question";
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Environmental Competitions</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#4CAF50",
+              secondary: "#8BC34A",
+            },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+      body {
+      font-family: 'Poppins', sans-serif;
+      }
+      .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      }
+      .modal-content {
+      position: relative;
+      background-color: white;
+      margin: 5% auto;
+      padding: 20px;
+      width: 90%;
+      max-width: 1024px;
+      max-height: 90vh;
+      overflow-y: auto;
+      border-radius: 8px;
+      }
+      .close {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+      font-size: 28px;
+      cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="bg-white shadow-sm fixed w-full z-50">
+      <nav class="container mx-auto px-4 py-4">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center space-x-8">
+            <h1 class="text-2xl font-['Pacifico'] text-primary">logo</h1>
+            <div class="hidden md:flex space-x-6">
+              <a href="#home" class="text-gray-700 hover:text-primary">Home</a>
+              <a href="#competitions" class="text-gray-700 hover:text-primary"
+                >Competitions</a
+              >
+              <a href="#winners" class="text-gray-700 hover:text-primary"
+                >Winners</a
+              >
+              <a href="#contact" class="text-gray-700 hover:text-primary"
+                >Contact</a
+              >
+            </div>
+          </div>
+          <div class="flex items-center space-x-4">
+            <button
+              id="participate-btn"
+              class="bg-primary text-white px-6 py-2 rounded-button hover:bg-primary/90 transition-colors whitespace-nowrap"
+            >
+              Participate Now
+            </button>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main class="pt-16">
+      <section id="home" class="bg-gradient-to-br from-green-50 to-white py-20">
+        <div class="container mx-auto px-4">
+          <div class="flex flex-col md:flex-row items-center justify-between">
+            <div class="md:w-1/2 mb-10 md:mb-0">
+              <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
+                Environmental Competitions 2025
+              </h1>
+              <p class="text-lg text-gray-600 mb-8">
+                Join our mission to raise awareness about environmental issues
+                through engaging competitions and challenges.
+              </p>
+              <div class="flex space-x-4">
+                <button
+                  id="learn-more-btn"
+                  class="bg-primary text-white px-8 py-3 rounded-button hover:bg-primary/90 transition-colors whitespace-nowrap"
+                >
+                  Learn More
+                </button>
+                <button
+                  class="border-2 border-primary text-primary px-8 py-3 rounded-button hover:bg-primary/5 transition-colors whitespace-nowrap"
+                >
+                  View Schedule
+                </button>
+              </div>
+            </div>
+            <div class="md:w-1/2">
+              <img
+                src="https://readdy.ai/api/search-image?query=environmental%20sustainability%20concept%20illustration%20with%20earth%20globe%2C%20green%20leaves%2C%20renewable%20energy%20symbols%2C%20and%20eco-friendly%20elements%2C%20modern%20minimalist%20design%20style%2C%20soft%20colors%2C%20clean%20background&width=600&height=400&seq=1&orientation=landscape"
+                alt="Environmental Competition"
+                class="rounded-lg shadow-lg"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="competitions" class="py-20">
+        <div class="container mx-auto px-4">
+          <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">
+              Environmental Quiz Competition
+            </h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">
+              Test your knowledge about environmental issues and sustainability
+              in this exciting competition. Join us in making a positive impact
+              on our planet!
+            </p>
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+              <img
+                src="https://readdy.ai/api/search-image?query=environmental%20education%20concept%20with%20students%20participating%20in%20quiz%20competition%2C%20modern%20classroom%20setting%20with%20digital%20screens%20and%20interactive%20elements%2C%20bright%20and%20engaging%20atmosphere&width=600&height=400&seq=5&orientation=landscape"
+                alt="Environmental Quiz"
+                class="w-full h-64 object-cover"
+              />
+              <div class="p-8">
+                <div class="flex items-center mb-6">
+                  <div
+                    class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mr-4"
+                  >
+                    <i class="ri-trophy-line text-primary ri-2x"></i>
+                  </div>
+                  <div>
+                    <h3 class="text-xl font-semibold text-gray-800">
+                      Prize Pool
+                    </h3>
+                    <p class="text-primary font-semibold">
+                      $5,000 in Total Prizes
+                    </p>
+                  </div>
+                </div>
+                <div class="space-y-4 mb-6">
+                  <div class="flex items-center">
+                    <i class="ri-calendar-line text-primary mr-3"></i>
+                    <span>Registration Deadline: May 15, 2025</span>
+                  </div>
+                  <div class="flex items-center">
+                    <i class="ri-time-line text-primary mr-3"></i>
+                    <span>Competition Date: May 20, 2025</span>
+                  </div>
+                  <div class="flex items-center">
+                    <i class="ri-group-line text-primary mr-3"></i>
+                    <span>Participants: Individual Entry</span>
+                  </div>
+                </div>
+                <button
+                  class="competition-btn bg-primary text-white px-8 py-3 rounded-button hover:bg-primary/90 transition-colors whitespace-nowrap w-full text-lg font-semibold"
+                  data-competition="quiz"
+                >
+                  Register Now
+                </button>
+              </div>
+            </div>
+            <div class="space-y-8">
+              <div class="bg-white rounded-lg shadow-lg p-8">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">
+                  Competition Format
+                </h3>
+                <ul class="space-y-3">
+                  <li class="flex items-start">
+                    <i
+                      class="ri-checkbox-circle-line text-primary mt-1 mr-3"
+                    ></i>
+                    <span
+                      >Multiple choice questions covering various environmental
+                      topics</span
+                    >
+                  </li>
+                  <li class="flex items-start">
+                    <i
+                      class="ri-checkbox-circle-line text-primary mt-1 mr-3"
+                    ></i>
+                    <span
+                      >Three rounds: Preliminary, Semi-Final, and Final</span
+                    >
+                  </li>
+                  <li class="flex items-start">
+                    <i
+                      class="ri-checkbox-circle-line text-primary mt-1 mr-3"
+                    ></i>
+                    <span>Time-based scoring system with bonus points</span>
+                  </li>
+                  <li class="flex items-start">
+                    <i
+                      class="ri-checkbox-circle-line text-primary mt-1 mr-3"
+                    ></i>
+                    <span>Live leaderboard updates during the competition</span>
+                  </li>
+                </ul>
+              </div>
+              <div class="bg-white rounded-lg shadow-lg p-8">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">
+                  Topics Covered
+                </h3>
+                <div class="grid grid-cols-2 gap-4">
+                  <div class="flex items-center bg-green-50 rounded-lg p-3">
+                    <i class="ri-plant-line text-primary mr-2"></i>
+                    <span>Climate Change</span>
+                  </div>
+                  <div class="flex items-center bg-green-50 rounded-lg p-3">
+                    <i class="ri-recycle-line text-primary mr-2"></i>
+                    <span>Waste Management</span>
+                  </div>
+                  <div class="flex items-center bg-green-50 rounded-lg p-3">
+                    <i class="ri-water-flash-line text-primary mr-2"></i>
+                    <span>Renewable Energy</span>
+                  </div>
+                  <div class="flex items-center bg-green-50 rounded-lg p-3">
+                    <i class="ri-leaf-line text-primary mr-2"></i>
+                    <span>Biodiversity</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="winners" class="bg-green-50 py-20">
+        <div class="container mx-auto px-4">
+          <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Top Winners</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">
+              Congratulations to our environmental champions who demonstrated
+              exceptional knowledge and commitment!
+            </p>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            <div
+              class="bg-white rounded-lg shadow-lg p-6 text-center transform hover:-translate-y-2 transition-transform"
+            >
+              <div
+                class="w-20 h-20 mx-auto mb-4 bg-[#FFD700] rounded-full flex items-center justify-center"
+              >
+                <i class="ri-medal-fill ri-2x text-white"></i>
+              </div>
+              <h3 class="text-xl font-bold text-gray-800 mb-2">1st Place</h3>
+              <p class="text-lg font-semibold text-primary mb-2">
+                Emily Thompson
+              </p>
+              <p class="text-gray-600">Score: 95%</p>
+              <div class="mt-4 text-sm text-gray-500">April 25, 2025</div>
+            </div>
+            <div
+              class="bg-white rounded-lg shadow-lg p-6 text-center transform hover:-translate-y-2 transition-transform"
+            >
+              <div
+                class="w-20 h-20 mx-auto mb-4 bg-[#C0C0C0] rounded-full flex items-center justify-center"
+              >
+                <i class="ri-medal-fill ri-2x text-white"></i>
+              </div>
+              <h3 class="text-xl font-bold text-gray-800 mb-2">2nd Place</h3>
+              <p class="text-lg font-semibold text-primary mb-2">
+                Michael Chen
+              </p>
+              <p class="text-gray-600">Score: 92%</p>
+              <div class="mt-4 text-sm text-gray-500">April 25, 2025</div>
+            </div>
+            <div
+              class="bg-white rounded-lg shadow-lg p-6 text-center transform hover:-translate-y-2 transition-transform"
+            >
+              <div
+                class="w-20 h-20 mx-auto mb-4 bg-[#CD7F32] rounded-full flex items-center justify-center"
+              >
+                <i class="ri-medal-fill ri-2x text-white"></i>
+              </div>
+              <h3 class="text-xl font-bold text-gray-800 mb-2">3rd Place</h3>
+              <p class="text-lg font-semibold text-primary mb-2">
+                Sarah Martinez
+              </p>
+              <p class="text-gray-600">Score: 88%</p>
+              <div class="mt-4 text-sm text-gray-500">April 25, 2025</div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section
+        id="more-info"
+        class="py-20 bg-gradient-to-br from-green-50 to-white"
+      >
+        <div class="container mx-auto px-4">
+          <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">
+              Competition Details
+            </h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">
+              Everything you need to know about the Environmental Quiz
+              Competition
+            </p>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div class="space-y-8">
+              <div class="bg-white rounded-lg shadow-lg p-8">
+                <h3
+                  class="text-xl font-semibold text-gray-800 mb-4 flex items-center"
+                >
+                  <i class="ri-calendar-event-line text-primary mr-3 ri-lg"></i>
+                  Schedule Breakdown
+                </h3>
+                <ul class="space-y-4">
+                  <li class="flex items-start">
+                    <i class="ri-time-line text-primary mt-1 mr-3"></i>
+                    <div>
+                      <span class="font-medium">Registration Period</span>
+                      <p class="text-gray-600">April 28 - May 15, 2025</p>
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-time-line text-primary mt-1 mr-3"></i>
+                    <div>
+                      <span class="font-medium">Preliminary Round</span>
+                      <p class="text-gray-600">May 20, 2025 (Online)</p>
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-time-line text-primary mt-1 mr-3"></i>
+                    <div>
+                      <span class="font-medium">Semi-Finals</span>
+                      <p class="text-gray-600">May 22, 2025 (Online)</p>
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-time-line text-primary mt-1 mr-3"></i>
+                    <div>
+                      <span class="font-medium">Finals</span>
+                      <p class="text-gray-600">May 25, 2025 (Live Event)</p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="bg-white rounded-lg shadow-lg p-8">
+                <h3
+                  class="text-xl font-semibold text-gray-800 mb-4 flex items-center"
+                >
+                  <i class="ri-award-line text-primary mr-3 ri-lg"></i>
+                  Prizes & Recognition
+                </h3>
+                <ul class="space-y-4">
+                  <li class="flex items-start">
+                    <i class="ri-medal-line text-primary mt-1 mr-3"></i>
+                    <div>
+                      <span class="font-medium">First Place</span>
+                      <p class="text-gray-600">
+                        $2,500 + Environmental Leadership Certificate
+                      </p>
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-medal-line text-primary mt-1 mr-3"></i>
+                    <div>
+                      <span class="font-medium">Second Place</span>
+                      <p class="text-gray-600">$1,500 + Recognition Award</p>
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-medal-line text-primary mt-1 mr-3"></i>
+                    <div>
+                      <span class="font-medium">Third Place</span>
+                      <p class="text-gray-600">$1,000 + Recognition Award</p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="space-y-8">
+              <div class="bg-white rounded-lg shadow-lg p-8">
+                <h3
+                  class="text-xl font-semibold text-gray-800 mb-4 flex items-center"
+                >
+                  <i class="ri-book-open-line text-primary mr-3 ri-lg"></i>
+                  Study Resources
+                </h3>
+                <ul class="space-y-4">
+                  <li class="flex items-start">
+                    <i class="ri-article-line text-primary mt-1 mr-3"></i>
+                    <div>
+                      <span class="font-medium"
+                        >Recommended Reading Materials</span
+                      >
+                      <p class="text-gray-600">
+                        Access to our curated collection of environmental
+                        articles and research papers
+                      </p>
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-video-line text-primary mt-1 mr-3"></i>
+                    <div>
+                      <span class="font-medium">Video Lectures</span>
+                      <p class="text-gray-600">
+                        Expert-led video sessions on key environmental topics
+                      </p>
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-questionnaire-line text-primary mt-1 mr-3"></i>
+                    <div>
+                      <span class="font-medium">Practice Questions</span>
+                      <p class="text-gray-600">
+                        Sample questions to help you prepare
+                      </p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="bg-white rounded-lg shadow-lg p-8">
+                <h3
+                  class="text-xl font-semibold text-gray-800 mb-4 flex items-center"
+                >
+                  <i class="ri-information-line text-primary mr-3 ri-lg"></i>
+                  Additional Information
+                </h3>
+                <ul class="space-y-4">
+                  <li class="flex items-start">
+                    <i class="ri-group-line text-primary mt-1 mr-3"></i>
+                    <div>
+                      <span class="font-medium">Eligibility</span>
+                      <p class="text-gray-600">
+                        Open to participants aged 16 and above
+                      </p>
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-global-line text-primary mt-1 mr-3"></i>
+                    <div>
+                      <span class="font-medium">Language</span>
+                      <p class="text-gray-600">
+                        Competition will be conducted in English
+                      </p>
+                    </div>
+                  </li>
+                  <li class="flex items-start">
+                    <i class="ri-computer-line text-primary mt-1 mr-3"></i>
+                    <div>
+                      <span class="font-medium">Technical Requirements</span>
+                      <p class="text-gray-600">
+                        Stable internet connection and webcam required for
+                        online rounds
+                      </p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div id="competition-modal" class="modal">
+        <div class="modal-content max-w-2xl">
+          <span class="close">&times;</span>
+          <div class="p-8">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6">
+              Register for Environmental Quiz Competition
+            </h3>
+            <form id="registration-form" class="space-y-6">
+              <div>
+                <label
+                  for="reg-name"
+                  class="block text-sm font-medium text-gray-700 mb-1"
+                  >Full Name</label
+                >
+                <input
+                  type="text"
+                  id="reg-name"
+                  name="name"
+                  required
+                  class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label
+                  for="reg-email"
+                  class="block text-sm font-medium text-gray-700 mb-1"
+                  >Email Address</label
+                >
+                <input
+                  type="email"
+                  id="reg-email"
+                  name="email"
+                  required
+                  class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label
+                  for="reg-phone"
+                  class="block text-sm font-medium text-gray-700 mb-1"
+                  >Phone Number</label
+                >
+                <input
+                  type="tel"
+                  id="reg-phone"
+                  name="phone"
+                  required
+                  class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label
+                  for="reg-age"
+                  class="block text-sm font-medium text-gray-700 mb-1"
+                  >Age</label
+                >
+                <input
+                  type="number"
+                  id="reg-age"
+                  name="age"
+                  min="16"
+                  max="99"
+                  required
+                  class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Experience Level</label
+                >
+                <div class="grid grid-cols-3 gap-4">
+                  <label
+                    class="flex items-center bg-gray-50 p-3 rounded cursor-pointer hover:bg-gray-100"
+                  >
+                    <input
+                      type="radio"
+                      name="experience"
+                      value="beginner"
+                      required
+                      class="mr-2"
+                    />
+                    <span>Beginner</span>
+                  </label>
+                  <label
+                    class="flex items-center bg-gray-50 p-3 rounded cursor-pointer hover:bg-gray-100"
+                  >
+                    <input
+                      type="radio"
+                      name="experience"
+                      value="intermediate"
+                      required
+                      class="mr-2"
+                    />
+                    <span>Intermediate</span>
+                  </label>
+                  <label
+                    class="flex items-center bg-gray-50 p-3 rounded cursor-pointer hover:bg-gray-100"
+                  >
+                    <input
+                      type="radio"
+                      name="experience"
+                      value="advanced"
+                      required
+                      class="mr-2"
+                    />
+                    <span>Advanced</span>
+                  </label>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <input
+                  type="checkbox"
+                  id="terms"
+                  name="terms"
+                  required
+                  class="mt-1 mr-2"
+                />
+                <label for="terms" class="text-sm text-gray-600"
+                  >I agree to the terms and conditions and confirm that all
+                  provided information is accurate.</label
+                >
+              </div>
+              <button
+                type="submit"
+                class="w-full bg-primary text-white py-3 px-6 rounded-button font-medium hover:bg-primary/90 transition-colors whitespace-nowrap"
+              >
+                Submit Registration
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="bg-gray-800 text-white py-12">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <h3 class="text-xl font-['Pacifico'] mb-4">logo</h3>
+            <p class="text-gray-400">
+              Join us in making a positive impact on our environment through
+              engaging competitions.
+            </p>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+            <ul class="space-y-2">
+              <li>
+                <a href="#home" class="text-gray-400 hover:text-white">Home</a>
+              </li>
+              <li>
+                <a href="#competitions" class="text-gray-400 hover:text-white"
+                  >Competitions</a
+                >
+              </li>
+              <li>
+                <a href="#winners" class="text-gray-400 hover:text-white"
+                  >Winners</a
+                >
+              </li>
+              <li>
+                <a href="#more-info" class="text-gray-400 hover:text-white"
+                  >Competition Details</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Connect</h4>
+            <div class="flex space-x-4">
+              <a href="#" class="text-gray-400 hover:text-white">
+                <i class="ri-facebook-fill"></i>
+              </a>
+              <a href="#" class="text-gray-400 hover:text-white">
+                <i class="ri-twitter-fill"></i>
+              </a>
+              <a href="#" class="text-gray-400 hover:text-white">
+                <i class="ri-instagram-fill"></i>
+              </a>
+              <a href="#" class="text-gray-400 hover:text-white">
+                <i class="ri-linkedin-fill"></i>
+              </a>
+            </div>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Newsletter</h4>
+            <form class="space-y-2">
+              <input
+                type="email"
+                placeholder="Your email address"
+                class="w-full px-4 py-2 rounded bg-gray-700 text-white border-none focus:outline-none focus:ring-2 focus:ring-primary"
+              />
+              <button
+                type="submit"
+                class="w-full bg-primary text-white py-2 px-4 rounded-button hover:bg-primary/90 transition-colors whitespace-nowrap"
+              >
+                Subscribe
+              </button>
+            </form>
+          </div>
+        </div>
+        <div
+          class="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400"
+        >
+          <p>&copy; 2025 Environmental Competitions. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    document.addEventListener('DOMContentLoaded', function() { const modal =
+    document.getElementById('competition-modal'); const closeBtn =
+    document.getElementsByClassName('close')[0]; const participateBtn =
+    document.getElementById('participate-btn'); const competitionBtns =
+    document.querySelectorAll('.competition-btn'); const registrationForm =
+    document.getElementById('registration-form'); function openModal() {
+    modal.style.display = 'block'; document.body.style.overflow = 'hidden'; }
+    function closeModal() { modal.style.display = 'none';
+    document.body.style.overflow = 'auto'; registrationForm.reset(); }
+    participateBtn.addEventListener('click', openModal);
+    competitionBtns.forEach(btn => { btn.addEventListener('click', openModal);
+    }); closeBtn.addEventListener('click', closeModal);
+    window.addEventListener('click', function(event) { if (event.target ==
+    modal) { closeModal(); } }); registrationForm.addEventListener('submit',
+    function(e) { e.preventDefault(); const formData = new
+    FormData(registrationForm); const data = Object.fromEntries(formData); const
+    successModal = document.createElement('div'); successModal.className =
+    'fixed inset-0 flex items-center justify-center z-50 bg-black
+    bg-opacity-50'; successModal.innerHTML = `
+    <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+      <div class="text-center">
+        <div
+          class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4"
+        >
+          <i class="ri-check-line text-green-500 ri-2x"></i>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-800 mb-2">
+          Registration Successful!
+        </h3>
+        <p class="text-gray-600 mb-6">
+          Thank you for registering for the Environmental Quiz Competition. We
+          will send you further details via email.
+        </p>
+        <button
+          class="bg-primary text-white px-6 py-2 rounded-button hover:bg-primary/90 transition-colors whitespace-nowrap"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+    `; document.body.appendChild(successModal); closeModal();
+    successModal.querySelector('button').addEventListener('click', function() {
+    successModal.remove(); }); console.log('Registration data:', data); }); });
+    const form = document.querySelector('form'); form.addEventListener('submit',
+    function(e) { e.preventDefault(); const formData = new FormData(form);
+    console.log('Form submitted:', Object.fromEntries(formData)); form.reset();
+    }); });
+  </body>
+</html>

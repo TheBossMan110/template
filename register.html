@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html class="wide wow-animation" lang="en">
+
+<head>
+    <title>Register - Environmental Protection Survey Portal</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7CLato:300,300italic,400,400italic,700,900%7CPlayfair+Display:700italic,900">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/fonts.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .register-container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .register-header {
+            background: linear-gradient(135deg, #43a047 0%, #2e7d32 100%);
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+        
+        .register-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .register-subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .register-form-container {
+            padding: 40px;
+        }
+        
+        .form-input {
+            border-radius: 5px;
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            border-color: #4caf50;
+            box-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
+        }
+        
+        .register-button {
+            background: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 15px 30px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .register-button:hover {
+            background: #388e3c;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-section {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-left: 4px solid #4caf50;
+        }
+        
+        .form-section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .form-section-title .icon {
+            margin-right: 10px;
+            color: #4caf50;
+        }
+        
+        .form-check-input {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+        }
+        
+        .form-check-label {
+            font-size: 14px;
+        }
+        
+        .user-type-selector {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .user-type-option {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .user-type-option:hover {
+            border-color: #4caf50;
+        }
+        
+        .user-type-option.active {
+            border-color: #4caf50;
+            background: rgba(76, 175, 80, 0.1);
+        }
+        
+        .user-type-option .icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #4caf50;
+        }
+        
+        .register-footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+        }
+        
+        .register-footer a {
+            color: #4caf50;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+        
+        .register-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .form-note {
+            background: rgba(76, 175, 80, 0.1);
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        
+        .form-note .icon {
+            color: #4caf50;
+            margin-right: 10px;
+        }
+        
+        .input-with-icon {
+            position: relative;
+        }
+        
+        .input-icon {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 15px;
+            color: #757575;
+        }
+        
+        .input-with-icon .form-input {
+            padding-left: 45px;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        
+        @media (max-width: 767px) {
+            .register-form-container {
+                padding: 30px 20px;
+            }
+            
+            .user-type-selector {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="preloader">
+        <div><a class="brand brand-md" href="index.html"><img src="images/logo-inverse-139x22.svg" alt="Environmental Protection Survey Portal" width="139" height="22"/></a>
+            <div class="page-loader-body">
+                <div id="spinningSquaresG">
+                    <div class="spinningSquaresG" id="spinningSquaresG_1"></div>
+                    <div class="spinningSquaresG" id="spinningSquaresG_2"></div>
+                    <div class="spinningSquaresG" id="spinningSquaresG_3"></div>
+                    <div class="spinningSquaresG" id="spinningSquaresG_4"></div>
+                    <div class="spinningSquaresG" id="spinningSquaresG_5"></div>
+                    <div class="spinningSquaresG" id="spinningSquaresG_6"></div>
+                    <div class="spinningSquaresG" id="spinningSquaresG_7"></div>
+                    <div class="spinningSquaresG" id="spinningSquaresG_8"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page">
+        <!-- Header Section -->
+        <header class="page-head">
+            <div class="rd-navbar-wrap">
+                <nav class="rd-navbar rd-navbar-default" data-layout="rd-navbar-fixed" data-sm-layout="rd-navbar-fixed" data-md-layout="rd-navbar-fixed" data-md-device-layout="rd-navbar-fixed" data-lg-layout="rd-navbar-static" data-lg-device-layout="rd-navbar-fixed"
+                    data-xl-layout="rd-navbar-static" data-xl-device-layout="rd-navbar-static" data-xxl-layout="rd-navbar-static" data-xxl-device-layout="rd-navbar-static" data-lg-stick-up="true" data-xl-stick-up="true" data-xxl-stick-up="true" data-lg-stick-up-offset="60px"
+                    data-xl-stick-up-offset="60px" data-xxl-stick-up-offset="60px">
+                    <div class="rd-navbar-inner">
+                        <div class="rd-navbar-panel">
+                            <button class="rd-navbar-toggle" data-custom-toggle=".rd-navbar-nav-wrap" data-custom-toggle-disable-on-blur="true"><span></span></button><a class="rd-navbar-brand brand" href="index.html"><img src="images/logo-default-139x22.svg" alt="Environmental Protection Survey Portal" width="139" height="22"/></a>
+                        </div>
+                        <div class="rd-navbar-group rd-navbar-search-wrap">
+                            <div class="rd-navbar-nav-wrap">
+                                <div class="rd-navbar-nav-inner">
+                                    <div class="rd-navbar-search">
+                                        <form class="rd-search" action="#" method="GET" data-search-live="rd-search-results-live">
+                                            <div class="form-wrap">
+                                                <label class="form-label" for="rd-search-form-input">Search...</label>
+                                                <input class="form-input" id="rd-search-form-input" type="text" name="s" autocomplete="off">
+                                                <div class="rd-search-results-live" id="rd-search-results-live"></div>
+                                            </div>
+                                            <button class="rd-search-submit" type="submit"></button>
+                                        </form>
+                                        <button class="rd-navbar-search-toggle" data-rd-navbar-toggle=".rd-navbar-search, .rd-navbar-search-wrap"></button>
+                                    </div>
+                                    <!-- Navigation Menu -->
+                                    <ul class="rd-navbar-nav">
+                                        <li class="rd-nav-item"><a class="rd-nav-link" href="index.html">Home</a>
+                                        </li>
+                                        <li class="rd-nav-item"><a class="rd-nav-link" href="login.html">Login</a>
+                                        </li>
+                                        <li class="rd-nav-item active"><a class="rd-nav-link" href="register.html">Register</a>
+                                        </li>
+                                        <li class="rd-nav-item"><a class="rd-nav-link" href="survey-board.html">Survey Board</a>
+                                        </li>
+                                        <li class="rd-nav-item"><a class="rd-nav-link" href="edit-profile.html">Edit Profile</a>
+                                        </li>
+                                        <li class="rd-nav-item"><a class="rd-nav-link" href="support.html">Support</a>
+                                        </li>
+                                        <li class="rd-nav-item"><a class="rd-nav-link" href="faqs.html">FAQs</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Registration Section with Enhanced Design -->
+        <section class="section section-50 section-md-90 section-xl-top-120 section-xl-bottom-145" style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-10 col-lg-9">
+                        <div class="register-container">
+                            <div class="register-header">
+                                <h2 class="register-title">Create Your Account</h2>
+                                <p class="register-subtitle">Join our environmental protection initiative and make a difference</p>
+                            </div>
+                            
+                            <div class="register-form-container">
+                                <form class="rd-mailform" data-form-output="form-output-global" data-form-type="contact" method="post">
+                                    <!-- User Type Selection -->
+                                    <div class="form-section">
+                                        <h4 class="form-section-title">
+                                            <span class="icon novi-icon material-icons-person"></span>
+                                            Select Your Role
+                                        </h4>
+                                        <div class="user-type-selector">
+                                            <div class="user-type-option active" onclick="selectUserType(this, 'student')">
+                                                <div class="icon novi-icon material-icons-school"></div>
+                                                <h5>Student</h5>
+                                                <input type="radio" name="userType" value="student" checked style="display: none;">
+                                            </div>
+                                            <div class="user-type-option" onclick="selectUserType(this, 'faculty')">
+                                                <div class="icon novi-icon material-icons-assignment_ind"></div>
+                                                <h5>Faculty</h5>
+                                                <input type="radio" name="userType" value="faculty" style="display: none;">
+                                            </div>
+                                            <div class="user-type-option" onclick="selectUserType(this, 'staff')">
+                                                <div class="icon novi-icon material-icons-business_center"></div>
+                                                <h5>Staff</h5>
+                                                <input type="radio" name="userType" value="staff" style="display: none;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Personal Information -->
+                                    <div class="form-section">
+                                        <h4 class="form-section-title">
+                                            <span class="icon novi-icon material-icons-assignment_ind"></span>
+                                            Personal Information
+                                        </h4>
+                                        <div class="row row-20">
+                                            <div class="col-sm-6">
+                                                <div class="form-wrap">
+                                                    <label class="form-label" for="register-name">Full Name</label>
+                                                    <div class="input-with-icon">
+                                                        <span class="input-icon novi-icon material-icons-person"></span>
+                                                        <input class="form-input" id="register-name" type="text" name="name" placeholder="Enter your full name" data-constraints="@Required">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-wrap">
+                                                    <label class="form-label" for="register-id">Roll No. / Employee Number</label>
+                                                    <div class="input-with-icon">
+                                                        <span class="input-icon novi-icon material-icons-credit_card"></span>
+                                                        <input class="form-input" id="register-id" type="text" name="id" placeholder="Enter your ID number" data-constraints="@Required">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Academic/Employment Information -->
+                                    <div class="form-section">
+                                        <h4 class="form-section-title">
+                                            <span class="icon novi-icon material-icons-business"></span>
+                                            Academic/Employment Details
+                                        </h4>
+                                        <div class="row row-20">
+                                            <div class="col-sm-4">
+                                                <div class="form-wrap">
+                                                    <label class="form-label" for="register-class">Class</label>
+                                                    <div class="input-with-icon">
+                                                        <span class="input-icon novi-icon material-icons-class"></span>
+                                                        <input class="form-input" id="register-class" type="text" name="class" placeholder="Enter your class" data-constraints="@Required">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-wrap">
+                                                    <label class="form-label" for="register-specification">Specification</label>
+                                                    <div class="input-with-icon">
+                                                        <span class="input-icon novi-icon material-icons-description"></span>
+                                                        <input class="form-input" id="register-specification" type="text" name="specification" placeholder="Enter specification" data-constraints="@Required">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-wrap">
+                                                    <label class="form-label" for="register-section">Section</label>
+                                                    <div class="input-with-icon">
+                                                        <span class="input-icon novi-icon material-icons-view_module"></span>
+                                                        <input class="form-input" id="register-section" type="text" name="section" placeholder="Enter section" data-constraints="@Required">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-wrap">
+                                                    <label class="form-label" for="register-date">Admission Date / Date of Joining</label>
+                                                    <div class="input-with-icon">
+                                                        <span class="input-icon novi-icon material-icons-event"></span>
+                                                        <input class="form-input" id="register-date" type="date" name="date" data-constraints="@Required">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Account Information -->
+                                    <div class="form-section">
+                                        <h4 class="form-section-title">
+                                            <span class="icon novi-icon material-icons-lock"></span>
+                                            Account Information
+                                        </h4>
+                                        <div class="row row-20">
+                                            <div class="col-sm-6">
+                                                <div class="form-wrap">
+                                                    <label class="form-label" for="register-email">Email</label>
+                                                    <div class="input-with-icon">
+                                                        <span class="input-icon novi-icon material-icons-email"></span>
+                                                        <input class="form-input" id="register-email" type="email" name="email" placeholder="Enter your email" data-constraints="@Required @Email">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-wrap">
+                                                    <label class="form-label" for="register-username">Username</label>
+                                                    <div class="input-with-icon">
+                                                        <span class="input-icon novi-icon material-icons-account_circle"></span>
+                                                        <input class="form-input" id="register-username" type="text" name="username" placeholder="Choose a username" data-constraints="@Required">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-wrap">
+                                                    <label class="form-label" for="register-password">Password</label>
+                                                    <div class="input-with-icon">
+                                                        <span class="input-icon novi-icon material-icons-lock"></span>
+                                                        <input class="form-input" id="register-password" type="password" name="password" placeholder="Create a password" data-constraints="@Required">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-wrap">
+                                                    <label class="form-label" for="register-confirm-password">Confirm Password</label>
+                                                    <div class="input-with-icon">
+                                                        <span class="input-icon novi-icon material-icons-lock_outline"></span>
+                                                        <input class="form-input" id="register-confirm-password" type="password" name="confirm-password" placeholder="Confirm your password" data-constraints="@Required">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Terms and Conditions -->
+                                    <div class="form-wrap">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="terms-conditions" required>
+                                            <label class="form-check-label" for="terms-conditions">I agree to the <a href="#">Terms and Conditions</a> and <a href="#">Privacy Policy</a></label>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Submit Button -->
+                                    <button class="register-button" type="submit">Create Account</button>
+                                    
+                                    <div class="form-note">
+                                        <span class="icon novi-icon material-icons-info"></span>
+                                        Your registration will be reviewed by an administrator before activation.
+                                    </div>
+                                    
+                                    <div class="register-footer">
+                                        <p>Already have an account? <a href="login.html">Login here</a></p>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Information Section -->
+        <section class="section section-60 section-md-100 bg-accent novi-background">
+            <div class="container text-center text-lg-start">
+                <div class="row row-30 align-items-md-center justify-content-lg-center">
+                    <div class="col-lg-8 col-xl-7">
+                        <h3>Already a member of our Environmental Protection Initiative?</h3>
+                    </div>
+                    <div class="col-lg-4 col-xl-3"><a class="button button-xl button-black-outline" href="login.html">Login Now</a></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer Section -->
+        <section class="section section-40 section-md-top-75 section-md-bottom-60 bg-cod-gray novi-background">
+            <div class="container text-center text-md-start">
+                <div class="row row-30 align-items-md-center justify-content-lg-center justify-content-xl-start">
+                    <div class="col-lg-11 col-xl-3"><a class="brand" href="index.html"><img src="images/logo-inverse-139x22.svg" alt="Environmental Protection Survey Portal" width="139" height="22"/></a></div>
+                    <div class="col-md-7 col-lg-6 col-xl-5">
+                        <div class="wrap-justify">
+                            <address class="contact-info text-start">
+                                <div class="unit unit-horizontal unit-spacing-xs align-items-center justify-content-center unit-sm-left">
+                                    <div class="unit-left"><span class="novi-icon icon icon-md-custom icon-gunsmoke material-icons-place"></span></div>
+                                    <div class="unit-body fw-light"><a class="link-light-03 d-inline" href="#">123 Environmental Way<br>Green Campus, EC 12345</a></div>
+                                </div>
+                            </address>
+                            <address class="contact-info text-start">
+                                <div class="unit unit-horizontal unit-spacing-xs align-items-center justify-content-center unit-sm-left">
+                                    <div class="unit-left"><span class="novi-icon icon icon-md-custom icon-gunsmoke material-icons-phone"></span></div>
+                                    <div class="unit-body fw-light">
+                                        <div class="link-wrap"><a class="link-light-03" href="tel:#">+1 800 123 45 67</a></div>
+                                        <div class="link-wrap"><a class="link-light-03" href="mailto:#">support@envsurvey.edu</a></div>
+                                    </div>
+                                </div>
+                            </address>
+                        </div>
+                    </div>
+                    <div class="col-md-5 col-xl-4 text-lg-center">
+                        <ul class="list-inline list-inline-xs">
+                            <li><a class="novi-icon icon icon-sm-custom link-tundora fa-facebook" href="#"></a></li>
+                            <li><a class="novi-icon icon icon-sm-custom link-tundora fa-twitter" href="#"></a></li>
+                            <li><a class="novi-icon icon icon-sm-custom link-tundora fa-google-plus" href="#"></a></li>
+                            <li><a class="novi-icon icon icon-sm-custom link-tundora fa-linkedin" href="#"></a></li>
+                            <li><a class="novi-icon icon icon-sm-custom link-tundora fa-instagram" href="#"></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <footer class="page-foot page-foot-default section-35 bg-black novi-background text-center">
+            <div class="container">
+                <p class="rights small"><span>Environmental Protection Survey Portal</span><span>&nbsp;&#169;&nbsp;</span><span class="copyright-year"></span><span>All Rights Reserved.</span><br class="d-md-none"><span>Designed for Educational Institute.</span></p>
+            </div>
+        </footer>
+    </div>
+    <div class="snackbars" id="form-output-global"></div>
+    <script src="js/core.min.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        function selectUserType(element, type) {
+            // Remove active class from all options
+            document.querySelectorAll('.user-type-option').forEach(function(el) {
+                el.classList.remove('active');
+            });
+            
+            // Add active class to selected option
+            element.classList.add('active');
+            
+            // Check the corresponding radio button
+            document.querySelector('input[name="userType"][value="' + type + '"]').checked = true;
+        }
+    </script>
+</body>
+
+</html>

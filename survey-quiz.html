@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Environmental Quiz</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#10b981", secondary: "#0ea5e9" },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+    />
+    <style>
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f9fafb;
+      }
+      .custom-radio input[type="radio"] {
+        display: none;
+      }
+      .custom-radio .radio-mark {
+        position: relative;
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-color: white;
+        border: 2px solid #d1d5db;
+        border-radius: 50%;
+        transition: all 0.2s ease;
+      }
+      .custom-radio input[type="radio"]:checked + .radio-mark {
+        border-color: #10b981;
+      }
+      .custom-radio input[type="radio"]:checked + .radio-mark:after {
+        content: "";
+        position: absolute;
+        left: 4px;
+        top: 4px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #10b981;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="w-full bg-white shadow-sm fixed top-0 left-0 z-50">
+      <div
+        class="container mx-auto px-4 py-3 flex items-center justify-between"
+      >
+        <a href="#" class="flex items-center">
+          <span class="text-2xl font-['Pacifico'] text-primary">logo</span>
+        </a>
+        <h1 class="text-xl font-semibold text-gray-800 hidden md:block">
+          Environmental Quiz
+        </h1>
+        <div class="flex items-center">
+          <div
+            class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 text-gray-600"
+          >
+            <i class="ri-user-line ri-lg"></i>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 mt-16 mb-16 min-h-screen">
+      <div class="max-w-3xl mx-auto bg-white rounded-lg shadow-sm p-6 md:p-8">
+        <div id="quiz-container">
+          <div class="mb-6">
+            <div class="text-2xl font-bold text-gray-800 mb-2">
+              Environmental Knowledge Quiz
+            </div>
+            <p class="text-gray-600">
+              Test your knowledge about environmental issues with this quiz.
+            </p>
+          </div>
+
+          <form id="quiz-form">
+            <div class="space-y-6">
+              <div class="question-container">
+                <p class="font-medium text-gray-800 mb-3">
+                  1. Which of the following is a greenhouse gas?
+                </p>
+                <div class="space-y-2">
+                  <label class="flex items-center custom-radio">
+                    <input type="radio" name="q1" value="a" />
+                    <span class="radio-mark mr-2"></span>
+                    <span>Carbon Dioxide</span>
+                  </label>
+                  <label class="flex items-center custom-radio">
+                    <input type="radio" name="q1" value="b" />
+                    <span class="radio-mark mr-2"></span>
+                    <span>Nitrogen</span>
+                  </label>
+                  <label class="flex items-center custom-radio">
+                    <input type="radio" name="q1" value="c" />
+                    <span class="radio-mark mr-2"></span>
+                    <span>Oxygen</span>
+                  </label>
+                  <label class="flex items-center custom-radio">
+                    <input type="radio" name="q1" value="d" />
+                    <span class="radio-mark mr-2"></span>
+                    <span>Hydrogen</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="question-container">
+                <p class="font-medium text-gray-800 mb-3">
+                  2. What is the main cause of ocean acidification?
+                </p>
+                <div class="space-y-2">
+                  <label class="flex items-center custom-radio">
+                    <input type="radio" name="q2" value="a" />
+                    <span class="radio-mark mr-2"></span>
+                    <span>Plastic pollution</span>
+                  </label>
+                  <label class="flex items-center custom-radio">
+                    <input type="radio" name="q2" value="b" />
+                    <span class="radio-mark mr-2"></span>
+                    <span>Carbon dioxide absorption</span>
+                  </label>
+                  <label class="flex items-center custom-radio">
+                    <input type="radio" name="q2" value="c" />
+                    <span class="radio-mark mr-2"></span>
+                    <span>Oil spills</span>
+                  </label>
+                  <label class="flex items-center custom-radio">
+                    <input type="radio" name="q2" value="d" />
+                    <span class="radio-mark mr-2"></span>
+                    <span>Overfishing</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="question-container">
+                <p class="font-medium text-gray-800 mb-3">
+                  3. Which renewable energy source currently provides the most
+                  electricity globally?
+                </p>
+                <div class="space-y-2">
+                  <label class="flex items-center custom-radio">
+                    <input type="radio" name="q3" value="a" />
+                    <span class="radio-mark mr-2"></span>
+                    <span>Solar power</span>
+                  </label>
+                  <label class="flex items-center custom-radio">
+                    <input type="radio" name="q3" value="b" />
+                    <span class="radio-mark mr-2"></span>
+                    <span>Wind power</span>
+                  </label>
+                  <label class="flex items-center custom-radio">
+                    <input type="radio" name="q3" value="c" />
+                    <span class="radio-mark mr-2"></span>
+                    <span>Hydropower</span>
+                  </label>
+                  <label class="flex items-center custom-radio">
+                    <input type="radio" name="q3" value="d" />
+                    <span class="radio-mark mr-2"></span>
+                    <span>Geothermal power</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="question-container">
+                <p class="font-medium text-gray-800 mb-3">
+                  4. What is the primary cause of deforestation in the Amazon
+                  rainforest?
+                </p>
+                <div class="space-y-2">
+                  <label class="flex items-center custom-radio">
+                    <input type="radio" name="q4" value="a" />
+                    <span class="radio-mark mr-2"></span>
+                    <span>Urban development</span>
+                  </label>
+                  <label class="flex items-center custom-radio">
+                    <input type="radio" name="q4" value="b" />
+                    <span class="radio-mark mr-2"></span>
+                    <span>Agriculture and cattle ranching</span>
+                  </label>
+                  <label class="flex items-center custom-radio">
+                    <input type="radio" name="q4" value="c" />
+                    <span class="radio-mark mr-2"></span>
+                    <span>Mining</span>
+                  </label>
+                  <label class="flex items-center custom-radio">
+                    <input type="radio" name="q4" value="d" />
+                    <span class="radio-mark mr-2"></span>
+                    <span>Tourism</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="question-container">
+                <p class="font-medium text-gray-800 mb-3">
+                  5. Which of these activities contributes most to water
+                  pollution?
+                </p>
+                <div class="space-y-2">
+                  <label class="flex items-center custom-radio">
+                    <input type="radio" name="q5" value="a" />
+                    <span class="radio-mark mr-2"></span>
+                    <span>Industrial waste discharge</span>
+                  </label>
+                  <label class="flex items-center custom-radio">
+                    <input type="radio" name="q5" value="b" />
+                    <span class="radio-mark mr-2"></span>
+                    <span>Household sewage</span>
+                  </label>
+                  <label class="flex items-center custom-radio">
+                    <input type="radio" name="q5" value="c" />
+                    <span class="radio-mark mr-2"></span>
+                    <span>Agricultural runoff</span>
+                  </label>
+                  <label class="flex items-center custom-radio">
+                    <input type="radio" name="q5" value="d" />
+                    <span class="radio-mark mr-2"></span>
+                    <span>Recreational activities</span>
+                  </label>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                class="w-full px-6 py-3 bg-primary text-white rounded-button hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+              >
+                Submit Quiz
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div id="results-container" class="hidden">
+          <div class="text-center">
+            <div
+              class="w-20 h-20 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center"
+            >
+              <i class="ri-award-line ri-2x text-primary"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Quiz Results</h2>
+            <div class="mb-6">
+              <div class="text-4xl font-bold text-primary mb-2">
+                <span id="score-percentage">0</span>%
+              </div>
+              <p class="text-gray-600">Correct Answers</p>
+            </div>
+            <div class="grid grid-cols-2 gap-4 mb-6">
+              <div class="bg-green-50 p-4 rounded-lg">
+                <div class="text-2xl font-bold text-green-600 mb-1">
+                  <span id="correct-answers">0</span>
+                </div>
+                <p class="text-green-600">Correct</p>
+              </div>
+              <div class="bg-red-50 p-4 rounded-lg">
+                <div class="text-2xl font-bold text-red-600 mb-1">
+                  <span id="wrong-answers">0</span>
+                </div>
+                <p class="text-red-600">Wrong</p>
+              </div>
+            </div>
+            <button
+              onclick="retakeQuiz()"
+              class="px-6 py-3 bg-primary text-white rounded-button hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+            >
+              Retake Quiz
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 py-8">
+      <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <div class="mb-4 md:mb-0">
+            <p class="text-sm text-gray-500">
+              © 2025 Environmental Quiz. All rights reserved.
+            </p>
+          </div>
+          <div class="flex space-x-6">
+            <a href="#" class="text-gray-500 hover:text-primary">
+              <i class="ri-facebook-fill ri-lg"></i>
+            </a>
+            <a href="#" class="text-gray-500 hover:text-primary">
+              <i class="ri-twitter-fill ri-lg"></i>
+            </a>
+            <a href="#" class="text-gray-500 hover:text-primary">
+              <i class="ri-instagram-fill ri-lg"></i>
+            </a>
+            <a href="#" class="text-gray-500 hover:text-primary">
+              <i class="ri-linkedin-fill ri-lg"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const quizForm = document.getElementById("quiz-form");
+        const quizContainer = document.getElementById("quiz-container");
+        const resultsContainer = document.getElementById("results-container");
+
+        const correctAnswers = {
+          q1: "a",
+          q2: "b",
+          q3: "c",
+          q4: "b",
+          q5: "a",
+        };
+
+        quizForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          let score = 0;
+          const formData = new FormData(quizForm);
+
+          for (let [question, answer] of formData.entries()) {
+            if (correctAnswers[question] === answer) {
+              score++;
+            }
+          }
+
+          const percentage = (score / Object.keys(correctAnswers).length) * 100;
+          const wrongAnswers = Object.keys(correctAnswers).length - score;
+
+          document.getElementById("score-percentage").textContent =
+            Math.round(percentage);
+          document.getElementById("correct-answers").textContent = score;
+          document.getElementById("wrong-answers").textContent = wrongAnswers;
+
+          quizContainer.classList.add("hidden");
+          resultsContainer.classList.remove("hidden");
+        });
+      });
+
+      function retakeQuiz() {
+        document.getElementById("quiz-form").reset();
+        document.getElementById("quiz-container").classList.remove("hidden");
+        document.getElementById("results-container").classList.add("hidden");
+      }
+    </script>
+  </body>
+</html>

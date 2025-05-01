@@ -1,0 +1,2273 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create New Survey - Environmental Awareness Survey Portal</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#4CAF50",
+              secondary: "#8BC34A",
+            },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+    />
+    <style>
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+      body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f9fafb;
+      }
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+      }
+      .custom-checkbox {
+      position: relative;
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      margin-right: 8px;
+      }
+      .custom-checkbox input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      }
+      .checkmark {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 20px;
+      width: 20px;
+      background-color: #fff;
+      border: 2px solid #d1d5db;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+      }
+      .custom-checkbox input:checked ~ .checkmark {
+      background-color: #4CAF50;
+      border-color: #4CAF50;
+      }
+      .checkmark:after {
+      content: "";
+      position: absolute;
+      display: none;
+      }
+      .custom-checkbox input:checked ~ .checkmark:after {
+      display: block;
+      }
+      .custom-checkbox .checkmark:after {
+      left: 6px;
+      top: 2px;
+      width: 6px;
+      height: 12px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+      }
+      .custom-radio {
+      position: relative;
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      margin-right: 8px;
+      }
+      .custom-radio input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      }
+      .radio-mark {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 20px;
+      width: 20px;
+      background-color: #fff;
+      border: 2px solid #d1d5db;
+      border-radius: 50%;
+      }
+      .custom-radio input:checked ~ .radio-mark {
+      border-color: #4CAF50;
+      }
+      .radio-mark:after {
+      content: "";
+      position: absolute;
+      display: none;
+      top: 4px;
+      left: 4px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #4CAF50;
+      }
+      .custom-radio input:checked ~ .radio-mark:after {
+      display: block;
+      }
+      .custom-switch {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 24px;
+      }
+      .custom-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      }
+      .switch-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #e5e7eb;
+      transition: .4s;
+      border-radius: 24px;
+      }
+      .switch-slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+      }
+      .custom-switch input:checked + .switch-slider {
+      background-color: #4CAF50;
+      }
+      .custom-switch input:checked + .switch-slider:before {
+      transform: translateX(24px);
+      }
+      .custom-range {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 6px;
+      border-radius: 5px;
+      background: #e5e7eb;
+      outline: none;
+      }
+      .custom-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #4CAF50;
+      cursor: pointer;
+      }
+      .custom-range::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #4CAF50;
+      cursor: pointer;
+      border: none;
+      }
+      .progress-step {
+      position: relative;
+      }
+      .progress-step:not(:last-child):after {
+      content: '';
+      position: absolute;
+      top: 14px;
+      left: calc(50% + 20px);
+      width: calc(100% - 40px);
+      height: 2px;
+      background-color: #e5e7eb;
+      z-index: 0;
+      }
+      .progress-step.active:not(:last-child):after {
+      background-color: #4CAF50;
+      }
+      .progress-step-number {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: #e5e7eb;
+      color: #6b7280;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      position: relative;
+      z-index: 1;
+      transition: all 0.3s ease;
+      }
+      .progress-step.active .progress-step-number {
+      background-color: #4CAF50;
+      color: white;
+      }
+      .progress-step.completed .progress-step-number {
+      background-color: #4CAF50;
+      color: white;
+      }
+      .question-card {
+      border-left: 3px solid transparent;
+      transition: all 0.2s ease;
+      }
+      .question-card.active {
+      border-left-color: #4CAF50;
+      }
+      .sortable-ghost {
+      opacity: 0.5;
+      background-color: #f3f4f6;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="min-h-screen flex flex-col">
+      <!-- Header -->
+      <header class="bg-white shadow-sm">
+        <div class="flex items-center justify-between px-6 py-4">
+          <div class="flex items-center space-x-4">
+            <div class="text-2xl font-['Pacifico'] text-primary">EcoSurvey</div>
+            <nav class="hidden md:flex items-center space-x-6 ml-10">
+              <a href="index.html" class="text-gray-600 hover:text-primary transition-colors">Dashboard</a>
+              <a
+                href="survey.html"
+                data-readdy="true"
+                class="text-primary font-medium"
+                >Surveys</a
+              >
+              <a
+                href="leaderboard.html"
+                class="text-gray-600 hover:text-primary transition-colors"
+                >Leaderboard</a
+              >
+              <a
+                href="analytics.html"
+                class="text-gray-600 hover:text-primary transition-colors"
+                >Analytics</a
+              >
+              <a
+                href="resource.html"
+                class="text-gray-600 hover:text-primary transition-colors"
+                >Resources</a
+              >
+            </nav>
+          </div>
+          <div class="flex items-center space-x-4">
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                  <button
+                    id="notificationBtn"
+                    class="text-gray-600 hover:text-gray-800 relative w-10 h-10 flex items-center justify-center"
+                  >
+                    <i class="ri-notification-3-line ri-lg"></i>
+                    <span
+                      id="notificationBadge"
+                      class="absolute top-1 right-1 w-4 h-4 bg-red-500 rounded-full text-white text-xs flex items-center justify-center"
+                      >3</span
+                    >
+                  </button>
+                  <div
+                    id="notificationPanel"
+                    class="hidden absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-100 z-50"
+                  >
+                    <div class="p-4 border-b border-gray-100">
+                      <h3 class="text-lg font-medium text-gray-800">Notifications</h3>
+                    </div>
+                    <div class="max-h-96 overflow-y-auto">
+                      <div
+                        class="notification-item p-4 hover:bg-gray-50 border-b border-gray-100"
+                      >
+                        <div class="flex items-start">
+                          <div
+                            class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0"
+                          >
+                            <i class="ri-file-list-line text-blue-500"></i>
+                          </div>
+                          <div class="ml-3 flex-grow">
+                            <p class="text-sm text-gray-800">
+                              New survey response received for "Environmental
+                              Awareness 2025"
+                            </p>
+                            <span class="text-xs text-gray-500 block mt-1"
+                              >10 minutes ago</span
+                            >
+                            <button
+                              class="text-primary text-xs mt-2 hover:text-primary/80"
+                            >
+                              Mark as read
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="notification-item p-4 hover:bg-gray-50 border-b border-gray-100"
+                      >
+                        <div class="flex items-start">
+                          <div
+                            class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0"
+                          >
+                            <i class="ri-download-line text-green-500"></i>
+                          </div>
+                          <div class="ml-3 flex-grow">
+                            <p class="text-sm text-gray-800">
+                              Your report "Q1 Analytics Summary" is ready to download
+                            </p>
+                            <span class="text-xs text-gray-500 block mt-1"
+                              >2 hours ago</span
+                            >
+                            <button
+                              class="text-primary text-xs mt-2 hover:text-primary/80"
+                            >
+                              Mark as read
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="notification-item p-4 hover:bg-gray-50 border-b border-gray-100"
+                      >
+                        <div class="flex items-start">
+                          <div
+                            class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0"
+                          >
+                            <i class="ri-user-follow-line text-purple-500"></i>
+                          </div>
+                          <div class="ml-3 flex-grow">
+                            <p class="text-sm text-gray-800">
+                              New team member Sarah Chen joined the project
+                            </p>
+                            <span class="text-xs text-gray-500 block mt-1"
+                              >5 hours ago</span
+                            >
+                            <button
+                              class="text-primary text-xs mt-2 hover:text-primary/80"
+                            >
+                              Mark as read
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="p-4 bg-gray-50 rounded-b-lg">
+                      <button
+                        id="markAllRead"
+                        class="w-full bg-white border border-gray-200 text-gray-700 px-4 py-2 rounded hover:border-gray-300 mb-2 !rounded-button"
+                      >
+                        Mark all as read
+                      </button>
+                      <a
+                        href="#"
+                        class="block text-center text-primary text-sm hover:text-primary/80"
+                        >See all notifications</a
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="relative w-10 h-10 flex items-center justify-center">
+                  <button id="settingsBtn" class="text-gray-600 hover:text-gray-800">
+                    <i class="ri-settings-3-line ri-lg"></i>
+                  </button>
+                  <div
+                    id="settingsPanel"
+                    class="hidden absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-100 z-50"
+                  >
+                    <div class="py-2">
+                      <a
+                        href="#"
+                        class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors"
+                      >
+                        <i class="ri-user-settings-line mr-3"></i>
+                        <span>Account Settings</span>
+                      </a>
+                      <a
+                        href="#"
+                        class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors"
+                      >
+                        <i class="ri-notification-4-line mr-3"></i>
+                        <span>Notification Preferences</span>
+                      </a>
+                      <a
+                        href="#"
+                        class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors"
+                      >
+                        <i class="ri-shield-keyhole-line mr-3"></i>
+                        <span>Privacy Settings</span>
+                      </a>
+                      <a
+                        href="#"
+                        class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors"
+                      >
+                        <i class="ri-palette-line mr-3"></i>
+                        <span>Display Options</span>
+                      </a>
+                      <div class="border-t border-gray-100"></div>
+                      <a
+                        href="#"
+                        class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 transition-colors"
+                      >
+                        <i class="ri-question-line mr-3"></i>
+                        <span>Help & Support</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center space-x-2">
+                <div
+                  class="bg-green-100 text-primary px-3 py-1 rounded-full text-xs font-medium"
+                >
+                  Admin
+                </div>
+                <div
+                  class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden"
+                >
+                  <img
+                    src="https://readdy.ai/api/search-image?query=professional%2520headshot%2520of%2520a%2520university%2520administrator%252C%2520neutral%2520expression%252C%2520business%2520casual%2520attire%252C%2520indoor%2520office%2520setting%252C%2520soft%2520lighting%252C%2520high%2520quality%2520portrait&width=100&height=100&seq=1&orientation=squarish"
+                    alt="Profile"
+                    class="w-full h-full object-cover object-top"
+                  />
+                </div>
+                <div class="hidden md:block">
+                  <div class="text-sm font-medium">Dr. Emily Richardson</div>
+                  <div class="text-xs text-gray-500">
+                    emily.richardson@eco.edu
+                  </div>
+                </div>
+                <button
+                  id="profileDropdownBtn"
+                  class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-primary transition-colors relative"
+                >
+                  <i class="ri-arrow-down-s-line ri-lg"></i>
+                </button>
+                <div
+                  id="profileDropdown"
+                  class="hidden absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-100 py-2 z-50 transform opacity-0 transition-all duration-300"
+                  style="top: 60px;"
+                >
+                  <a
+                    href="#"
+                    class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    <div
+                      class="w-8 h-8 flex items-center justify-center text-gray-500"
+                    >
+                      <i class="ri-user-line"></i>
+                    </div>
+                    <span>My Profile</span>
+                  </a>
+                  <a
+                    href="#"
+                    class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    <div
+                      class="w-8 h-8 flex items-center justify-center text-gray-500"
+                    >
+                      <i class="ri-settings-3-line"></i>
+                    </div>
+                    <span>Account Settings</span>
+                  </a>
+                  <a
+                    href="#"
+                    class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    <div
+                      class="w-8 h-8 flex items-center justify-center text-gray-500"
+                    >
+                      <i class="ri-notification-4-line"></i>
+                    </div>
+                    <span>Notification Preferences</span>
+                  </a>
+                  <a
+                    href="#"
+                    class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    <div
+                      class="w-8 h-8 flex items-center justify-center text-gray-500"
+                    >
+                      <i class="ri-question-line"></i>
+                    </div>
+                    <span>Help & Support</span>
+                  </a>
+                  <div class="h-px bg-gray-200 my-2"></div>
+                  <a
+                    href="#"
+                    class="flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                  >
+                    <div
+                      class="w-8 h-8 flex items-center justify-center text-red-600"
+                    >
+                      <i class="ri-logout-box-line"></i>
+                    </div>
+                    <span>Logout</span>
+                  </a>
+                </div>
+              </div>
+          </div>
+        </div>
+      </header>
+      <!-- Main Content -->
+      <main class="flex-grow">
+        <!-- Page Header -->
+        <div class="bg-white border-b">
+          <div class="max-w-7xl mx-auto px-6 py-6">
+            <div
+              class="flex flex-col md:flex-row justify-between items-start md:items-center"
+            >
+              <div class="flex items-center">
+                <a
+                  href="https://readdy.ai/home/a2074830-fcea-4271-8058-9ceb88ca2dda/95647131-7062-45bd-8ef1-ce024daea38a"
+                  data-readdy="true"
+                  class="mr-4 text-gray-500 hover:text-primary transition-colors"
+                >
+                  <i class="ri-arrow-left-line text-xl"></i>
+                </a>
+                <div>
+                  <h1 class="text-2xl font-semibold text-gray-800">
+                    Create New Survey
+                  </h1>
+                  <p class="text-gray-600 mt-1">
+                    Design your environmental awareness survey
+                  </p>
+                </div>
+              </div>
+              <div class="mt-4 md:mt-0 flex space-x-3">
+                <button
+                  id="saveDraftBtn"
+                  class="border border-gray-300 text-gray-700 px-4 py-2 rounded-button flex items-center space-x-2 hover:bg-gray-50 transition-colors whitespace-nowrap"
+                >
+                  <i class="ri-save-line"></i>
+                  <span>Save Draft</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Progress Steps -->
+        <div class="max-w-5xl mx-auto px-6 py-8">
+          <div class="grid grid-cols-4 gap-4 mb-8">
+            <div class="progress-step active">
+              <div class="flex flex-col items-center">
+                <div class="progress-step-number">1</div>
+                <div class="text-sm font-medium mt-2 text-primary">
+                  Basic Info
+                </div>
+              </div>
+            </div>
+            <div class="progress-step">
+              <div class="flex flex-col items-center">
+                <div class="progress-step-number">2</div>
+                <div class="text-sm font-medium mt-2 text-gray-500">
+                  Questions
+                </div>
+              </div>
+            </div>
+            <div class="progress-step">
+              <div class="flex flex-col items-center">
+                <div class="progress-step-number">3</div>
+                <div class="text-sm font-medium mt-2 text-gray-500">
+                  Distribution
+                </div>
+              </div>
+            </div>
+            <div class="progress-step">
+              <div class="flex flex-col items-center">
+                <div class="progress-step-number">4</div>
+                <div class="text-sm font-medium mt-2 text-gray-500">
+                  Preview
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Form Content -->
+          <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+            <!-- Step 1: Basic Information (Visible by default) -->
+            <div id="step1" class="step-content">
+              <h2 class="text-xl font-semibold text-gray-800 mb-6">
+                Basic Survey Information
+              </h2>
+              <div class="space-y-6">
+                <div>
+                  <label
+                    for="surveyTitle"
+                    class="block text-sm font-medium text-gray-700 mb-1"
+                    >Survey Title <span class="text-red-500">*</span></label
+                  >
+                  <input
+                    type="text"
+                    id="surveyTitle"
+                    class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 text-sm"
+                    placeholder="Enter a descriptive title for your survey"
+                  />
+                </div>
+                <div>
+                  <label
+                    for="surveyDescription"
+                    class="block text-sm font-medium text-gray-700 mb-1"
+                    >Description <span class="text-red-500">*</span></label
+                  >
+                  <textarea
+                    id="surveyDescription"
+                    rows="4"
+                    class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 text-sm"
+                    placeholder="Provide a brief description of the survey's purpose and goals"
+                  ></textarea>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label
+                      for="surveyCategory"
+                      class="block text-sm font-medium text-gray-700 mb-1"
+                      >Category <span class="text-red-500">*</span></label
+                    >
+                    <div class="relative">
+                      <select
+                        id="surveyCategory"
+                        class="w-full appearance-none px-4 py-2 pr-8 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 text-sm bg-white"
+                      >
+                        <option value="" disabled selected>
+                          Select a category
+                        </option>
+                        <option value="recycling">Recycling</option>
+                        <option value="water">Water Conservation</option>
+                        <option value="energy">Energy Efficiency</option>
+                        <option value="transport">Sustainable Transport</option>
+                        <option value="waste">Waste Management</option>
+                        <option value="climate">Climate Change</option>
+                        <option value="biodiversity">Biodiversity</option>
+                        <option value="other">Other</option>
+                      </select>
+                      <div
+                        class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none"
+                      >
+                        <i class="ri-arrow-down-s-line text-gray-400"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <label
+                      for="surveyDeadline"
+                      class="block text-sm font-medium text-gray-700 mb-1"
+                      >Deadline <span class="text-red-500">*</span></label
+                    >
+                    <input
+                      type="date"
+                      id="surveyDeadline"
+                      class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 text-sm"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label
+                    for="surveyTags"
+                    class="block text-sm font-medium text-gray-700 mb-1"
+                    >Tags (Optional)</label
+                  >
+                  <input
+                    type="text"
+                    id="surveyTags"
+                    class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 text-sm"
+                    placeholder="Add tags separated by commas (e.g., campus, students, faculty)"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2"
+                    >Survey Settings</label
+                  >
+                  <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                      <div class="flex items-center">
+                        <label class="custom-switch">
+                          <input type="checkbox" checked />
+                          <span class="switch-slider"></span>
+                        </label>
+                        <span class="ml-2 text-sm text-gray-700"
+                          >Allow anonymous responses</span
+                        >
+                      </div>
+                      <div
+                        class="w-6 h-6 flex items-center justify-center text-gray-400 cursor-pointer hover:text-gray-600"
+                        title="Anonymous responses won't collect participant information"
+                      >
+                        <i class="ri-information-line"></i>
+                      </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <div class="flex items-center">
+                        <label class="custom-switch">
+                          <input type="checkbox" checked />
+                          <span class="switch-slider"></span>
+                        </label>
+                        <span class="ml-2 text-sm text-gray-700"
+                          >Show progress bar to participants</span
+                        >
+                      </div>
+                      <div
+                        class="w-6 h-6 flex items-center justify-center text-gray-400 cursor-pointer hover:text-gray-600"
+                        title="Displays survey completion progress to participants"
+                      >
+                        <i class="ri-information-line"></i>
+                      </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <div class="flex items-center">
+                        <label class="custom-switch">
+                          <input type="checkbox" />
+                          <span class="switch-slider"></span>
+                        </label>
+                        <span class="ml-2 text-sm text-gray-700"
+                          >Require login to participate</span
+                        >
+                      </div>
+                      <div
+                        class="w-6 h-6 flex items-center justify-center text-gray-400 cursor-pointer hover:text-gray-600"
+                        title="Participants must sign in to complete the survey"
+                      >
+                        <i class="ri-information-line"></i>
+                      </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <div class="flex items-center">
+                        <label class="custom-switch">
+                          <input type="checkbox" checked />
+                          <span class="switch-slider"></span>
+                        </label>
+                        <span class="ml-2 text-sm text-gray-700"
+                          >One response per participant</span
+                        >
+                      </div>
+                      <div
+                        class="w-6 h-6 flex items-center justify-center text-gray-400 cursor-pointer hover:text-gray-600"
+                        title="Limits participants to a single submission"
+                      >
+                        <i class="ri-information-line"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Step 2: Question Builder (Hidden initially) -->
+            <div id="step2" class="step-content hidden">
+              <h2 class="text-xl font-semibold text-gray-800 mb-6">
+                Question Builder
+              </h2>
+              <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Left Panel: Question List -->
+                <div class="lg:col-span-1 space-y-4">
+                  <div class="flex justify-between items-center">
+                    <h3 class="text-md font-medium text-gray-700">Questions</h3>
+                    <button
+                      id="addQuestionBtn"
+                      class="bg-primary text-white p-1 rounded-full w-7 h-7 flex items-center justify-center hover:bg-opacity-90 transition-colors whitespace-nowrap"
+                    >
+                      <i class="ri-add-line"></i>
+                    </button>
+                  </div>
+                  <div
+                    id="questionsList"
+                    class="space-y-2 max-h-[500px] overflow-y-auto pr-2"
+                  >
+                    <div
+                      class="question-card active bg-white border border-gray-200 rounded p-3 cursor-pointer hover:border-primary transition-colors"
+                    >
+                      <div class="flex justify-between items-start">
+                        <div>
+                          <div class="font-medium text-sm">
+                            Q1: Recycling Habits
+                          </div>
+                          <div class="text-xs text-gray-500">
+                            Multiple Choice
+                          </div>
+                        </div>
+                        <div class="flex space-x-1">
+                          <button
+                            class="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600"
+                          >
+                            <i class="ri-delete-bin-line"></i>
+                          </button>
+                          <button
+                            class="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600"
+                          >
+                            <i class="ri-drag-move-line"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="question-card bg-white border border-gray-200 rounded p-3 cursor-pointer hover:border-primary transition-colors"
+                    >
+                      <div class="flex justify-between items-start">
+                        <div>
+                          <div class="font-medium text-sm">
+                            Q2: Satisfaction Level
+                          </div>
+                          <div class="text-xs text-gray-500">Rating Scale</div>
+                        </div>
+                        <div class="flex space-x-1">
+                          <button
+                            class="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600"
+                          >
+                            <i class="ri-delete-bin-line"></i>
+                          </button>
+                          <button
+                            class="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600"
+                          >
+                            <i class="ri-drag-move-line"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="question-card bg-white border border-gray-200 rounded p-3 cursor-pointer hover:border-primary transition-colors"
+                    >
+                      <div class="flex justify-between items-start">
+                        <div>
+                          <div class="font-medium text-sm">
+                            Q3: Improvement Suggestions
+                          </div>
+                          <div class="text-xs text-gray-500">Open-Ended</div>
+                        </div>
+                        <div class="flex space-x-1">
+                          <button
+                            class="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600"
+                          >
+                            <i class="ri-delete-bin-line"></i>
+                          </button>
+                          <button
+                            class="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600"
+                          >
+                            <i class="ri-drag-move-line"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Right Panel: Question Editor -->
+                <div class="lg:col-span-2 bg-gray-50 rounded-lg p-4">
+                  <div class="mb-4">
+                    <div class="flex justify-between items-center mb-3">
+                      <h3 class="text-md font-medium text-gray-700">
+                        Edit Question
+                      </h3>
+                      <div class="flex items-center space-x-2">
+                        <div class="text-sm text-gray-500">Question Type:</div>
+                        <div class="relative">
+                          <select
+                            id="questionType"
+                            class="appearance-none px-3 py-1 pr-8 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 text-sm bg-white"
+                          >
+                            <option value="multiple-choice">
+                              Multiple Choice
+                            </option>
+                            <option value="rating">Rating Scale</option>
+                            <option value="open-ended">Open-Ended</option>
+                            <option value="checkbox">Checkbox</option>
+                            <option value="dropdown">Dropdown</option>
+                            <option value="likert">Likert Scale</option>
+                          </select>
+                          <div
+                            class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none"
+                          >
+                            <i class="ri-arrow-down-s-line text-gray-400"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <input
+                        type="text"
+                        class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 text-sm"
+                        placeholder="Enter your question"
+                        value="How often do you recycle the following items?"
+                      />
+                    </div>
+                    <div class="mt-2">
+                      <textarea
+                        rows="2"
+                        class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 text-sm"
+                        placeholder="Add a description (optional)"
+                      >
+Please select the most appropriate option for each item.</textarea
+                      >
+                    </div>
+                  </div>
+                  <!-- Multiple Choice Options -->
+                  <div
+                    class="bg-white rounded-lg border border-gray-200 p-4 mb-4"
+                  >
+                    <div class="mb-3 flex justify-between items-center">
+                      <h4 class="text-sm font-medium text-gray-700">
+                        Answer Options
+                      </h4>
+                      <button class="text-primary text-sm hover:underline">
+                        + Add Option
+                      </button>
+                    </div>
+                    <div class="space-y-3">
+                      <div class="flex items-center">
+                        <div
+                          class="w-8 h-8 flex items-center justify-center text-gray-400"
+                        >
+                          <i class="ri-drag-move-line"></i>
+                        </div>
+                        <input
+                          type="text"
+                          class="flex-grow px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 text-sm"
+                          value="Paper and Cardboard"
+                        />
+                        <button
+                          class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 ml-2"
+                        >
+                          <i class="ri-delete-bin-line"></i>
+                        </button>
+                      </div>
+                      <div class="flex items-center">
+                        <div
+                          class="w-8 h-8 flex items-center justify-center text-gray-400"
+                        >
+                          <i class="ri-drag-move-line"></i>
+                        </div>
+                        <input
+                          type="text"
+                          class="flex-grow px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 text-sm"
+                          value="Plastic Bottles"
+                        />
+                        <button
+                          class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 ml-2"
+                        >
+                          <i class="ri-delete-bin-line"></i>
+                        </button>
+                      </div>
+                      <div class="flex items-center">
+                        <div
+                          class="w-8 h-8 flex items-center justify-center text-gray-400"
+                        >
+                          <i class="ri-drag-move-line"></i>
+                        </div>
+                        <input
+                          type="text"
+                          class="flex-grow px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 text-sm"
+                          value="Glass Containers"
+                        />
+                        <button
+                          class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 ml-2"
+                        >
+                          <i class="ri-delete-bin-line"></i>
+                        </button>
+                      </div>
+                      <div class="flex items-center">
+                        <div
+                          class="w-8 h-8 flex items-center justify-center text-gray-400"
+                        >
+                          <i class="ri-drag-move-line"></i>
+                        </div>
+                        <input
+                          type="text"
+                          class="flex-grow px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 text-sm"
+                          value="Electronic Waste"
+                        />
+                        <button
+                          class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 ml-2"
+                        >
+                          <i class="ri-delete-bin-line"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Question Settings -->
+                  <div class="bg-white rounded-lg border border-gray-200 p-4">
+                    <h4 class="text-sm font-medium text-gray-700 mb-3">
+                      Question Settings
+                    </h4>
+                    <div class="space-y-3">
+                      <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                          <label class="custom-switch">
+                            <input type="checkbox" checked />
+                            <span class="switch-slider"></span>
+                          </label>
+                          <span class="ml-2 text-sm text-gray-700"
+                            >Required question</span
+                          >
+                        </div>
+                      </div>
+                      <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                          <label class="custom-switch">
+                            <input type="checkbox" />
+                            <span class="switch-slider"></span>
+                          </label>
+                          <span class="ml-2 text-sm text-gray-700"
+                            >Randomize options</span
+                          >
+                        </div>
+                      </div>
+                      <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                          <label class="custom-switch">
+                            <input type="checkbox" />
+                            <span class="switch-slider"></span>
+                          </label>
+                          <span class="ml-2 text-sm text-gray-700"
+                            >Include "Other" option</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Question Preview -->
+                  <div class="mt-4">
+                    <div class="flex justify-between items-center mb-2">
+                      <h4 class="text-sm font-medium text-gray-700">Preview</h4>
+                      <button
+                        class="text-primary text-sm hover:underline flex items-center"
+                      >
+                        <i class="ri-eye-line mr-1"></i> Full Preview
+                      </button>
+                    </div>
+                    <div class="bg-white rounded-lg border border-gray-200 p-4">
+                      <div class="mb-3">
+                        <div class="font-medium">
+                          How often do you recycle the following items?
+                        </div>
+                        <div class="text-sm text-gray-500 mt-1">
+                          Please select the most appropriate option for each
+                          item.
+                        </div>
+                      </div>
+                      <table class="w-full text-sm">
+                        <thead>
+                          <tr>
+                            <th class="text-left font-medium py-2"></th>
+                            <th class="text-center font-medium py-2">Always</th>
+                            <th class="text-center font-medium py-2">Often</th>
+                            <th class="text-center font-medium py-2">
+                              Sometimes
+                            </th>
+                            <th class="text-center font-medium py-2">Never</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr class="border-t border-gray-100">
+                            <td class="py-3">Paper and Cardboard</td>
+                            <td class="text-center py-3">
+                              <label class="custom-radio inline-block">
+                                <input type="radio" name="paper" />
+                                <span class="radio-mark"></span>
+                              </label>
+                            </td>
+                            <td class="text-center py-3">
+                              <label class="custom-radio inline-block">
+                                <input type="radio" name="paper" />
+                                <span class="radio-mark"></span>
+                              </label>
+                            </td>
+                            <td class="text-center py-3">
+                              <label class="custom-radio inline-block">
+                                <input type="radio" name="paper" />
+                                <span class="radio-mark"></span>
+                              </label>
+                            </td>
+                            <td class="text-center py-3">
+                              <label class="custom-radio inline-block">
+                                <input type="radio" name="paper" />
+                                <span class="radio-mark"></span>
+                              </label>
+                            </td>
+                          </tr>
+                          <tr class="border-t border-gray-100">
+                            <td class="py-3">Plastic Bottles</td>
+                            <td class="text-center py-3">
+                              <label class="custom-radio inline-block">
+                                <input type="radio" name="plastic" />
+                                <span class="radio-mark"></span>
+                              </label>
+                            </td>
+                            <td class="text-center py-3">
+                              <label class="custom-radio inline-block">
+                                <input type="radio" name="plastic" />
+                                <span class="radio-mark"></span>
+                              </label>
+                            </td>
+                            <td class="text-center py-3">
+                              <label class="custom-radio inline-block">
+                                <input type="radio" name="plastic" />
+                                <span class="radio-mark"></span>
+                              </label>
+                            </td>
+                            <td class="text-center py-3">
+                              <label class="custom-radio inline-block">
+                                <input type="radio" name="plastic" />
+                                <span class="radio-mark"></span>
+                              </label>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Step 3: Distribution Settings (Hidden initially) -->
+            <div id="step3" class="step-content hidden">
+              <h2 class="text-xl font-semibold text-gray-800 mb-6">
+                Distribution Settings
+              </h2>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Left Column -->
+                <div>
+                  <div class="mb-6">
+                    <h3 class="text-md font-medium text-gray-700 mb-3">
+                      Participant Groups
+                    </h3>
+                    <div class="bg-white rounded-lg border border-gray-200 p-4">
+                      <div class="space-y-3">
+                        <div class="flex items-center">
+                          <label class="custom-checkbox">
+                            <input type="checkbox" checked />
+                            <span class="checkmark"></span>
+                          </label>
+                          <span class="text-sm text-gray-700"
+                            >All Students</span
+                          >
+                        </div>
+                        <div class="flex items-center">
+                          <label class="custom-checkbox">
+                            <input type="checkbox" checked />
+                            <span class="checkmark"></span>
+                          </label>
+                          <span class="text-sm text-gray-700"
+                            >Faculty Members</span
+                          >
+                        </div>
+                        <div class="flex items-center">
+                          <label class="custom-checkbox">
+                            <input type="checkbox" />
+                            <span class="checkmark"></span>
+                          </label>
+                          <span class="text-sm text-gray-700"
+                            >Administrative Staff</span
+                          >
+                        </div>
+                        <div class="flex items-center">
+                          <label class="custom-checkbox">
+                            <input type="checkbox" />
+                            <span class="checkmark"></span>
+                          </label>
+                          <span class="text-sm text-gray-700"
+                            >Environmental Club Members</span
+                          >
+                        </div>
+                        <div class="flex items-center">
+                          <label class="custom-checkbox">
+                            <input type="checkbox" />
+                            <span class="checkmark"></span>
+                          </label>
+                          <span class="text-sm text-gray-700"
+                            >Sustainability Committee</span
+                          >
+                        </div>
+                        <div class="pt-2">
+                          <button
+                            class="text-primary text-sm hover:underline flex items-center"
+                          >
+                            <i class="ri-add-line mr-1"></i> Add Custom Group
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <h3 class="text-md font-medium text-gray-700 mb-3">
+                      Notification Methods
+                    </h3>
+                    <div class="bg-white rounded-lg border border-gray-200 p-4">
+                      <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                          <div class="flex items-center">
+                            <label class="custom-switch">
+                              <input type="checkbox" checked />
+                              <span class="switch-slider"></span>
+                            </label>
+                            <span class="ml-2 text-sm text-gray-700"
+                              >Email Notification</span
+                            >
+                          </div>
+                        </div>
+                        <div class="pl-10 space-y-3">
+                          <div>
+                            <label
+                              for="emailSubject"
+                              class="block text-xs font-medium text-gray-500 mb-1"
+                              >Email Subject</label
+                            >
+                            <input
+                              type="text"
+                              id="emailSubject"
+                              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 text-sm"
+                              value="Invitation: Campus Recycling Survey"
+                            />
+                          </div>
+                          <div>
+                            <label
+                              for="emailMessage"
+                              class="block text-xs font-medium text-gray-500 mb-1"
+                              >Email Message</label
+                            >
+                            <textarea
+                              id="emailMessage"
+                              rows="3"
+                              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 text-sm"
+                            >
+We invite you to participate in our campus recycling survey. Your feedback will help us improve our sustainability initiatives.</textarea
+                            >
+                          </div>
+                        </div>
+                        <div class="flex items-center justify-between pt-2">
+                          <div class="flex items-center">
+                            <label class="custom-switch">
+                              <input type="checkbox" />
+                              <span class="switch-slider"></span>
+                            </label>
+                            <span class="ml-2 text-sm text-gray-700"
+                              >SMS Notification</span
+                            >
+                          </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                          <div class="flex items-center">
+                            <label class="custom-switch">
+                              <input type="checkbox" checked />
+                              <span class="switch-slider"></span>
+                            </label>
+                            <span class="ml-2 text-sm text-gray-700"
+                              >Platform Notification</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Right Column -->
+                <div>
+                  <div class="mb-6">
+                    <h3 class="text-md font-medium text-gray-700 mb-3">
+                      Access Control
+                    </h3>
+                    <div class="bg-white rounded-lg border border-gray-200 p-4">
+                      <div class="space-y-4">
+                        <div>
+                          <label class="block text-sm text-gray-700 mb-2"
+                            >Who can access this survey?</label
+                          >
+                          <div class="space-y-2">
+                            <label class="flex items-center">
+                              <label class="custom-radio">
+                                <input type="radio" name="access" checked />
+                                <span class="radio-mark"></span>
+                              </label>
+                              <span class="text-sm text-gray-700"
+                                >Anyone with the link</span
+                              >
+                            </label>
+                            <label class="flex items-center">
+                              <label class="custom-radio">
+                                <input type="radio" name="access" />
+                                <span class="radio-mark"></span>
+                              </label>
+                              <span class="text-sm text-gray-700"
+                                >Only invited participants</span
+                              >
+                            </label>
+                            <label class="flex items-center">
+                              <label class="custom-radio">
+                                <input type="radio" name="access" />
+                                <span class="radio-mark"></span>
+                              </label>
+                              <span class="text-sm text-gray-700"
+                                >Password protected</span
+                              >
+                            </label>
+                          </div>
+                        </div>
+                        <div>
+                          <label
+                            for="surveyLink"
+                            class="block text-sm text-gray-700 mb-2"
+                            >Survey Link</label
+                          >
+                          <div class="flex">
+                            <input
+                              type="text"
+                              id="surveyLink"
+                              class="flex-grow px-3 py-2 border border-gray-300 rounded-l focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 text-sm bg-gray-50"
+                              value="https://ecosurvey.edu/s/campus-recycling"
+                              readonly
+                            />
+                            <button
+                              class="bg-gray-100 border border-gray-300 border-l-0 rounded-r px-3 text-gray-600 hover:bg-gray-200 transition-colors whitespace-nowrap"
+                            >
+                              <i class="ri-file-copy-line"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <h3 class="text-md font-medium text-gray-700 mb-3">
+                      Distribution Schedule
+                    </h3>
+                    <div class="bg-white rounded-lg border border-gray-200 p-4">
+                      <div class="space-y-4">
+                        <div>
+                          <label class="block text-sm text-gray-700 mb-2"
+                            >When to distribute this survey?</label
+                          >
+                          <div class="space-y-2">
+                            <label class="flex items-center">
+                              <label class="custom-radio">
+                                <input type="radio" name="schedule" checked />
+                                <span class="radio-mark"></span>
+                              </label>
+                              <span class="text-sm text-gray-700"
+                                >Immediately after publishing</span
+                              >
+                            </label>
+                            <label class="flex items-center">
+                              <label class="custom-radio">
+                                <input type="radio" name="schedule" />
+                                <span class="radio-mark"></span>
+                              </label>
+                              <span class="text-sm text-gray-700"
+                                >Schedule for later</span
+                              >
+                            </label>
+                          </div>
+                        </div>
+                        <div class="pl-8 opacity-50">
+                          <div class="grid grid-cols-2 gap-3">
+                            <div>
+                              <label
+                                class="block text-xs font-medium text-gray-500 mb-1"
+                                >Start Date</label
+                              >
+                              <input
+                                type="date"
+                                class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 text-sm"
+                                disabled
+                              />
+                            </div>
+                            <div>
+                              <label
+                                class="block text-xs font-medium text-gray-500 mb-1"
+                                >Start Time</label
+                              >
+                              <input
+                                type="time"
+                                class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 text-sm"
+                                disabled
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div>
+                          <label class="block text-sm text-gray-700 mb-2"
+                            >Reminder Settings</label
+                          >
+                          <div class="flex items-center">
+                            <label class="custom-switch">
+                              <input type="checkbox" checked />
+                              <span class="switch-slider"></span>
+                            </label>
+                            <span class="ml-2 text-sm text-gray-700"
+                              >Send reminder to non-respondents</span
+                            >
+                          </div>
+                        </div>
+                        <div class="pl-8">
+                          <div class="flex items-center space-x-2">
+                            <span class="text-sm text-gray-700"
+                              >Send reminder after</span
+                            >
+                            <div class="relative w-20">
+                              <select
+                                class="w-full appearance-none px-3 py-1 pr-8 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 text-sm bg-white"
+                              >
+                                <option>3</option>
+                                <option>5</option>
+                                <option>7</option>
+                                <option>10</option>
+                              </select>
+                              <div
+                                class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none"
+                              >
+                                <i
+                                  class="ri-arrow-down-s-line text-gray-400"
+                                ></i>
+                              </div>
+                            </div>
+                            <span class="text-sm text-gray-700">days</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Step 4: Preview and Publish (Hidden initially) -->
+            <div id="step4" class="step-content hidden">
+              <h2 class="text-xl font-semibold text-gray-800 mb-6">
+                Preview and Publish
+              </h2>
+              <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Left Column: Survey Summary -->
+                <div class="lg:col-span-1">
+                  <div
+                    class="bg-white rounded-lg border border-gray-200 p-4 mb-6"
+                  >
+                    <h3 class="text-md font-medium text-gray-700 mb-3">
+                      Survey Summary
+                    </h3>
+                    <div class="space-y-4">
+                      <div>
+                        <div class="text-xs text-gray-500">Title</div>
+                        <div class="text-sm font-medium">
+                          Campus Recycling Habits
+                        </div>
+                      </div>
+                      <div>
+                        <div class="text-xs text-gray-500">Category</div>
+                        <div class="text-sm">Recycling</div>
+                      </div>
+                      <div>
+                        <div class="text-xs text-gray-500">Deadline</div>
+                        <div class="text-sm">May 27, 2025</div>
+                      </div>
+                      <div>
+                        <div class="text-xs text-gray-500">Questions</div>
+                        <div class="text-sm">3 questions</div>
+                      </div>
+                      <div>
+                        <div class="text-xs text-gray-500">
+                          Estimated Completion Time
+                        </div>
+                        <div class="text-sm">2-3 minutes</div>
+                      </div>
+                      <div>
+                        <div class="text-xs text-gray-500">
+                          Target Participants
+                        </div>
+                        <div class="text-sm">Students, Faculty Members</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="bg-white rounded-lg border border-gray-200 p-4">
+                    <h3 class="text-md font-medium text-gray-700 mb-3">
+                      Distribution Summary
+                    </h3>
+                    <div class="space-y-4">
+                      <div>
+                        <div class="text-xs text-gray-500">
+                          Notification Methods
+                        </div>
+                        <div class="text-sm">Email, Platform</div>
+                      </div>
+                      <div>
+                        <div class="text-xs text-gray-500">Access Control</div>
+                        <div class="text-sm">Anyone with the link</div>
+                      </div>
+                      <div>
+                        <div class="text-xs text-gray-500">
+                          Distribution Schedule
+                        </div>
+                        <div class="text-sm">Immediately after publishing</div>
+                      </div>
+                      <div>
+                        <div class="text-xs text-gray-500">Reminders</div>
+                        <div class="text-sm">After 3 days</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Right Column: Survey Preview -->
+                <div class="lg:col-span-2">
+                  <div class="bg-white rounded-lg border border-gray-200 p-4">
+                    <div class="flex justify-between items-center mb-4">
+                      <h3 class="text-md font-medium text-gray-700">
+                        Survey Preview
+                      </h3>
+                      <button
+                        class="text-primary text-sm hover:underline flex items-center"
+                      >
+                        <i class="ri-fullscreen-line mr-1"></i> Full Screen
+                      </button>
+                    </div>
+                    <div
+                      class="border border-gray-200 rounded-lg p-6 max-h-[600px] overflow-y-auto"
+                    >
+                      <!-- Survey Header -->
+                      <div class="mb-8 text-center">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-2">
+                          Campus Recycling Habits
+                        </h2>
+                        <p class="text-gray-600">
+                          Help us understand recycling behaviors on campus to
+                          improve our sustainability initiatives.
+                        </p>
+                      </div>
+                      <!-- Progress Bar -->
+                      <div class="mb-8">
+                        <div
+                          class="flex justify-between text-xs text-gray-500 mb-1"
+                        >
+                          <span>Progress</span>
+                          <span>1 of 3</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                          <div
+                            class="bg-primary h-2 rounded-full"
+                            style="width: 33%"
+                          ></div>
+                        </div>
+                      </div>
+                      <!-- Question 1 -->
+                      <div class="mb-8">
+                        <div class="mb-4">
+                          <div class="font-medium">
+                            1. How often do you recycle the following items?
+                          </div>
+                          <div class="text-sm text-gray-500 mt-1">
+                            Please select the most appropriate option for each
+                            item.
+                          </div>
+                        </div>
+                        <table class="w-full text-sm">
+                          <thead>
+                            <tr>
+                              <th class="text-left font-medium py-2"></th>
+                              <th class="text-center font-medium py-2">
+                                Always
+                              </th>
+                              <th class="text-center font-medium py-2">
+                                Often
+                              </th>
+                              <th class="text-center font-medium py-2">
+                                Sometimes
+                              </th>
+                              <th class="text-center font-medium py-2">
+                                Never
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr class="border-t border-gray-100">
+                              <td class="py-3">Paper and Cardboard</td>
+                              <td class="text-center py-3">
+                                <label class="custom-radio inline-block">
+                                  <input type="radio" name="preview_paper" />
+                                  <span class="radio-mark"></span>
+                                </label>
+                              </td>
+                              <td class="text-center py-3">
+                                <label class="custom-radio inline-block">
+                                  <input type="radio" name="preview_paper" />
+                                  <span class="radio-mark"></span>
+                                </label>
+                              </td>
+                              <td class="text-center py-3">
+                                <label class="custom-radio inline-block">
+                                  <input type="radio" name="preview_paper" />
+                                  <span class="radio-mark"></span>
+                                </label>
+                              </td>
+                              <td class="text-center py-3">
+                                <label class="custom-radio inline-block">
+                                  <input type="radio" name="preview_paper" />
+                                  <span class="radio-mark"></span>
+                                </label>
+                              </td>
+                            </tr>
+                            <tr class="border-t border-gray-100">
+                              <td class="py-3">Plastic Bottles</td>
+                              <td class="text-center py-3">
+                                <label class="custom-radio inline-block">
+                                  <input type="radio" name="preview_plastic" />
+                                  <span class="radio-mark"></span>
+                                </label>
+                              </td>
+                              <td class="text-center py-3">
+                                <label class="custom-radio inline-block">
+                                  <input type="radio" name="preview_plastic" />
+                                  <span class="radio-mark"></span>
+                                </label>
+                              </td>
+                              <td class="text-center py-3">
+                                <label class="custom-radio inline-block">
+                                  <input type="radio" name="preview_plastic" />
+                                  <span class="radio-mark"></span>
+                                </label>
+                              </td>
+                              <td class="text-center py-3">
+                                <label class="custom-radio inline-block">
+                                  <input type="radio" name="preview_plastic" />
+                                  <span class="radio-mark"></span>
+                                </label>
+                              </td>
+                            </tr>
+                            <tr class="border-t border-gray-100">
+                              <td class="py-3">Glass Containers</td>
+                              <td class="text-center py-3">
+                                <label class="custom-radio inline-block">
+                                  <input type="radio" name="preview_glass" />
+                                  <span class="radio-mark"></span>
+                                </label>
+                              </td>
+                              <td class="text-center py-3">
+                                <label class="custom-radio inline-block">
+                                  <input type="radio" name="preview_glass" />
+                                  <span class="radio-mark"></span>
+                                </label>
+                              </td>
+                              <td class="text-center py-3">
+                                <label class="custom-radio inline-block">
+                                  <input type="radio" name="preview_glass" />
+                                  <span class="radio-mark"></span>
+                                </label>
+                              </td>
+                              <td class="text-center py-3">
+                                <label class="custom-radio inline-block">
+                                  <input type="radio" name="preview_glass" />
+                                  <span class="radio-mark"></span>
+                                </label>
+                              </td>
+                            </tr>
+                            <tr class="border-t border-gray-100">
+                              <td class="py-3">Electronic Waste</td>
+                              <td class="text-center py-3">
+                                <label class="custom-radio inline-block">
+                                  <input type="radio" name="preview_ewaste" />
+                                  <span class="radio-mark"></span>
+                                </label>
+                              </td>
+                              <td class="text-center py-3">
+                                <label class="custom-radio inline-block">
+                                  <input type="radio" name="preview_ewaste" />
+                                  <span class="radio-mark"></span>
+                                </label>
+                              </td>
+                              <td class="text-center py-3">
+                                <label class="custom-radio inline-block">
+                                  <input type="radio" name="preview_ewaste" />
+                                  <span class="radio-mark"></span>
+                                </label>
+                              </td>
+                              <td class="text-center py-3">
+                                <label class="custom-radio inline-block">
+                                  <input type="radio" name="preview_ewaste" />
+                                  <span class="radio-mark"></span>
+                                </label>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <!-- Question 2 -->
+                      <div class="mb-8">
+                        <div class="mb-4">
+                          <div class="font-medium">
+                            2. How satisfied are you with the recycling
+                            facilities on campus?
+                          </div>
+                        </div>
+                        <div class="space-y-2">
+                          <div
+                            class="flex items-center justify-between text-sm"
+                          >
+                            <span>Very Dissatisfied</span>
+                            <span>Very Satisfied</span>
+                          </div>
+                          <div class="flex space-x-2">
+                            <label class="flex-1 flex flex-col items-center">
+                              <label class="custom-radio mb-2">
+                                <input
+                                  type="radio"
+                                  name="preview_satisfaction"
+                                />
+                                <span class="radio-mark"></span>
+                              </label>
+                              <span class="text-xs">1</span>
+                            </label>
+                            <label class="flex-1 flex flex-col items-center">
+                              <label class="custom-radio mb-2">
+                                <input
+                                  type="radio"
+                                  name="preview_satisfaction"
+                                />
+                                <span class="radio-mark"></span>
+                              </label>
+                              <span class="text-xs">2</span>
+                            </label>
+                            <label class="flex-1 flex flex-col items-center">
+                              <label class="custom-radio mb-2">
+                                <input
+                                  type="radio"
+                                  name="preview_satisfaction"
+                                />
+                                <span class="radio-mark"></span>
+                              </label>
+                              <span class="text-xs">3</span>
+                            </label>
+                            <label class="flex-1 flex flex-col items-center">
+                              <label class="custom-radio mb-2">
+                                <input
+                                  type="radio"
+                                  name="preview_satisfaction"
+                                />
+                                <span class="radio-mark"></span>
+                              </label>
+                              <span class="text-xs">4</span>
+                            </label>
+                            <label class="flex-1 flex flex-col items-center">
+                              <label class="custom-radio mb-2">
+                                <input
+                                  type="radio"
+                                  name="preview_satisfaction"
+                                />
+                                <span class="radio-mark"></span>
+                              </label>
+                              <span class="text-xs">5</span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Question 3 -->
+                      <div>
+                        <div class="mb-4">
+                          <div class="font-medium">
+                            3. What suggestions do you have to improve recycling
+                            on campus?
+                          </div>
+                        </div>
+                        <textarea
+                          rows="4"
+                          class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 text-sm"
+                          placeholder="Your suggestions..."
+                        ></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Publish Options -->
+              <div class="mt-6 bg-white rounded-lg border border-gray-200 p-4">
+                <h3 class="text-md font-medium text-gray-700 mb-3">
+                  Publish Options
+                </h3>
+                <div class="space-y-4">
+                  <div class="flex items-center">
+                    <label class="custom-radio">
+                      <input type="radio" name="publish_option" checked />
+                      <span class="radio-mark"></span>
+                    </label>
+                    <div class="ml-2">
+                      <div class="text-sm font-medium">Publish Now</div>
+                      <div class="text-xs text-gray-500">
+                        Make the survey live immediately
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex items-center">
+                    <label class="custom-radio">
+                      <input type="radio" name="publish_option" />
+                      <span class="radio-mark"></span>
+                    </label>
+                    <div class="ml-2">
+                      <div class="text-sm font-medium">
+                        Schedule Publication
+                      </div>
+                      <div class="text-xs text-gray-500">
+                        Set a future date and time to publish
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex items-center">
+                    <label class="custom-radio">
+                      <input type="radio" name="publish_option" />
+                      <span class="radio-mark"></span>
+                    </label>
+                    <div class="ml-2">
+                      <div class="text-sm font-medium">Save as Draft</div>
+                      <div class="text-xs text-gray-500">
+                        Save without publishing
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Navigation Buttons -->
+          <div class="flex justify-between mt-6">
+            <button
+              id="prevStepBtn"
+              class="border border-gray-300 text-gray-700 px-4 py-2 rounded-button flex items-center space-x-2 hover:bg-gray-50 transition-colors whitespace-nowrap opacity-50 cursor-not-allowed"
+            >
+              <i class="ri-arrow-left-line"></i>
+              <span>Previous</span>
+            </button>
+            <div class="flex space-x-3">
+              <a
+                href="survey.html"
+                data-readdy="true"
+                class="border border-gray-300 text-gray-700 px-4 py-2 rounded-button flex items-center space-x-2 hover:bg-gray-50 transition-colors whitespace-nowrap"
+              >
+                <span>Cancel</span>
+              </a>
+              <button
+                id="nextStepBtn"
+                class="bg-primary text-white px-4 py-2 rounded-button flex items-center space-x-2 hover:bg-opacity-90 transition-colors whitespace-nowrap"
+              >
+                <span>Next</span>
+                <i class="ri-arrow-right-line"></i>
+              </button>
+              <button
+                id="publishBtn"
+                class="hidden bg-primary text-white px-4 py-2 rounded-button flex items-center space-x-2 hover:bg-opacity-90 transition-colors whitespace-nowrap"
+              >
+                <i class="ri-send-plane-line"></i>
+                <span>Publish Survey</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+      <!-- Footer -->
+      <footer class="bg-white border-t mt-12">
+        <div class="max-w-7xl mx-auto px-6 py-8">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="md:col-span-1">
+              <div class="text-2xl font-['Pacifico'] text-primary mb-4">
+                EcoSurvey
+              </div>
+              <p class="text-sm text-gray-600 mb-4">
+                Transforming environmental awareness through digital surveys and
+                student engagement.
+              </p>
+              <div class="flex space-x-4">
+                <a
+                  href="#"
+                  class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-primary hover:text-white transition-colors"
+                >
+                  <i class="ri-facebook-fill"></i>
+                </a>
+                <a
+                  href="#"
+                  class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-primary hover:text-white transition-colors"
+                >
+                  <i class="ri-twitter-fill"></i>
+                </a>
+                <a
+                  href="#"
+                  class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-primary hover:text-white transition-colors"
+                >
+                  <i class="ri-instagram-line"></i>
+                </a>
+                <a
+                  href="#"
+                  class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-primary hover:text-white transition-colors"
+                >
+                  <i class="ri-linkedin-fill"></i>
+                </a>
+              </div>
+            </div>
+            <div class="md:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-8">
+              <div>
+                <h3
+                  class="text-sm font-semibold text-gray-800 uppercase tracking-wider mb-4"
+                >
+                  Resources
+                </h3>
+                <ul class="space-y-2">
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Documentation</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >User Guides</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Survey Templates</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Environmental Resources</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >API Documentation</a
+                    >
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h3
+                  class="text-sm font-semibold text-gray-800 uppercase tracking-wider mb-4"
+                >
+                  Support
+                </h3>
+                <ul class="space-y-2">
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Help Center</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Contact Support</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >FAQ</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Community Forum</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Feedback</a
+                    >
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h3
+                  class="text-sm font-semibold text-gray-800 uppercase tracking-wider mb-4"
+                >
+                  Legal
+                </h3>
+                <ul class="space-y-2">
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Privacy Policy</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Terms of Service</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Data Protection</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Cookie Policy</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#" class="text-sm text-gray-600 hover:text-primary"
+                      >Accessibility</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div
+            class="border-t border-gray-200 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center"
+          >
+            <div class="text-sm text-gray-600">
+              © 2025 EcoSurvey. All rights reserved.
+            </div>
+            <div class="mt-4 md:mt-0 flex items-center space-x-4">
+              <span class="text-sm text-gray-500">Powered by:</span>
+              <div class="flex space-x-3">
+                <i class="ri-google-fill text-gray-400 text-xl"></i>
+                <i class="ri-microsoft-fill text-gray-400 text-xl"></i>
+                <i class="ri-amazon-fill text-gray-400 text-xl"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        //nofication
+        const notificationBtn = document.getElementById("notificationBtn");
+        const notificationPanel = document.getElementById("notificationPanel");
+        const settingsBtn = document.getElementById("settingsBtn");
+        const settingsPanel = document.getElementById("settingsPanel");
+        function toggleSettingsPanel(event) {
+          event.stopPropagation();
+          settingsPanel.classList.toggle("hidden");
+          if (!settingsPanel.classList.contains("hidden")) {
+            notificationPanel.classList.add("hidden");
+          }
+        }
+        settingsBtn.addEventListener("click", toggleSettingsPanel);
+        document.addEventListener("click", function (event) {
+          if (!settingsPanel.contains(event.target) && event.target !== settingsBtn) {
+            settingsPanel.classList.add("hidden");
+          }
+        });
+        const notificationBadge = document.getElementById("notificationBadge");
+        const markAllReadBtn = document.getElementById("markAllRead");
+        function toggleNotificationPanel(event) {
+          event.stopPropagation();
+          notificationPanel.classList.toggle("hidden");
+        }
+        function markAllNotificationsRead() {
+          const notificationItems = document.querySelectorAll(".notification-item");
+          notificationItems.forEach((item) => {
+            item.classList.add("opacity-50");
+            const markReadBtn = item.querySelector("button");
+            if (markReadBtn) {
+              markReadBtn.textContent = "Read";
+              markReadBtn.disabled = true;
+            }
+          });
+          notificationBadge.textContent = "0";
+          notificationBadge.classList.add("bg-gray-400");
+          notificationBadge.classList.remove("bg-red-500");
+        }
+        notificationBtn.addEventListener("click", toggleNotificationPanel);
+        markAllReadBtn.addEventListener("click", markAllNotificationsRead);
+        document.addEventListener("click", function (event) {
+          if (
+            !notificationPanel.contains(event.target) &&
+            event.target !== notificationBtn
+          ) {
+            notificationPanel.classList.add("hidden");
+          }
+        });
+        // Profile Dropdown
+        const profileBtn = document.getElementById("profileDropdownBtn");
+        const dropdown = document.getElementById("profileDropdown");
+        let isOpen = false;
+        if (profileBtn && dropdown) {
+          profileBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            isOpen = !isOpen;
+            if (isOpen) {
+              dropdown.classList.remove("hidden");
+              setTimeout(() => {
+                dropdown.classList.remove("opacity-0");
+                dropdown.classList.add("opacity-100");
+              }, 50);
+            } else {
+              dropdown.classList.remove("opacity-100");
+              dropdown.classList.add("opacity-0");
+              setTimeout(() => {
+                dropdown.classList.add("hidden");
+              }, 300);
+            }
+          });
+          document.addEventListener("click", function (e) {
+            if (!dropdown.contains(e.target) && !profileBtn.contains(e.target)) {
+              isOpen = false;
+              dropdown.classList.remove("opacity-100");
+              dropdown.classList.add("opacity-0");
+              setTimeout(() => {
+                dropdown.classList.add("hidden");
+              }, 300);
+            }
+          });
+        }
+        // Multi-step form navigation
+        const steps = ["step1", "step2", "step3", "step4"];
+        let currentStep = 0;
+        const progressSteps = document.querySelectorAll(".progress-step");
+        const stepContents = document.querySelectorAll(".step-content");
+        const prevBtn = document.getElementById("prevStepBtn");
+        const nextBtn = document.getElementById("nextStepBtn");
+        const publishBtn = document.getElementById("publishBtn");
+        function updateSteps() {
+          // Update progress steps
+          progressSteps.forEach((step, index) => {
+            if (index < currentStep) {
+              step.classList.add("completed");
+              step.classList.remove("active");
+            } else if (index === currentStep) {
+              step.classList.add("active");
+              step.classList.remove("completed");
+            } else {
+              step.classList.remove("active", "completed");
+            }
+          });
+          // Show/hide step content
+          stepContents.forEach((content, index) => {
+            if (index === currentStep) {
+              content.classList.remove("hidden");
+            } else {
+              content.classList.add("hidden");
+            }
+          });
+          // Update buttons
+          if (currentStep === 0) {
+            prevBtn.classList.add("opacity-50", "cursor-not-allowed");
+          } else {
+            prevBtn.classList.remove("opacity-50", "cursor-not-allowed");
+          }
+          if (currentStep === steps.length - 1) {
+            nextBtn.classList.add("hidden");
+            publishBtn.classList.remove("hidden");
+          } else {
+            nextBtn.classList.remove("hidden");
+            publishBtn.classList.add("hidden");
+          }
+        }
+        prevBtn.addEventListener("click", function () {
+          if (currentStep > 0) {
+            currentStep--;
+            updateSteps();
+          }
+        });
+        nextBtn.addEventListener("click", function () {
+          if (currentStep < steps.length - 1) {
+            currentStep++;
+            updateSteps();
+          }
+        });
+        // Question card selection
+        const questionCards = document.querySelectorAll(".question-card");
+        questionCards.forEach((card) => {
+          card.addEventListener("click", function () {
+            questionCards.forEach((c) => c.classList.remove("active"));
+            this.classList.add("active");
+          });
+        });
+        // Question type change
+        const questionType = document.getElementById("questionType");
+        if (questionType) {
+          questionType.addEventListener("change", function () {
+            // In a real implementation, this would change the question editor UI
+            console.log("Question type changed to:", this.value);
+          });
+        }
+        // Save Draft button
+        const saveDraftBtn = document.getElementById("saveDraftBtn");
+        if (saveDraftBtn) {
+          saveDraftBtn.addEventListener("click", function () {
+            // Show a success message
+            alert("Survey draft saved successfully!");
+          });
+        }
+        // Publish button
+        if (publishBtn) {
+          publishBtn.addEventListener("click", function () {
+            // Show a success message and redirect
+            alert("Survey published successfully!");
+            window.location.href =
+              "survey.html";
+          });
+        }
+        // Add Question button
+        const addQuestionBtn = document.getElementById("addQuestionBtn");
+        const questionsList = document.getElementById("questionsList");
+        if (addQuestionBtn && questionsList) {
+          addQuestionBtn.addEventListener("click", function () {
+            const newIndex = questionsList.children.length + 1;
+            const newQuestion = document.createElement("div");
+            newQuestion.className =
+              "question-card bg-white border border-gray-200 rounded p-3 cursor-pointer hover:border-primary transition-colors";
+            newQuestion.innerHTML = `
+      <div class="flex justify-between items-start">
+      <div>
+      <div class="font-medium text-sm">Q${newIndex}: New Question</div>
+      <div class="text-xs text-gray-500">Multiple Choice</div>
+      </div>
+      <div class="flex space-x-1">
+      <button class="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600">
+      <i class="ri-delete-bin-line"></i>
+      </button>
+      <button class="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600">
+      <i class="ri-drag-move-line"></i>
+      </button>
+      </div>
+      </div>
+      `;
+            questionsList.appendChild(newQuestion);
+            // Add click event to the new question card
+            newQuestion.addEventListener("click", function () {
+              questionCards.forEach((c) => c.classList.remove("active"));
+              this.classList.add("active");
+            });
+            // Add delete functionality to the new question's delete button
+            const deleteBtn = newQuestion.querySelector(
+              ".ri-delete-bin-line",
+            ).parentNode;
+            deleteBtn.addEventListener("click", function (e) {
+              e.stopPropagation();
+              if (confirm("Are you sure you want to delete this question?")) {
+                newQuestion.remove();
+              }
+            });
+          });
+        }
+        // Delete question functionality for existing questions
+        const deleteButtons = document.querySelectorAll(
+          ".question-card .ri-delete-bin-line",
+        );
+        deleteButtons.forEach((btn) => {
+          btn.parentNode.addEventListener("click", function (e) {
+            e.stopPropagation();
+            const card = this.closest(".question-card");
+            if (confirm("Are you sure you want to delete this question?")) {
+              card.remove();
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

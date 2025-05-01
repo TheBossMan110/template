@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Us - Environmental Competitions</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#4CAF50",
+              secondary: "#8BC34A",
+            },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+      body {
+      font-family: 'Poppins', sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="bg-white shadow-sm fixed w-full z-50">
+      <nav class="container mx-auto px-4 py-4">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center space-x-8">
+            <h1 class="text-2xl font-['Pacifico'] text-primary">logo</h1>
+            <div class="hidden md:flex space-x-6">
+              <a href="index.html" class="text-gray-700 hover:text-primary"
+                >Home</a
+              >
+              <a
+                href="index.html#competitions"
+                class="text-gray-700 hover:text-primary"
+                >Competitions</a
+              >
+              <a
+                href="index.html#winners"
+                class="text-gray-700 hover:text-primary"
+                >Winners</a
+              >
+              <a
+                href="index.html#more-info"
+                class="text-gray-700 hover:text-primary"
+                >Details</a
+              >
+              <a href="contact.html" class="text-gray-700 hover:text-primary"
+                >Contact</a
+              >
+              <a href="about.html" class="text-primary font-medium">About Us</a>
+            </div>
+          </div>
+          <div class="flex items-center space-x-4">
+            <button
+              id="participate-btn"
+              class="bg-primary text-white px-6 py-2 rounded-button hover:bg-primary/90 transition-colors whitespace-nowrap"
+            >
+              Participate Now
+            </button>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main class="pt-20">
+      <section class="bg-gradient-to-br from-green-50 to-white py-20">
+        <div class="container mx-auto px-4">
+          <div class="flex flex-col md:flex-row items-center justify-between">
+            <div class="md:w-1/2 mb-10 md:mb-0">
+              <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
+                About Our Mission
+              </h1>
+              <p class="text-lg text-gray-600 mb-8">
+                Empowering environmental awareness through education and
+                competition since 2020. Join us in making a difference for our
+                planet's future.
+              </p>
+            </div>
+            <div class="md:w-1/2">
+              <img
+                src="https://readdy.ai/api/search-image?query=environmental%20education%20and%20sustainability%20concept%2C%20modern%20office%20setting%20with%20team%20members%20discussing%20environmental%20projects%2C%20natural%20light%2C%20plants%20and%20eco-friendly%20elements%20in%20the%20background%2C%20professional%20atmosphere&width=600&height=400&seq=10&orientation=landscape"
+                alt="About Our Mission"
+                class="rounded-lg shadow-lg"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="py-20">
+        <div class="container mx-auto px-4">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div class="order-2 md:order-1">
+              <img
+                src="https://readdy.ai/api/search-image?query=modern%20office%20environment%20with%20sustainable%20practices%2C%20team%20working%20on%20environmental%20projects%2C%20natural%20lighting%2C%20plants%2C%20and%20eco-friendly%20materials%2C%20professional%20setting%20with%20technology%20integration&width=600&height=400&seq=11&orientation=landscape"
+                alt="Our Story"
+                class="rounded-lg shadow-lg"
+              />
+            </div>
+            <div class="order-1 md:order-2">
+              <h2 class="text-3xl font-bold text-gray-800 mb-6">Our Story</h2>
+              <p class="text-gray-600 mb-6">
+                Founded in 2020, Environmental Competitions emerged from a
+                passionate group of environmental educators and activists who
+                believed in the power of competitive learning to drive
+                meaningful change.
+              </p>
+              <p class="text-gray-600 mb-6">
+                Over the years, we've grown from a small local initiative to a
+                global platform, connecting environmental enthusiasts and
+                fostering a community dedicated to sustainability.
+              </p>
+              <div class="grid grid-cols-2 gap-6">
+                <div class="bg-white rounded-lg p-6 shadow-lg">
+                  <div class="text-3xl font-bold text-primary mb-2">5000+</div>
+                  <div class="text-gray-600">Participants Yearly</div>
+                </div>
+                <div class="bg-white rounded-lg p-6 shadow-lg">
+                  <div class="text-3xl font-bold text-primary mb-2">50+</div>
+                  <div class="text-gray-600">Countries Reached</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="bg-gradient-to-br from-green-50 to-white py-20">
+        <div class="container mx-auto px-4">
+          <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">
+              Our Core Values
+            </h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">
+              The principles that guide our mission and shape our commitment to
+              environmental education
+            </p>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div
+              class="bg-white rounded-lg shadow-lg p-8 transform hover:-translate-y-2 transition-transform"
+            >
+              <div
+                class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6"
+              >
+                <i class="ri-earth-line text-primary ri-2x"></i>
+              </div>
+              <h3 class="text-xl font-semibold text-gray-800 mb-4">
+                Environmental Stewardship
+              </h3>
+              <p class="text-gray-600">
+                Promoting responsible management and protection of our natural
+                resources for future generations.
+              </p>
+            </div>
+            <div
+              class="bg-white rounded-lg shadow-lg p-8 transform hover:-translate-y-2 transition-transform"
+            >
+              <div
+                class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6"
+              >
+                <i class="ri-group-line text-primary ri-2x"></i>
+              </div>
+              <h3 class="text-xl font-semibold text-gray-800 mb-4">
+                Community Engagement
+              </h3>
+              <p class="text-gray-600">
+                Building a global community of environmental advocates through
+                education and collaboration.
+              </p>
+            </div>
+            <div
+              class="bg-white rounded-lg shadow-lg p-8 transform hover:-translate-y-2 transition-transform"
+            >
+              <div
+                class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6"
+              >
+                <i class="ri-lightbulb-line text-primary ri-2x"></i>
+              </div>
+              <h3 class="text-xl font-semibold text-gray-800 mb-4">
+                Innovation
+              </h3>
+              <p class="text-gray-600">
+                Embracing new ideas and technologies to address environmental
+                challenges creatively.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="py-20">
+        <div class="container mx-auto px-4">
+          <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Our Team</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">
+              Meet the passionate individuals driving our mission forward
+            </p>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="bg-white rounded-lg shadow-lg p-6 text-center">
+              <img
+                src="https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20female%20environmental%20leader%2C%20natural%20lighting%2C%20neutral%20background%2C%20business%20attire%2C%20warm%20and%20approachable%20expression&width=300&height=300&seq=12&orientation=squarish"
+                alt="Sarah Anderson"
+                class="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
+              />
+              <h3 class="text-xl font-semibold text-gray-800 mb-2">
+                Sarah Anderson
+              </h3>
+              <p class="text-primary mb-2">Executive Director</p>
+              <p class="text-gray-600 text-sm">
+                15+ years in environmental education
+              </p>
+            </div>
+            <div class="bg-white rounded-lg shadow-lg p-6 text-center">
+              <img
+                src="https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20male%20environmental%20scientist%2C%20natural%20lighting%2C%20neutral%20background%2C%20business%20casual%20attire%2C%20confident%20expression&width=300&height=300&seq=13&orientation=squarish"
+                alt="David Chen"
+                class="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
+              />
+              <h3 class="text-xl font-semibold text-gray-800 mb-2">
+                David Chen
+              </h3>
+              <p class="text-primary mb-2">Program Director</p>
+              <p class="text-gray-600 text-sm">
+                Expert in sustainable development
+              </p>
+            </div>
+            <div class="bg-white rounded-lg shadow-lg p-6 text-center">
+              <img
+                src="https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20female%20environmental%20educator%2C%20natural%20lighting%2C%20neutral%20background%2C%20smart%20casual%20attire%2C%20friendly%20expression&width=300&height=300&seq=14&orientation=squarish"
+                alt="Maria Rodriguez"
+                class="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
+              />
+              <h3 class="text-xl font-semibold text-gray-800 mb-2">
+                Maria Rodriguez
+              </h3>
+              <p class="text-primary mb-2">Education Lead</p>
+              <p class="text-gray-600 text-sm">
+                Curriculum development specialist
+              </p>
+            </div>
+            <div class="bg-white rounded-lg shadow-lg p-6 text-center">
+              <img
+                src="https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20male%20technology%20expert%2C%20natural%20lighting%2C%20neutral%20background%2C%20business%20casual%20attire%2C%20professional%20expression&width=300&height=300&seq=15&orientation=squarish"
+                alt="James Wilson"
+                class="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
+              />
+              <h3 class="text-xl font-semibold text-gray-800 mb-2">
+                James Wilson
+              </h3>
+              <p class="text-primary mb-2">Technology Director</p>
+              <p class="text-gray-600 text-sm">
+                Digital learning platform expert
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="bg-gradient-to-br from-green-50 to-white py-20">
+        <div class="container mx-auto px-4">
+          <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Our Impact</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">
+              Making a difference through environmental education and awareness
+            </p>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="bg-white rounded-lg shadow-lg p-6">
+              <div
+                class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6"
+              >
+                <i class="ri-user-line text-primary ri-2x"></i>
+              </div>
+              <div class="text-3xl font-bold text-primary mb-2">25,000+</div>
+              <div class="text-gray-800 font-semibold mb-2">
+                Students Engaged
+              </div>
+              <p class="text-gray-600">
+                Active participants in our environmental education programs
+              </p>
+            </div>
+            <div class="bg-white rounded-lg shadow-lg p-6">
+              <div
+                class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6"
+              >
+                <i class="ri-global-line text-primary ri-2x"></i>
+              </div>
+              <div class="text-3xl font-bold text-primary mb-2">50+</div>
+              <div class="text-gray-800 font-semibold mb-2">Countries</div>
+              <p class="text-gray-600">Global reach across continents</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-lg p-6">
+              <div
+                class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6"
+              >
+                <i class="ri-tree-line text-primary ri-2x"></i>
+              </div>
+              <div class="text-3xl font-bold text-primary mb-2">100,000+</div>
+              <div class="text-gray-800 font-semibold mb-2">Trees Planted</div>
+              <p class="text-gray-600">Through our environmental initiatives</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-lg p-6">
+              <div
+                class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6"
+              >
+                <i class="ri-award-line text-primary ri-2x"></i>
+              </div>
+              <div class="text-3xl font-bold text-primary mb-2">15+</div>
+              <div class="text-gray-800 font-semibold mb-2">Awards</div>
+              <p class="text-gray-600">
+                Recognition for environmental education excellence
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="py-20">
+        <div class="container mx-auto px-4">
+          <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">
+              Recognition & Partnerships
+            </h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">
+              Proud to work with leading environmental organizations worldwide
+            </p>
+          </div>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div
+              class="bg-white rounded-lg shadow-lg p-6 flex items-center justify-center"
+            >
+              <img
+                src="https://readdy.ai/api/search-image?query=environmental%20organization%20logo%20placeholder%2C%20minimalist%20design%2C%20professional%2C%20clean%20lines&width=200&height=100&seq=16&orientation=landscape"
+                alt="Partner 1"
+                class="h-16 object-contain"
+              />
+            </div>
+            <div
+              class="bg-white rounded-lg shadow-lg p-6 flex items-center justify-center"
+            >
+              <img
+                src="https://readdy.ai/api/search-image?query=sustainability%20foundation%20logo%20placeholder%2C%20modern%20design%2C%20professional%2C%20simple&width=200&height=100&seq=17&orientation=landscape"
+                alt="Partner 2"
+                class="h-16 object-contain"
+              />
+            </div>
+            <div
+              class="bg-white rounded-lg shadow-lg p-6 flex items-center justify-center"
+            >
+              <img
+                src="https://readdy.ai/api/search-image?query=green%20technology%20company%20logo%20placeholder%2C%20contemporary%20design%2C%20professional%2C%20clean&width=200&height=100&seq=18&orientation=landscape"
+                alt="Partner 3"
+                class="h-16 object-contain"
+              />
+            </div>
+            <div
+              class="bg-white rounded-lg shadow-lg p-6 flex items-center justify-center"
+            >
+              <img
+                src="https://readdy.ai/api/search-image?query=environmental%20research%20institute%20logo%20placeholder%2C%20professional%20design%2C%20minimal%2C%20elegant&width=200&height=100&seq=19&orientation=landscape"
+                alt="Partner 4"
+                class="h-16 object-contain"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="bg-gray-800 text-white py-12">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <h3 class="text-xl font-['Pacifico'] mb-4">logo</h3>
+            <p class="text-gray-400">
+              Join us in making a positive impact on our environment through
+              engaging competitions.
+            </p>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+            <ul class="space-y-2">
+              <li>
+                <a href="index.html" class="text-gray-400 hover:text-white"
+                  >Home</a
+                >
+              </li>
+              <li>
+                <a
+                  href="index.html#competitions"
+                  class="text-gray-400 hover:text-white"
+                  >Competitions</a
+                >
+              </li>
+              <li>
+                <a
+                  href="index.html#winners"
+                  class="text-gray-400 hover:text-white"
+                  >Winners</a
+                >
+              </li>
+              <li>
+                <a
+                  href="index.html#more-info"
+                  class="text-gray-400 hover:text-white"
+                  >Competition Details</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Connect</h4>
+            <div class="flex space-x-4">
+              <a href="#" class="text-gray-400 hover:text-white">
+                <i class="ri-facebook-fill"></i>
+              </a>
+              <a href="#" class="text-gray-400 hover:text-white">
+                <i class="ri-twitter-fill"></i>
+              </a>
+              <a href="#" class="text-gray-400 hover:text-white">
+                <i class="ri-instagram-fill"></i>
+              </a>
+              <a href="#" class="text-gray-400 hover:text-white">
+                <i class="ri-linkedin-fill"></i>
+              </a>
+            </div>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Newsletter</h4>
+            <form class="space-y-2">
+              <input
+                type="email"
+                placeholder="Your email address"
+                class="w-full px-4 py-2 rounded bg-gray-700 text-white border-none focus:outline-none focus:ring-2 focus:ring-primary"
+              />
+              <button
+                type="submit"
+                class="w-full bg-primary text-white py-2 px-4 rounded-button hover:bg-primary/90 transition-colors whitespace-nowrap"
+              >
+                Subscribe
+              </button>
+            </form>
+          </div>
+        </div>
+        <div
+          class="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400"
+        >
+          <p>&copy; 2025 Environmental Competitions. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+    <div id="competition-modal" class="modal">
+      <div class="modal-content max-w-2xl">
+        <span class="close">&times;</span>
+        <div class="p-8">
+          <h3 class="text-2xl font-bold text-gray-800 mb-6">
+            Register for Environmental Quiz Competition
+          </h3>
+          <form id="registration-form" class="space-y-6">
+            <div>
+              <label
+                for="reg-name"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Full Name</label
+              >
+              <input
+                type="text"
+                id="reg-name"
+                name="name"
+                required
+                class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label
+                for="reg-email"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Email Address</label
+              >
+              <input
+                type="email"
+                id="reg-email"
+                name="email"
+                required
+                class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label
+                for="reg-phone"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Phone Number</label
+              >
+              <input
+                type="tel"
+                id="reg-phone"
+                name="phone"
+                required
+                class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label
+                for="reg-age"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Age</label
+              >
+              <input
+                type="number"
+                id="reg-age"
+                name="age"
+                min="16"
+                max="99"
+                required
+                class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >Experience Level</label
+              >
+              <div class="grid grid-cols-3 gap-4">
+                <label
+                  class="flex items-center bg-gray-50 p-3 rounded cursor-pointer hover:bg-gray-100"
+                >
+                  <input
+                    type="radio"
+                    name="experience"
+                    value="beginner"
+                    required
+                    class="mr-2"
+                  />
+                  <span>Beginner</span>
+                </label>
+                <label
+                  class="flex items-center bg-gray-50 p-3 rounded cursor-pointer hover:bg-gray-100"
+                >
+                  <input
+                    type="radio"
+                    name="experience"
+                    value="intermediate"
+                    required
+                    class="mr-2"
+                  />
+                  <span>Intermediate</span>
+                </label>
+                <label
+                  class="flex items-center bg-gray-50 p-3 rounded cursor-pointer hover:bg-gray-100"
+                >
+                  <input
+                    type="radio"
+                    name="experience"
+                    value="advanced"
+                    required
+                    class="mr-2"
+                  />
+                  <span>Advanced</span>
+                </label>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <input
+                type="checkbox"
+                id="terms"
+                name="terms"
+                required
+                class="mt-1 mr-2"
+              />
+              <label for="terms" class="text-sm text-gray-600"
+                >I agree to the terms and conditions and confirm that all
+                provided information is accurate.</label
+              >
+            </div>
+            <button
+              type="submit"
+              class="w-full bg-primary text-white py-3 px-6 rounded-button font-medium hover:bg-primary/90 transition-colors whitespace-nowrap"
+            >
+              Submit Registration
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const modal = document.getElementById("competition-modal");
+        const closeBtn = document.getElementsByClassName("close")[0];
+        const participateBtn = document.getElementById("participate-btn");
+        const registrationForm = document.getElementById("registration-form");
+        function openModal() {
+          modal.style.display = "block";
+          document.body.style.overflow = "hidden";
+        }
+        function closeModal() {
+          modal.style.display = "none";
+          document.body.style.overflow = "auto";
+          registrationForm.reset();
+        }
+        participateBtn.addEventListener("click", openModal);
+        closeBtn.addEventListener("click", closeModal);
+        window.addEventListener("click", function (event) {
+          if (event.target == modal) {
+            closeModal();
+          }
+        });
+        registrationForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+          const formData = new FormData(registrationForm);
+          const data = Object.fromEntries(formData);
+          const successModal = document.createElement("div");
+          successModal.className =
+            "fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50";
+          successModal.innerHTML = `
+      <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+      <div class="text-center">
+      <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+      <i class="ri-check-line text-green-500 ri-2x"></i>
+      </div>
+      <h3 class="text-xl font-semibold text-gray-800 mb-2">Registration Successful!</h3>
+      <p class="text-gray-600 mb-6">Thank you for registering for the Environmental Quiz Competition. We will send you further details via email.</p>
+      <button class="bg-primary text-white px-6 py-2 rounded-button hover:bg-primary/90 transition-colors whitespace-nowrap">Close</button>
+      </div>
+      </div>
+      `;
+          document.body.appendChild(successModal);
+          closeModal();
+          successModal.querySelector("button").addEventListener("click", function () {
+            successModal.remove();
+          });
+          console.log("Registration data:", data);
+        });
+      });
+    </script>
+  </body>
+</html>

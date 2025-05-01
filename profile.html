@@ -1,0 +1,2661 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Profile - EcoSurvey Portal</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#2E7D32", secondary: "#81C784" },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+    <style>
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+      body {
+      font-family: 'Poppins', sans-serif;
+      }
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+      }
+      input[type="number"] {
+      -moz-appearance: textfield;
+      }
+      .custom-checkbox {
+      position: relative;
+      cursor: pointer;
+      }
+      .custom-checkbox input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      }
+      .checkmark {
+      height: 20px;
+      width: 20px;
+      background-color: #f9fafb;
+      border: 2px solid #d1d5db;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      }
+      .custom-checkbox input:checked ~ .checkmark {
+      background-color: #2E7D32;
+      border-color: #2E7D32;
+      }
+      .checkmark:after {
+      content: "";
+      display: none;
+      width: 6px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+      }
+      .custom-checkbox input:checked ~ .checkmark:after {
+      display: block;
+      }
+      .custom-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+      }
+      .custom-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      }
+      .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #e5e7eb;
+      transition: .4s;
+      border-radius: 24px;
+      }
+      .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+      }
+      input:checked + .slider {
+      background-color: #2E7D32;
+      }
+      input:checked + .slider:before {
+      transform: translateX(26px);
+      }
+      .custom-range {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 6px;
+      border-radius: 5px;
+      background: #e5e7eb;
+      outline: none;
+      }
+      .custom-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #2E7D32;
+      cursor: pointer;
+      }
+      .custom-range::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #2E7D32;
+      cursor: pointer;
+      border: none;
+      }
+      .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      }
+      .badge-primary {
+      background-color: #E8F5E9;
+      color: #2E7D32;
+      }
+      .badge-secondary {
+      background-color: #F3F4F6;
+      color: #4B5563;
+      }
+      .badge-success {
+      background-color: #DCFCE7;
+      color: #166534;
+      }
+      .badge-warning {
+      background-color: #FEF9C3;
+      color: #854D0E;
+      }
+      .badge-danger {
+      background-color: #FEE2E2;
+      color: #B91C1C;
+      }
+      .badge-info {
+      background-color: #E0F2F1;
+      color: #00796B;
+      }
+      .tab-button {
+      position: relative;
+      }
+      .tab-button::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: transparent;
+      transition: all 0.3s ease;
+      }
+      .tab-button.active::after {
+      background-color: #2E7D32;
+      }
+      .progress-bar {
+      height: 8px;
+      border-radius: 4px;
+      background-color: #E5E7EB;
+      overflow: hidden;
+      }
+      .progress-fill {
+      height: 100%;
+      border-radius: 4px;
+      }
+      .achievement-badge {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: #F9FAFB;
+      border: 2px solid #E5E7EB;
+      transition: all 0.3s ease;
+      }
+      .achievement-badge.earned {
+      background-color: #E8F5E9;
+      border-color: #2E7D32;
+      }
+      .achievement-badge:hover {
+      transform: scale(1.05);
+      }
+      .survey-item {
+      transition: all 0.3s ease;
+      }
+      .survey-item:hover {
+      background-color: #F9FAFB;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50">
+    <!-- Header/Navigation -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+      <div
+        class="container mx-auto px-4 py-3 flex items-center justify-between"
+      >
+        <div class="flex items-center space-x-2">
+          <div
+            class="w-10 h-10 bg-primary rounded-full flex items-center justify-center"
+          >
+            <span class="text-white font-['Pacifico'] text-lg">logo</span>
+          </div>
+          <span class="text-xl font-semibold text-gray-800">EcoSurvey</span>
+        </div>
+        <nav class="hidden md:flex items-center space-x-8">
+          <a
+            href="https://readdy.ai/home/4181c56c-0bbb-4c84-ba2e-34f80e21ebda/927f8f97-6fb3-46aa-be9f-5240f94f8fd0"
+            data-readdy="true"
+            class="text-gray-600 hover:text-primary transition-colors"
+            >Home</a
+          >
+          <a
+            href="https://readdy.ai/home/4181c56c-0bbb-4c84-ba2e-34f80e21ebda/a620e50a-315f-46ee-8f1d-4582d4e9b416"
+            data-readdy="true"
+            class="text-gray-600 hover:text-primary transition-colors"
+            >Survey Board</a
+          >
+          <a href="#" class="text-primary font-medium">Profile</a>
+          <a
+            href="https://readdy.ai/home/4181c56c-0bbb-4c84-ba2e-34f80e21ebda/8afb1d87-4637-440f-8a23-2fbba62bd043"
+            data-readdy="true"
+            class="text-gray-600 hover:text-primary transition-colors"
+            >Support</a
+          >
+          <a href="#" class="text-gray-600 hover:text-primary transition-colors"
+            >FAQs</a
+          >
+        </nav>
+        <div class="flex items-center space-x-4">
+          <div
+            class="hidden md:flex items-center space-x-2 bg-green-50 px-3 py-1.5 rounded-full"
+          >
+            <div class="w-6 h-6 flex items-center justify-center">
+              <i class="ri-user-line text-primary"></i>
+            </div>
+            <span class="text-sm font-medium text-primary">Student</span>
+          </div>
+          <button
+            class="bg-primary text-white px-4 py-2 !rounded-button hover:bg-primary/90 transition-colors whitespace-nowrap"
+          >
+            Login / Register
+          </button>
+          <button class="md:hidden w-10 h-10 flex items-center justify-center">
+            <i class="ri-menu-line text-gray-700 text-xl"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+    <!-- Profile Header -->
+    <section class="bg-white border-b border-gray-200">
+      <div class="container mx-auto px-4 py-8">
+        <div
+          class="flex flex-col md:flex-row items-start md:items-center gap-6"
+        >
+          <div class="relative">
+            <div
+              class="w-24 h-24 md:w-32 md:h-32 rounded-full bg-gray-100 border-4 border-white shadow-md overflow-hidden"
+            >
+              <img
+                src="https://readdy.ai/api/search-image?query=professional%2520headshot%2520of%2520a%2520young%2520university%2520student%2520with%2520friendly%2520smile%2C%2520natural%2520lighting%2C%2520neutral%2520background%2C%2520high%2520quality%2520portrait%2520photography&width=300&height=300&seq=profile1&orientation=squarish"
+                alt="Profile Picture"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <button
+              class="absolute bottom-0 right-0 w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center shadow-md hover:bg-primary/90 transition-colors"
+            >
+              <i class="ri-camera-line"></i>
+            </button>
+          </div>
+          <div class="flex-1">
+            <div
+              class="flex flex-col md:flex-row md:items-center md:justify-between gap-4"
+            >
+              <div>
+                <h1 class="text-2xl md:text-3xl font-bold text-gray-800">
+                  Emily Johnson
+                </h1>
+                <p class="text-gray-600">emily.johnson@university.edu</p>
+                <div class="flex items-center mt-2 text-sm text-gray-500">
+                  <div class="w-5 h-5 flex items-center justify-center">
+                    <i class="ri-map-pin-line"></i>
+                  </div>
+                  <span class="ml-1">Environmental Science, Junior Year</span>
+                </div>
+              </div>
+              <button
+                class="self-start md:self-auto bg-white text-gray-700 border border-gray-300 px-4 py-2 !rounded-button hover:bg-gray-50 transition-colors whitespace-nowrap flex items-center space-x-2"
+              >
+                <i class="ri-edit-line"></i>
+                <span>Edit Profile</span>
+              </button>
+            </div>
+            <div class="grid grid-cols-3 gap-4 mt-6">
+              <div
+                class="bg-white rounded-lg border border-gray-200 p-4 text-center"
+              >
+                <div class="text-2xl font-bold text-gray-800">18</div>
+                <div class="text-sm text-gray-600">Surveys Completed</div>
+              </div>
+              <div
+                class="bg-white rounded-lg border border-gray-200 p-4 text-center"
+              >
+                <div class="text-2xl font-bold text-gray-800">345</div>
+                <div class="text-sm text-gray-600">Points Earned</div>
+              </div>
+              <div
+                class="bg-white rounded-lg border border-gray-200 p-4 text-center"
+              >
+                <div class="text-2xl font-bold text-gray-800">7</div>
+                <div class="text-sm text-gray-600">Badges Earned</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Tabs Navigation -->
+    <div class="bg-white border-b border-gray-200 sticky top-[61px] z-40">
+      <div class="container mx-auto px-4">
+        <div class="flex overflow-x-auto hide-scrollbar">
+          <button
+            id="tab-overview"
+            class="tab-button active px-6 py-4 text-primary font-medium"
+          >
+            Overview
+          </button>
+          <button
+            id="tab-surveys"
+            class="tab-button px-6 py-4 text-gray-600 font-medium"
+          >
+            Survey History
+          </button>
+          <button
+            id="tab-achievements"
+            class="tab-button px-6 py-4 text-gray-600 font-medium"
+          >
+            Achievements
+          </button>
+          <button
+            id="tab-settings"
+            class="tab-button px-6 py-4 text-gray-600 font-medium"
+          >
+            Settings
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+      <!-- Overview Tab Content -->
+      <div id="content-overview" class="tab-content">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- Left Column -->
+          <div class="lg:col-span-2 space-y-6">
+            <!-- Activity Summary -->
+            <div
+              class="bg-white rounded-lg shadow-sm border border-gray-100 p-6"
+            >
+              <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-semibold text-gray-800">
+                  Activity Summary
+                </h2>
+                <div class="flex items-center space-x-2">
+                  <button
+                    class="text-sm text-gray-500 hover:text-primary transition-colors"
+                  >
+                    Weekly
+                  </button>
+                  <button class="text-sm text-primary font-medium">
+                    Monthly
+                  </button>
+                  <button
+                    class="text-sm text-gray-500 hover:text-primary transition-colors"
+                  >
+                    Yearly
+                  </button>
+                </div>
+              </div>
+              <div id="activity-chart" class="h-64"></div>
+            </div>
+            <!-- Recent Surveys -->
+            <div
+              class="bg-white rounded-lg shadow-sm border border-gray-100 p-6"
+            >
+              <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-semibold text-gray-800">
+                  Recent Surveys
+                </h2>
+                <a href="#" class="text-primary text-sm hover:underline"
+                  >View All</a
+                >
+              </div>
+              <div class="space-y-4">
+                <div class="survey-item p-4 rounded-lg border border-gray-100">
+                  <div class="flex items-start justify-between">
+                    <div>
+                      <div class="flex items-center">
+                        <h3 class="font-medium text-gray-800">
+                          Campus Waste Audit
+                        </h3>
+                        <span class="ml-2 badge badge-success">Completed</span>
+                      </div>
+                      <p class="text-sm text-gray-600 mt-1">
+                        Completed on April 25, 2025
+                      </p>
+                    </div>
+                    <div class="text-right">
+                      <div class="font-medium text-primary">15 points</div>
+                      <p class="text-sm text-gray-500">10 min</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="survey-item p-4 rounded-lg border border-gray-100">
+                  <div class="flex items-start justify-between">
+                    <div>
+                      <div class="flex items-center">
+                        <h3 class="font-medium text-gray-800">
+                          Water Usage Survey
+                        </h3>
+                        <span class="ml-2 badge badge-success">Completed</span>
+                      </div>
+                      <p class="text-sm text-gray-600 mt-1">
+                        Completed on April 20, 2025
+                      </p>
+                    </div>
+                    <div class="text-right">
+                      <div class="font-medium text-primary">10 points</div>
+                      <p class="text-sm text-gray-500">8 min</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="survey-item p-4 rounded-lg border border-gray-100">
+                  <div class="flex items-start justify-between">
+                    <div>
+                      <div class="flex items-center">
+                        <h3 class="font-medium text-gray-800">
+                          Campus Biodiversity Assessment
+                        </h3>
+                        <span class="ml-2 badge badge-warning"
+                          >In Progress</span
+                        >
+                      </div>
+                      <p class="text-sm text-gray-600 mt-1">
+                        Started on April 18, 2025
+                      </p>
+                    </div>
+                    <div class="text-right">
+                      <div class="font-medium text-gray-500">30 points</div>
+                      <p class="text-sm text-gray-500">25 min</p>
+                    </div>
+                  </div>
+                  <div class="mt-3">
+                    <div class="flex items-center justify-between mb-1">
+                      <span class="text-xs font-medium text-gray-500"
+                        >Completion</span
+                      >
+                      <span class="text-xs font-medium text-primary">25%</span>
+                    </div>
+                    <div class="progress-bar">
+                      <div
+                        class="progress-fill bg-primary"
+                        style="width: 25%"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Right Column -->
+          <div class="space-y-6">
+            <!-- Level & Points -->
+            <div
+              class="bg-white rounded-lg shadow-sm border border-gray-100 p-6"
+            >
+              <h2 class="text-xl font-semibold text-gray-800 mb-4">
+                Level & Points
+              </h2>
+              <div class="text-center mb-4">
+                <div
+                  class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 text-primary mb-2"
+                >
+                  <span class="text-2xl font-bold">4</span>
+                </div>
+                <h3 class="font-medium text-gray-800">Eco Advocate</h3>
+              </div>
+              <div class="mb-6">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="text-xs font-medium text-gray-500"
+                    >Level Progress</span
+                  >
+                  <span class="text-xs font-medium text-primary"
+                    >345/500 points</span
+                  >
+                </div>
+                <div class="progress-bar">
+                  <div
+                    class="progress-fill bg-primary"
+                    style="width: 69%"
+                  ></div>
+                </div>
+                <p class="text-xs text-gray-500 mt-2">
+                  155 points until Level 5: Eco Champion
+                </p>
+              </div>
+              <div class="border-t border-gray-100 pt-4">
+                <div class="flex items-center justify-between text-sm mb-2">
+                  <span class="text-gray-600">This month</span>
+                  <span class="font-medium text-gray-800">85 points</span>
+                </div>
+                <div class="flex items-center justify-between text-sm">
+                  <span class="text-gray-600">Total earned</span>
+                  <span class="font-medium text-gray-800">345 points</span>
+                </div>
+              </div>
+            </div>
+            <!-- Recent Badges -->
+            <div
+              class="bg-white rounded-lg shadow-sm border border-gray-100 p-6"
+            >
+              <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-semibold text-gray-800">
+                  Recent Badges
+                </h2>
+                <a href="#" class="text-primary text-sm hover:underline"
+                  >View All</a
+                >
+              </div>
+              <div class="grid grid-cols-3 gap-4">
+                <div class="achievement-badge earned">
+                  <div
+                    class="w-8 h-8 flex items-center justify-center text-primary mb-1"
+                  >
+                    <i class="ri-recycle-line ri-lg"></i>
+                  </div>
+                  <span class="text-xs text-center">Waste Warrior</span>
+                </div>
+                <div class="achievement-badge earned">
+                  <div
+                    class="w-8 h-8 flex items-center justify-center text-primary mb-1"
+                  >
+                    <i class="ri-drop-line ri-lg"></i>
+                  </div>
+                  <span class="text-xs text-center">Water Saver</span>
+                </div>
+                <div class="achievement-badge earned">
+                  <div
+                    class="w-8 h-8 flex items-center justify-center text-primary mb-1"
+                  >
+                    <i class="ri-plant-line ri-lg"></i>
+                  </div>
+                  <span class="text-xs text-center">Bio Guardian</span>
+                </div>
+              </div>
+            </div>
+            <!-- Leaderboard Position -->
+            <div
+              class="bg-white rounded-lg shadow-sm border border-gray-100 p-6"
+            >
+              <h2 class="text-xl font-semibold text-gray-800 mb-4">
+                Leaderboard
+              </h2>
+              <div
+                class="flex items-center justify-between p-3 bg-primary/5 rounded-lg border border-primary/20 mb-4"
+              >
+                <div class="flex items-center">
+                  <div
+                    class="w-8 h-8 flex items-center justify-center bg-primary text-white rounded-full mr-3 font-medium"
+                  >
+                    8
+                  </div>
+                  <div>
+                    <div class="font-medium text-gray-800">Your Position</div>
+                    <div class="text-sm text-gray-600">
+                      Top 5% of participants
+                    </div>
+                  </div>
+                </div>
+                <div class="font-medium text-primary">345 pts</div>
+              </div>
+              <div class="space-y-3">
+                <div class="flex items-center justify-between p-2">
+                  <div class="flex items-center">
+                    <div
+                      class="w-6 h-6 flex items-center justify-center bg-amber-100 text-amber-800 rounded-full mr-3 text-xs font-medium"
+                    >
+                      1
+                    </div>
+                    <span class="text-gray-800">Michael Thompson</span>
+                  </div>
+                  <div class="font-medium text-gray-800">512 pts</div>
+                </div>
+                <div class="flex items-center justify-between p-2">
+                  <div class="flex items-center">
+                    <div
+                      class="w-6 h-6 flex items-center justify-center bg-gray-100 text-gray-600 rounded-full mr-3 text-xs font-medium"
+                    >
+                      2
+                    </div>
+                    <span class="text-gray-800">Sarah Williams</span>
+                  </div>
+                  <div class="font-medium text-gray-800">487 pts</div>
+                </div>
+                <div class="flex items-center justify-between p-2">
+                  <div class="flex items-center">
+                    <div
+                      class="w-6 h-6 flex items-center justify-center bg-amber-50 text-amber-700 rounded-full mr-3 text-xs font-medium"
+                    >
+                      3
+                    </div>
+                    <span class="text-gray-800">David Chen</span>
+                  </div>
+                  <div class="font-medium text-gray-800">452 pts</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Survey History Tab Content -->
+      <div id="content-surveys" class="tab-content hidden">
+        <div
+          class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden"
+        >
+          <!-- Filter Controls -->
+          <div class="p-6 border-b border-gray-100">
+            <div
+              class="flex flex-col md:flex-row md:items-center md:justify-between gap-4"
+            >
+              <div class="flex flex-wrap items-center gap-3">
+                <div class="relative">
+                  <button
+                    id="statusFilterDropdown"
+                    class="flex items-center space-x-2 px-4 py-2 border border-gray-200 rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-colors text-sm whitespace-nowrap"
+                  >
+                    <span>Status: All</span>
+                    <div class="w-5 h-5 flex items-center justify-center">
+                      <i class="ri-arrow-down-s-line"></i>
+                    </div>
+                  </button>
+                  <div
+                    id="statusFilterMenu"
+                    class="hidden absolute left-0 mt-2 w-48 rounded-lg bg-white shadow-lg border border-gray-200 z-10"
+                  >
+                    <div class="p-2">
+                      <button
+                        class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-50 text-primary font-medium"
+                      >
+                        All
+                      </button>
+                      <button
+                        class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-50 text-gray-700"
+                      >
+                        Completed
+                      </button>
+                      <button
+                        class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-50 text-gray-700"
+                      >
+                        In Progress
+                      </button>
+                      <button
+                        class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-50 text-gray-700"
+                      >
+                        Not Started
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="relative">
+                  <button
+                    id="categoryFilterDropdown"
+                    class="flex items-center space-x-2 px-4 py-2 border border-gray-200 rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-colors text-sm whitespace-nowrap"
+                  >
+                    <span>Category: All</span>
+                    <div class="w-5 h-5 flex items-center justify-center">
+                      <i class="ri-arrow-down-s-line"></i>
+                    </div>
+                  </button>
+                  <div
+                    id="categoryFilterMenu"
+                    class="hidden absolute left-0 mt-2 w-56 rounded-lg bg-white shadow-lg border border-gray-200 z-10"
+                  >
+                    <div class="p-2">
+                      <button
+                        class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-50 text-primary font-medium"
+                      >
+                        All
+                      </button>
+                      <button
+                        class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-50 text-gray-700"
+                      >
+                        Waste Management
+                      </button>
+                      <button
+                        class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-50 text-gray-700"
+                      >
+                        Energy Conservation
+                      </button>
+                      <button
+                        class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-50 text-gray-700"
+                      >
+                        Water Conservation
+                      </button>
+                      <button
+                        class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-50 text-gray-700"
+                      >
+                        Biodiversity
+                      </button>
+                      <button
+                        class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-50 text-gray-700"
+                      >
+                        Climate Action
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="relative w-full md:w-auto">
+                <div class="relative">
+                  <input
+                    type="text"
+                    placeholder="Search surveys..."
+                    class="w-full md:w-64 pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
+                  />
+                  <div
+                    class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 flex items-center justify-center text-gray-400"
+                  >
+                    <i class="ri-search-line"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Survey List -->
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead>
+                <tr class="bg-gray-50 text-left">
+                  <th
+                    class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Survey Name
+                  </th>
+                  <th
+                    class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Category
+                  </th>
+                  <th
+                    class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Status
+                  </th>
+                  <th
+                    class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Date
+                  </th>
+                  <th
+                    class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Points
+                  </th>
+                  <th
+                    class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200">
+                <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="font-medium text-gray-800">
+                      Campus Waste Audit
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="badge badge-primary">Waste Management</span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="badge badge-success">Completed</span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                    April 25, 2025
+                  </td>
+                  <td
+                    class="px-6 py-4 whitespace-nowrap font-medium text-primary"
+                  >
+                    15 points
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <button
+                      class="text-gray-500 hover:text-primary transition-colors"
+                    >
+                      <i class="ri-eye-line"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="font-medium text-gray-800">
+                      Water Usage Survey
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="badge badge-info">Water Conservation</span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="badge badge-success">Completed</span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                    April 20, 2025
+                  </td>
+                  <td
+                    class="px-6 py-4 whitespace-nowrap font-medium text-primary"
+                  >
+                    10 points
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <button
+                      class="text-gray-500 hover:text-primary transition-colors"
+                    >
+                      <i class="ri-eye-line"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="font-medium text-gray-800">
+                      Campus Food Sustainability
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="badge badge-primary">Waste Management</span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="badge badge-success">Completed</span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                    April 15, 2025
+                  </td>
+                  <td
+                    class="px-6 py-4 whitespace-nowrap font-medium text-primary"
+                  >
+                    15 points
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <button
+                      class="text-gray-500 hover:text-primary transition-colors"
+                    >
+                      <i class="ri-eye-line"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="font-medium text-gray-800">
+                      Campus Biodiversity Assessment
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="badge badge-secondary">Biodiversity</span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="badge badge-warning">In Progress</span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                    April 18, 2025
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+                    30 points
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <a
+                      href="https://readdy.ai/home/4181c56c-0bbb-4c84-ba2e-34f80e21ebda/a620e50a-315f-46ee-8f1d-4582d4e9b416"
+                      data-readdy="true"
+                      class="text-primary hover:text-primary/80 transition-colors"
+                    >
+                      <i class="ri-arrow-right-line"></i>
+                    </a>
+                  </td>
+                </tr>
+                <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="font-medium text-gray-800">
+                      Sustainable Transportation
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="badge badge-danger">Transportation</span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="badge badge-warning">In Progress</span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                    April 10, 2025
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+                    15 points
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <a
+                      href="https://readdy.ai/home/4181c56c-0bbb-4c84-ba2e-34f80e21ebda/a620e50a-315f-46ee-8f1d-4582d4e9b416"
+                      data-readdy="true"
+                      class="text-primary hover:text-primary/80 transition-colors"
+                    >
+                      <i class="ri-arrow-right-line"></i>
+                    </a>
+                  </td>
+                </tr>
+                <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="font-medium text-gray-800">
+                      Energy Usage Patterns
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="badge badge-warning">Energy Conservation</span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="badge badge-secondary">Not Started</span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                    -
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+                    20 points
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <a
+                      href="https://readdy.ai/home/4181c56c-0bbb-4c84-ba2e-34f80e21ebda/a620e50a-315f-46ee-8f1d-4582d4e9b416"
+                      data-readdy="true"
+                      class="text-primary hover:text-primary/80 transition-colors"
+                    >
+                      <i class="ri-arrow-right-line"></i>
+                    </a>
+                  </td>
+                </tr>
+                <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="font-medium text-gray-800">
+                      Climate Action Priorities
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="badge badge-info">Climate Action</span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="badge badge-secondary">Not Started</span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                    -
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+                    20 points
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <a
+                      href="https://readdy.ai/home/4181c56c-0bbb-4c84-ba2e-34f80e21ebda/a620e50a-315f-46ee-8f1d-4582d4e9b416"
+                      data-readdy="true"
+                      class="text-primary hover:text-primary/80 transition-colors"
+                    >
+                      <i class="ri-arrow-right-line"></i>
+                    </a>
+                  </td>
+                </tr>
+                <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="font-medium text-gray-800">
+                      Renewable Energy Adoption
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="badge badge-warning">Energy Conservation</span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="badge badge-secondary">Not Started</span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                    -
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+                    20 points
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <a
+                      href="https://readdy.ai/home/4181c56c-0bbb-4c84-ba2e-34f80e21ebda/a620e50a-315f-46ee-8f1d-4582d4e9b416"
+                      data-readdy="true"
+                      class="text-primary hover:text-primary/80 transition-colors"
+                    >
+                      <i class="ri-arrow-right-line"></i>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- Pagination -->
+          <div class="p-6 border-t border-gray-100">
+            <div class="flex items-center justify-between">
+              <div class="text-sm text-gray-600">
+                Showing <span class="font-medium">1</span> to
+                <span class="font-medium">8</span> of
+                <span class="font-medium">18</span> results
+              </div>
+              <nav class="flex items-center space-x-2">
+                <button
+                  class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 hover:bg-gray-50"
+                >
+                  <i class="ri-arrow-left-s-line"></i>
+                </button>
+                <button
+                  class="w-9 h-9 flex items-center justify-center rounded-lg bg-primary text-white"
+                >
+                  1
+                </button>
+                <button
+                  class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-700 hover:bg-gray-50"
+                >
+                  2
+                </button>
+                <button
+                  class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-700 hover:bg-gray-50"
+                >
+                  3
+                </button>
+                <button
+                  class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 hover:bg-gray-50"
+                >
+                  <i class="ri-arrow-right-s-line"></i>
+                </button>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Achievements Tab Content -->
+      <div id="content-achievements" class="tab-content hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- Left Column -->
+          <div class="lg:col-span-2 space-y-6">
+            <!-- Badges Section -->
+            <div
+              class="bg-white rounded-lg shadow-sm border border-gray-100 p-6"
+            >
+              <h2 class="text-xl font-semibold text-gray-800 mb-6">
+                Earned Badges
+              </h2>
+              <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+                <div
+                  class="achievement-badge earned flex flex-col items-center"
+                >
+                  <div
+                    class="w-10 h-10 flex items-center justify-center text-primary mb-2"
+                  >
+                    <i class="ri-recycle-line ri-xl"></i>
+                  </div>
+                  <span class="text-sm font-medium text-gray-800"
+                    >Waste Warrior</span
+                  >
+                  <span class="text-xs text-gray-500 mt-1">Apr 25, 2025</span>
+                </div>
+                <div
+                  class="achievement-badge earned flex flex-col items-center"
+                >
+                  <div
+                    class="w-10 h-10 flex items-center justify-center text-primary mb-2"
+                  >
+                    <i class="ri-drop-line ri-xl"></i>
+                  </div>
+                  <span class="text-sm font-medium text-gray-800"
+                    >Water Saver</span
+                  >
+                  <span class="text-xs text-gray-500 mt-1">Apr 20, 2025</span>
+                </div>
+                <div
+                  class="achievement-badge earned flex flex-col items-center"
+                >
+                  <div
+                    class="w-10 h-10 flex items-center justify-center text-primary mb-2"
+                  >
+                    <i class="ri-plant-line ri-xl"></i>
+                  </div>
+                  <span class="text-sm font-medium text-gray-800"
+                    >Bio Guardian</span
+                  >
+                  <span class="text-xs text-gray-500 mt-1">Apr 15, 2025</span>
+                </div>
+                <div
+                  class="achievement-badge earned flex flex-col items-center"
+                >
+                  <div
+                    class="w-10 h-10 flex items-center justify-center text-primary mb-2"
+                  >
+                    <i class="ri-restaurant-line ri-xl"></i>
+                  </div>
+                  <span class="text-sm font-medium text-gray-800"
+                    >Food Sustainer</span
+                  >
+                  <span class="text-xs text-gray-500 mt-1">Apr 10, 2025</span>
+                </div>
+                <div
+                  class="achievement-badge earned flex flex-col items-center"
+                >
+                  <div
+                    class="w-10 h-10 flex items-center justify-center text-primary mb-2"
+                  >
+                    <i class="ri-calendar-check-line ri-xl"></i>
+                  </div>
+                  <span class="text-sm font-medium text-gray-800"
+                    >Consistent</span
+                  >
+                  <span class="text-xs text-gray-500 mt-1">Apr 5, 2025</span>
+                </div>
+                <div
+                  class="achievement-badge earned flex flex-col items-center"
+                >
+                  <div
+                    class="w-10 h-10 flex items-center justify-center text-primary mb-2"
+                  >
+                    <i class="ri-award-line ri-xl"></i>
+                  </div>
+                  <span class="text-sm font-medium text-gray-800"
+                    >Top Contributor</span
+                  >
+                  <span class="text-xs text-gray-500 mt-1">Mar 28, 2025</span>
+                </div>
+                <div
+                  class="achievement-badge earned flex flex-col items-center"
+                >
+                  <div
+                    class="w-10 h-10 flex items-center justify-center text-primary mb-2"
+                  >
+                    <i class="ri-bike-line ri-xl"></i>
+                  </div>
+                  <span class="text-sm font-medium text-gray-800"
+                    >Eco Commuter</span
+                  >
+                  <span class="text-xs text-gray-500 mt-1">Mar 20, 2025</span>
+                </div>
+              </div>
+            </div>
+            <!-- Upcoming Badges -->
+            <div
+              class="bg-white rounded-lg shadow-sm border border-gray-100 p-6"
+            >
+              <h2 class="text-xl font-semibold text-gray-800 mb-6">
+                Badges to Earn
+              </h2>
+              <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+                <div class="achievement-badge flex flex-col items-center">
+                  <div
+                    class="w-10 h-10 flex items-center justify-center text-gray-400 mb-2"
+                  >
+                    <i class="ri-lightbulb-line ri-xl"></i>
+                  </div>
+                  <span class="text-sm font-medium text-gray-800"
+                    >Energy Expert</span
+                  >
+                  <div class="mt-2 w-full">
+                    <div class="flex items-center justify-between mb-1">
+                      <span class="text-xs text-gray-500">2/3</span>
+                    </div>
+                    <div class="progress-bar h-1.5">
+                      <div
+                        class="progress-fill bg-primary"
+                        style="width: 66%"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="achievement-badge flex flex-col items-center">
+                  <div
+                    class="w-10 h-10 flex items-center justify-center text-gray-400 mb-2"
+                  >
+                    <i class="ri-cloud-line ri-xl"></i>
+                  </div>
+                  <span class="text-sm font-medium text-gray-800"
+                    >Climate Defender</span
+                  >
+                  <div class="mt-2 w-full">
+                    <div class="flex items-center justify-between mb-1">
+                      <span class="text-xs text-gray-500">0/1</span>
+                    </div>
+                    <div class="progress-bar h-1.5">
+                      <div
+                        class="progress-fill bg-primary"
+                        style="width: 0%"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="achievement-badge flex flex-col items-center">
+                  <div
+                    class="w-10 h-10 flex items-center justify-center text-gray-400 mb-2"
+                  >
+                    <i class="ri-building-line ri-xl"></i>
+                  </div>
+                  <span class="text-sm font-medium text-gray-800"
+                    >Green Builder</span
+                  >
+                  <div class="mt-2 w-full">
+                    <div class="flex items-center justify-between mb-1">
+                      <span class="text-xs text-gray-500">0/1</span>
+                    </div>
+                    <div class="progress-bar h-1.5">
+                      <div
+                        class="progress-fill bg-primary"
+                        style="width: 0%"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="achievement-badge flex flex-col items-center">
+                  <div
+                    class="w-10 h-10 flex items-center justify-center text-gray-400 mb-2"
+                  >
+                    <i class="ri-sun-line ri-xl"></i>
+                  </div>
+                  <span class="text-sm font-medium text-gray-800"
+                    >Solar Supporter</span
+                  >
+                  <div class="mt-2 w-full">
+                    <div class="flex items-center justify-between mb-1">
+                      <span class="text-xs text-gray-500">0/1</span>
+                    </div>
+                    <div class="progress-bar h-1.5">
+                      <div
+                        class="progress-fill bg-primary"
+                        style="width: 0%"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Right Column -->
+          <div class="space-y-6">
+            <!-- Achievement Stats -->
+            <div
+              class="bg-white rounded-lg shadow-sm border border-gray-100 p-6"
+            >
+              <h2 class="text-xl font-semibold text-gray-800 mb-4">
+                Achievement Stats
+              </h2>
+              <div class="space-y-4">
+                <div>
+                  <div class="flex items-center justify-between mb-1">
+                    <span class="text-sm text-gray-600">Badges Earned</span>
+                    <span class="text-sm font-medium text-gray-800"
+                      >7 of 16</span
+                    >
+                  </div>
+                  <div class="progress-bar">
+                    <div
+                      class="progress-fill bg-primary"
+                      style="width: 44%"
+                    ></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex items-center justify-between mb-1">
+                    <span class="text-sm text-gray-600"
+                      >Categories Covered</span
+                    >
+                    <span class="text-sm font-medium text-gray-800"
+                      >4 of 6</span
+                    >
+                  </div>
+                  <div class="progress-bar">
+                    <div
+                      class="progress-fill bg-primary"
+                      style="width: 67%"
+                    ></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex items-center justify-between mb-1">
+                    <span class="text-sm text-gray-600"
+                      >Special Achievements</span
+                    >
+                    <span class="text-sm font-medium text-gray-800"
+                      >2 of 5</span
+                    >
+                  </div>
+                  <div class="progress-bar">
+                    <div
+                      class="progress-fill bg-primary"
+                      style="width: 40%"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-6 pt-6 border-t border-gray-100">
+                <div id="badges-chart" class="h-48"></div>
+              </div>
+            </div>
+            <!-- Achievement Milestones -->
+            <div
+              class="bg-white rounded-lg shadow-sm border border-gray-100 p-6"
+            >
+              <h2 class="text-xl font-semibold text-gray-800 mb-4">
+                Next Milestones
+              </h2>
+              <div class="space-y-4">
+                <div
+                  class="p-4 rounded-lg border border-gray-100 hover:border-primary/20 hover:bg-primary/5 transition-colors"
+                >
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                      <div
+                        class="w-10 h-10 flex items-center justify-center bg-primary/10 text-primary rounded-full mr-3"
+                      >
+                        <i class="ri-survey-line"></i>
+                      </div>
+                      <div>
+                        <h3 class="font-medium text-gray-800">
+                          Complete 20 Surveys
+                        </h3>
+                        <p class="text-sm text-gray-600">2 more to go</p>
+                      </div>
+                    </div>
+                    <div class="text-sm font-medium text-primary">90%</div>
+                  </div>
+                  <div class="mt-3">
+                    <div class="progress-bar">
+                      <div
+                        class="progress-fill bg-primary"
+                        style="width: 90%"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="p-4 rounded-lg border border-gray-100 hover:border-primary/20 hover:bg-primary/5 transition-colors"
+                >
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                      <div
+                        class="w-10 h-10 flex items-center justify-center bg-primary/10 text-primary rounded-full mr-3"
+                      >
+                        <i class="ri-trophy-line"></i>
+                      </div>
+                      <div>
+                        <h3 class="font-medium text-gray-800">Reach Level 5</h3>
+                        <p class="text-sm text-gray-600">155 points needed</p>
+                      </div>
+                    </div>
+                    <div class="text-sm font-medium text-primary">69%</div>
+                  </div>
+                  <div class="mt-3">
+                    <div class="progress-bar">
+                      <div
+                        class="progress-fill bg-primary"
+                        style="width: 69%"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="p-4 rounded-lg border border-gray-100 hover:border-primary/20 hover:bg-primary/5 transition-colors"
+                >
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                      <div
+                        class="w-10 h-10 flex items-center justify-center bg-primary/10 text-primary rounded-full mr-3"
+                      >
+                        <i class="ri-medal-line"></i>
+                      </div>
+                      <div>
+                        <h3 class="font-medium text-gray-800">
+                          Earn 10 Badges
+                        </h3>
+                        <p class="text-sm text-gray-600">3 more to go</p>
+                      </div>
+                    </div>
+                    <div class="text-sm font-medium text-primary">70%</div>
+                  </div>
+                  <div class="mt-3">
+                    <div class="progress-bar">
+                      <div
+                        class="progress-fill bg-primary"
+                        style="width: 70%"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Settings Tab Content -->
+      <div id="content-settings" class="tab-content hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- Left Column - Settings Navigation -->
+          <div
+            class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden"
+          >
+            <div class="p-6 border-b border-gray-100">
+              <h2 class="text-xl font-semibold text-gray-800">Settings</h2>
+            </div>
+            <div class="p-2">
+              <button
+                id="btn-account"
+                class="w-full flex items-center p-3 rounded-lg bg-primary/5 text-primary font-medium"
+              >
+                <div class="w-5 h-5 flex items-center justify-center mr-3">
+                  <i class="ri-user-settings-line"></i>
+                </div>
+                <span>Account Settings</span>
+              </button>
+              <button
+                id="btn-notifications"
+                class="w-full flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-50"
+              >
+                <div class="w-5 h-5 flex items-center justify-center mr-3">
+                  <i class="ri-notification-line"></i>
+                </div>
+                <span>Notifications</span>
+              </button>
+              <button
+                id="btn-privacy"
+                class="w-full flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-50"
+              >
+                <div class="w-5 h-5 flex items-center justify-center mr-3">
+                  <i class="ri-shield-keyhole-line"></i>
+                </div>
+                <span>Privacy</span>
+              </button>
+              <button
+                id="btn-preferences"
+                class="w-full flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-50"
+              >
+                <div class="w-5 h-5 flex items-center justify-center mr-3">
+                  <i class="ri-settings-5-line"></i>
+                </div>
+                <span>Preferences</span>
+              </button>
+              <button
+                id="btn-connected"
+                class="w-full flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-50"
+              >
+                <div class="w-5 h-5 flex items-center justify-center mr-3">
+                  <i class="ri-link"></i>
+                </div>
+                <span>Connected Accounts</span>
+              </button>
+            </div>
+          </div>
+          <!-- Right Column - Settings Content -->
+          <div class="lg:col-span-2">
+            <!-- Account Settings -->
+            <div
+              id="content-account"
+              class="settings-content bg-white rounded-lg shadow-sm border border-gray-100 p-6"
+            >
+              <h2 class="text-xl font-semibold text-gray-800 mb-6">
+                Account Settings
+              </h2>
+              <form class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label
+                      for="firstName"
+                      class="block text-sm font-medium text-gray-700 mb-1"
+                      >First Name</label
+                    >
+                    <input
+                      type="text"
+                      id="firstName"
+                      value="Emily"
+                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      for="lastName"
+                      class="block text-sm font-medium text-gray-700 mb-1"
+                      >Last Name</label
+                    >
+                    <input
+                      type="text"
+                      id="lastName"
+                      value="Johnson"
+                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label
+                    for="email"
+                    class="block text-sm font-medium text-gray-700 mb-1"
+                    >Email Address</label
+                  >
+                  <input
+                    type="email"
+                    id="email"
+                    value="emily.johnson@university.edu"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label
+                    for="phone"
+                    class="block text-sm font-medium text-gray-700 mb-1"
+                    >Phone Number</label
+                  >
+                  <input
+                    type="tel"
+                    id="phone"
+                    value="(555) 123-4567"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label
+                    for="department"
+                    class="block text-sm font-medium text-gray-700 mb-1"
+                    >Department</label
+                  >
+                  <select
+                    id="department"
+                    class="w-full px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none bg-white"
+                  >
+                    <option>Environmental Science</option>
+                    <option>Biology</option>
+                    <option>Chemistry</option>
+                    <option>Physics</option>
+                    <option>Engineering</option>
+                  </select>
+                </div>
+                <div>
+                  <label
+                    for="bio"
+                    class="block text-sm font-medium text-gray-700 mb-1"
+                    >Bio</label
+                  >
+                  <textarea
+                    id="bio"
+                    rows="4"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  >
+Environmental Science student passionate about sustainability and conservation. Active member of the campus Green Team and volunteer at local conservation projects.</textarea
+                  >
+                </div>
+                <div class="pt-4 border-t border-gray-100">
+                  <h3 class="text-lg font-medium text-gray-800 mb-4">
+                    Change Password
+                  </h3>
+                  <div class="space-y-4">
+                    <div>
+                      <label
+                        for="currentPassword"
+                        class="block text-sm font-medium text-gray-700 mb-1"
+                        >Current Password</label
+                      >
+                      <input
+                        type="password"
+                        id="currentPassword"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label
+                        for="newPassword"
+                        class="block text-sm font-medium text-gray-700 mb-1"
+                        >New Password</label
+                      >
+                      <input
+                        type="password"
+                        id="newPassword"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label
+                        for="confirmPassword"
+                        class="block text-sm font-medium text-gray-700 mb-1"
+                        >Confirm New Password</label
+                      >
+                      <input
+                        type="password"
+                        id="confirmPassword"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="flex justify-end">
+                  <button
+                    type="button"
+                    class="bg-gray-200 text-gray-700 mr-3 px-4 py-2 !rounded-button hover:bg-gray-300 transition-colors whitespace-nowrap"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    class="bg-primary text-white px-4 py-2 !rounded-button hover:bg-primary/90 transition-colors whitespace-nowrap"
+                  >
+                    Save Changes
+                  </button>
+                </div>
+              </form>
+            </div>
+            <!-- Notifications Settings -->
+            <div
+              id="content-notifications"
+              class="settings-content hidden bg-white rounded-lg shadow-sm border border-gray-100 p-6"
+            >
+              <h2 class="text-xl font-semibold text-gray-800 mb-6">
+                Notification Settings
+              </h2>
+              <div class="space-y-6">
+                <div>
+                  <h3 class="text-lg font-medium text-gray-800 mb-4">
+                    Email Notifications
+                  </h3>
+                  <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                      <div>
+                        <p class="font-medium text-gray-700">
+                          New Survey Alerts
+                        </p>
+                        <p class="text-sm text-gray-500">
+                          Get notified when new surveys are available
+                        </p>
+                      </div>
+                      <label class="custom-switch">
+                        <input type="checkbox" checked />
+                        <span class="slider"></span>
+                      </label>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <div>
+                        <p class="font-medium text-gray-700">
+                          Survey Reminders
+                        </p>
+                        <p class="text-sm text-gray-500">
+                          Receive reminders for incomplete surveys
+                        </p>
+                      </div>
+                      <label class="custom-switch">
+                        <input type="checkbox" checked />
+                        <span class="slider"></span>
+                      </label>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <div>
+                        <p class="font-medium text-gray-700">
+                          Achievement Notifications
+                        </p>
+                        <p class="text-sm text-gray-500">
+                          Get notified when you earn new badges
+                        </p>
+                      </div>
+                      <label class="custom-switch">
+                        <input type="checkbox" checked />
+                        <span class="slider"></span>
+                      </label>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <div>
+                        <p class="font-medium text-gray-700">Weekly Digest</p>
+                        <p class="text-sm text-gray-500">
+                          Receive a weekly summary of your activity
+                        </p>
+                      </div>
+                      <label class="custom-switch">
+                        <input type="checkbox" />
+                        <span class="slider"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="pt-6 border-t border-gray-100">
+                  <h3 class="text-lg font-medium text-gray-800 mb-4">
+                    Push Notifications
+                  </h3>
+                  <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                      <div>
+                        <p class="font-medium text-gray-700">
+                          Survey Deadline Alerts
+                        </p>
+                        <p class="text-sm text-gray-500">
+                          Get notified when surveys are about to expire
+                        </p>
+                      </div>
+                      <label class="custom-switch">
+                        <input type="checkbox" checked />
+                        <span class="slider"></span>
+                      </label>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <div>
+                        <p class="font-medium text-gray-700">Points Earned</p>
+                        <p class="text-sm text-gray-500">
+                          Get notified when you earn points
+                        </p>
+                      </div>
+                      <label class="custom-switch">
+                        <input type="checkbox" checked />
+                        <span class="slider"></span>
+                      </label>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <div>
+                        <p class="font-medium text-gray-700">
+                          Level Up Notifications
+                        </p>
+                        <p class="text-sm text-gray-500">
+                          Get notified when you reach a new level
+                        </p>
+                      </div>
+                      <label class="custom-switch">
+                        <input type="checkbox" checked />
+                        <span class="slider"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex justify-end">
+                  <button
+                    type="button"
+                    class="bg-primary text-white px-4 py-2 !rounded-button hover:bg-primary/90 transition-colors whitespace-nowrap"
+                  >
+                    Save Preferences
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Privacy Settings -->
+            <div
+              id="content-privacy"
+              class="settings-content hidden bg-white rounded-lg shadow-sm border border-gray-100 p-6"
+            >
+              <h2 class="text-xl font-semibold text-gray-800 mb-6">
+                Privacy Settings
+              </h2>
+              <div class="space-y-6">
+                <div>
+                  <h3 class="text-lg font-medium text-gray-800 mb-4">
+                    Profile Visibility
+                  </h3>
+                  <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                      <div>
+                        <p class="font-medium text-gray-700">
+                          Show my profile in leaderboards
+                        </p>
+                        <p class="text-sm text-gray-500">
+                          Your name and points will be visible to others
+                        </p>
+                      </div>
+                      <label class="custom-switch">
+                        <input type="checkbox" checked />
+                        <span class="slider"></span>
+                      </label>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <div>
+                        <p class="font-medium text-gray-700">
+                          Show my badges publicly
+                        </p>
+                        <p class="text-sm text-gray-500">
+                          Your earned badges will be visible to others
+                        </p>
+                      </div>
+                      <label class="custom-switch">
+                        <input type="checkbox" checked />
+                        <span class="slider"></span>
+                      </label>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <div>
+                        <p class="font-medium text-gray-700">
+                          Show my survey participation
+                        </p>
+                        <p class="text-sm text-gray-500">
+                          Others can see which surveys you've completed
+                        </p>
+                      </div>
+                      <label class="custom-switch">
+                        <input type="checkbox" />
+                        <span class="slider"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="pt-6 border-t border-gray-100">
+                  <h3 class="text-lg font-medium text-gray-800 mb-4">
+                    Data Sharing
+                  </h3>
+                  <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                      <div>
+                        <p class="font-medium text-gray-700">
+                          Share data for research purposes
+                        </p>
+                        <p class="text-sm text-gray-500">
+                          Your anonymized survey data may be used for research
+                        </p>
+                      </div>
+                      <label class="custom-switch">
+                        <input type="checkbox" checked />
+                        <span class="slider"></span>
+                      </label>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <div>
+                        <p class="font-medium text-gray-700">
+                          Allow data for improvement
+                        </p>
+                        <p class="text-sm text-gray-500">
+                          Your usage data helps us improve the platform
+                        </p>
+                      </div>
+                      <label class="custom-switch">
+                        <input type="checkbox" checked />
+                        <span class="slider"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="pt-6 border-t border-gray-100">
+                  <h3 class="text-lg font-medium text-gray-800 mb-4">
+                    Account Data
+                  </h3>
+                  <div class="space-y-4">
+                    <button
+                      class="text-primary hover:text-primary/80 transition-colors flex items-center"
+                    >
+                      <i class="ri-download-line mr-2"></i>
+                      <span>Download my data</span>
+                    </button>
+                    <button
+                      class="text-red-600 hover:text-red-700 transition-colors flex items-center"
+                    >
+                      <i class="ri-delete-bin-line mr-2"></i>
+                      <span>Delete my account</span>
+                    </button>
+                  </div>
+                </div>
+                <div class="flex justify-end">
+                  <button
+                    type="button"
+                    class="bg-primary text-white px-4 py-2 !rounded-button hover:bg-primary/90 transition-colors whitespace-nowrap"
+                  >
+                    Save Privacy Settings
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Preferences Settings -->
+            <div
+              id="content-preferences"
+              class="settings-content hidden bg-white rounded-lg shadow-sm border border-gray-100 p-6"
+            >
+              <h2 class="text-xl font-semibold text-gray-800 mb-6">
+                Preferences
+              </h2>
+              <div class="space-y-6">
+                <div>
+                  <h3 class="text-lg font-medium text-gray-800 mb-4">
+                    Display Settings
+                  </h3>
+                  <div class="space-y-4">
+                    <div>
+                      <label
+                        class="block text-sm font-medium text-gray-700 mb-2"
+                        >Theme</label
+                      >
+                      <div class="flex space-x-4">
+                        <label class="flex items-center">
+                          <input
+                            type="radio"
+                            name="theme"
+                            class="hidden"
+                            checked
+                          />
+                          <div
+                            class="w-6 h-6 border-2 border-gray-300 rounded-full mr-2 flex items-center justify-center"
+                          >
+                            <div
+                              class="w-3 h-3 bg-primary rounded-full hidden radio-checked"
+                            ></div>
+                          </div>
+                          <span>Light</span>
+                        </label>
+                        <label class="flex items-center">
+                          <input type="radio" name="theme" class="hidden" />
+                          <div
+                            class="w-6 h-6 border-2 border-gray-300 rounded-full mr-2 flex items-center justify-center"
+                          >
+                            <div
+                              class="w-3 h-3 bg-primary rounded-full hidden radio-checked"
+                            ></div>
+                          </div>
+                          <span>Dark</span>
+                        </label>
+                        <label class="flex items-center">
+                          <input type="radio" name="theme" class="hidden" />
+                          <div
+                            class="w-6 h-6 border-2 border-gray-300 rounded-full mr-2 flex items-center justify-center"
+                          >
+                            <div
+                              class="w-3 h-3 bg-primary rounded-full hidden radio-checked"
+                            ></div>
+                          </div>
+                          <span>System</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div>
+                      <label
+                        for="language"
+                        class="block text-sm font-medium text-gray-700 mb-2"
+                        >Language</label
+                      >
+                      <select
+                        id="language"
+                        class="w-full md:w-64 px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none bg-white"
+                      >
+                        <option>English</option>
+                        <option>Spanish</option>
+                        <option>French</option>
+                        <option>German</option>
+                        <option>Chinese</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label
+                        for="dateFormat"
+                        class="block text-sm font-medium text-gray-700 mb-2"
+                        >Date Format</label
+                      >
+                      <select
+                        id="dateFormat"
+                        class="w-full md:w-64 px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none bg-white"
+                      >
+                        <option>MM/DD/YYYY</option>
+                        <option>DD/MM/YYYY</option>
+                        <option>YYYY-MM-DD</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="pt-6 border-t border-gray-100">
+                  <h3 class="text-lg font-medium text-gray-800 mb-4">
+                    Survey Preferences
+                  </h3>
+                  <div class="space-y-4">
+                    <div>
+                      <label
+                        class="block text-sm font-medium text-gray-700 mb-2"
+                        >Preferred Survey Categories</label
+                      >
+                      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <label
+                          class="custom-checkbox flex items-center p-2 hover:bg-gray-50 rounded cursor-pointer"
+                        >
+                          <input type="checkbox" checked />
+                          <span class="checkmark mr-3"></span>
+                          <span>Waste Management</span>
+                        </label>
+                        <label
+                          class="custom-checkbox flex items-center p-2 hover:bg-gray-50 rounded cursor-pointer"
+                        >
+                          <input type="checkbox" checked />
+                          <span class="checkmark mr-3"></span>
+                          <span>Energy Conservation</span>
+                        </label>
+                        <label
+                          class="custom-checkbox flex items-center p-2 hover:bg-gray-50 rounded cursor-pointer"
+                        >
+                          <input type="checkbox" checked />
+                          <span class="checkmark mr-3"></span>
+                          <span>Water Conservation</span>
+                        </label>
+                        <label
+                          class="custom-checkbox flex items-center p-2 hover:bg-gray-50 rounded cursor-pointer"
+                        >
+                          <input type="checkbox" checked />
+                          <span class="checkmark mr-3"></span>
+                          <span>Biodiversity</span>
+                        </label>
+                        <label
+                          class="custom-checkbox flex items-center p-2 hover:bg-gray-50 rounded cursor-pointer"
+                        >
+                          <input type="checkbox" />
+                          <span class="checkmark mr-3"></span>
+                          <span>Climate Action</span>
+                        </label>
+                        <label
+                          class="custom-checkbox flex items-center p-2 hover:bg-gray-50 rounded cursor-pointer"
+                        >
+                          <input type="checkbox" />
+                          <span class="checkmark mr-3"></span>
+                          <span>Transportation</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div>
+                      <label
+                        class="block text-sm font-medium text-gray-700 mb-2"
+                        >Maximum Survey Duration</label
+                      >
+                      <select
+                        class="w-full md:w-64 px-4 py-2 pr-8 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none bg-white"
+                      >
+                        <option>No limit</option>
+                        <option>5 minutes</option>
+                        <option>10 minutes</option>
+                        <option>15 minutes</option>
+                        <option selected>20 minutes</option>
+                        <option>30 minutes</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex justify-end">
+                  <button
+                    type="button"
+                    class="bg-primary text-white px-4 py-2 !rounded-button hover:bg-primary/90 transition-colors whitespace-nowrap"
+                  >
+                    Save Preferences
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Connected Accounts Settings -->
+            <div
+              id="content-connected"
+              class="settings-content hidden bg-white rounded-lg shadow-sm border border-gray-100 p-6"
+            >
+              <h2 class="text-xl font-semibold text-gray-800 mb-6">
+                Connected Accounts
+              </h2>
+              <div class="space-y-6">
+                <div class="space-y-4">
+                  <div
+                    class="flex items-center justify-between p-4 border border-gray-200 rounded-lg"
+                  >
+                    <div class="flex items-center">
+                      <div
+                        class="w-10 h-10 flex items-center justify-center bg-blue-100 text-blue-600 rounded-full mr-4"
+                      >
+                        <i class="ri-google-fill ri-lg"></i>
+                      </div>
+                      <div>
+                        <h3 class="font-medium text-gray-800">Google</h3>
+                        <p class="text-sm text-gray-500">
+                          Connected as emily.johnson@gmail.com
+                        </p>
+                      </div>
+                    </div>
+                    <button
+                      class="text-red-600 hover:text-red-700 transition-colors text-sm"
+                    >
+                      Disconnect
+                    </button>
+                  </div>
+                  <div
+                    class="flex items-center justify-between p-4 border border-gray-200 rounded-lg"
+                  >
+                    <div class="flex items-center">
+                      <div
+                        class="w-10 h-10 flex items-center justify-center bg-blue-900 text-white rounded-full mr-4"
+                      >
+                        <i class="ri-facebook-fill ri-lg"></i>
+                      </div>
+                      <div>
+                        <h3 class="font-medium text-gray-800">Facebook</h3>
+                        <p class="text-sm text-gray-500">Not connected</p>
+                      </div>
+                    </div>
+                    <button
+                      class="text-primary hover:text-primary/80 transition-colors text-sm"
+                    >
+                      Connect
+                    </button>
+                  </div>
+                  <div
+                    class="flex items-center justify-between p-4 border border-gray-200 rounded-lg"
+                  >
+                    <div class="flex items-center">
+                      <div
+                        class="w-10 h-10 flex items-center justify-center bg-blue-400 text-white rounded-full mr-4"
+                      >
+                        <i class="ri-twitter-x-fill ri-lg"></i>
+                      </div>
+                      <div>
+                        <h3 class="font-medium text-gray-800">Twitter</h3>
+                        <p class="text-sm text-gray-500">Not connected</p>
+                      </div>
+                    </div>
+                    <button
+                      class="text-primary hover:text-primary/80 transition-colors text-sm"
+                    >
+                      Connect
+                    </button>
+                  </div>
+                  <div
+                    class="flex items-center justify-between p-4 border border-gray-200 rounded-lg"
+                  >
+                    <div class="flex items-center">
+                      <div
+                        class="w-10 h-10 flex items-center justify-center bg-blue-700 text-white rounded-full mr-4"
+                      >
+                        <i class="ri-linkedin-fill ri-lg"></i>
+                      </div>
+                      <div>
+                        <h3 class="font-medium text-gray-800">LinkedIn</h3>
+                        <p class="text-sm text-gray-500">
+                          Connected as Emily Johnson
+                        </p>
+                      </div>
+                    </div>
+                    <button
+                      class="text-red-600 hover:text-red-700 transition-colors text-sm"
+                    >
+                      Disconnect
+                    </button>
+                  </div>
+                </div>
+                <div class="pt-4 border-t border-gray-100">
+                  <p class="text-sm text-gray-600">
+                    Connecting your accounts allows for easier login and sharing
+                    of your achievements on social media.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white pt-12 pb-6 mt-12">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+          <div>
+            <div class="flex items-center space-x-2 mb-4">
+              <div
+                class="w-10 h-10 bg-white rounded-full flex items-center justify-center"
+              >
+                <span class="text-primary font-['Pacifico'] text-lg">logo</span>
+              </div>
+              <span class="text-xl font-semibold">EcoSurvey</span>
+            </div>
+            <p class="text-gray-300 mb-4">
+              Empowering environmental change through digital surveys and
+              community engagement.
+            </p>
+            <div class="flex space-x-4">
+              <a
+                href="#"
+                class="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center hover:bg-primary transition-colors"
+              >
+                <i class="ri-facebook-fill text-white"></i>
+              </a>
+              <a
+                href="#"
+                class="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center hover:bg-primary transition-colors"
+              >
+                <i class="ri-twitter-x-fill text-white"></i>
+              </a>
+              <a
+                href="#"
+                class="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center hover:bg-primary transition-colors"
+              >
+                <i class="ri-instagram-fill text-white"></i>
+              </a>
+              <a
+                href="#"
+                class="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center hover:bg-primary transition-colors"
+              >
+                <i class="ri-linkedin-fill text-white"></i>
+              </a>
+            </div>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="https://readdy.ai/home/4181c56c-0bbb-4c84-ba2e-34f80e21ebda/927f8f97-6fb3-46aa-be9f-5240f94f8fd0"
+                  data-readdy="true"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >Home</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://readdy.ai/home/4181c56c-0bbb-4c84-ba2e-34f80e21ebda/a620e50a-315f-46ee-8f1d-4582d4e9b416"
+                  data-readdy="true"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >Survey Board</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >Leaderboard</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >Events</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >About Us</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Resources</h3>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >FAQs</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >Support</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >Privacy Policy</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >Terms of Service</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-300 hover:text-white transition-colors"
+                  >Contact Us</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Contact</h3>
+            <ul class="space-y-2">
+              <li class="flex items-start">
+                <div
+                  class="w-5 h-5 flex items-center justify-center text-gray-300 mt-0.5"
+                >
+                  <i class="ri-map-pin-line"></i>
+                </div>
+                <span class="ml-2 text-gray-300"
+                  >123 University Avenue, Campus Green Building</span
+                >
+              </li>
+              <li class="flex items-center">
+                <div
+                  class="w-5 h-5 flex items-center justify-center text-gray-300"
+                >
+                  <i class="ri-mail-line"></i>
+                </div>
+                <span class="ml-2 text-gray-300">contact@ecosurvey.edu</span>
+              </li>
+              <li class="flex items-center">
+                <div
+                  class="w-5 h-5 flex items-center justify-center text-gray-300"
+                >
+                  <i class="ri-phone-line"></i>
+                </div>
+                <span class="ml-2 text-gray-300">(555) 123-4567</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="border-t border-gray-700 pt-6">
+          <div class="flex flex-col md:flex-row justify-between items-center">
+            <p class="text-gray-400 text-sm mb-4 md:mb-0">
+              © 2025 EcoSurvey Portal. All rights reserved.
+            </p>
+            <div class="flex items-center space-x-4">
+              <div class="w-6 h-6 flex items-center justify-center">
+                <i class="ri-visa-fill text-gray-300 text-xl"></i>
+              </div>
+              <div class="w-6 h-6 flex items-center justify-center">
+                <i class="ri-mastercard-fill text-gray-300 text-xl"></i>
+              </div>
+              <div class="w-6 h-6 flex items-center justify-center">
+                <i class="ri-paypal-fill text-gray-300 text-xl"></i>
+              </div>
+              <div class="w-6 h-6 flex items-center justify-center">
+                <i class="ri-apple-fill text-gray-300 text-xl"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Tab navigation
+        const tabButtons = document.querySelectorAll(".tab-button");
+        const tabContents = document.querySelectorAll(".tab-content");
+        tabButtons.forEach((button) => {
+          button.addEventListener("click", function () {
+            // Remove active class from all buttons
+            tabButtons.forEach((btn) => btn.classList.remove("active"));
+            // Add active class to clicked button
+            this.classList.add("active");
+            // Hide all tab contents
+            tabContents.forEach((content) => content.classList.add("hidden"));
+            // Show the corresponding tab content
+            const tabId = this.id.replace("tab-", "content-");
+            document.getElementById(tabId).classList.remove("hidden");
+          });
+        });
+        // Settings navigation
+        const settingsButtons = [
+          "btn-account",
+          "btn-notifications",
+          "btn-privacy",
+          "btn-preferences",
+          "btn-connected",
+        ];
+        const settingsContents = [
+          "content-account",
+          "content-notifications",
+          "content-privacy",
+          "content-preferences",
+          "content-connected",
+        ];
+        settingsButtons.forEach((btnId, index) => {
+          document.getElementById(btnId)?.addEventListener("click", function () {
+            // Update button styles
+            settingsButtons.forEach((id) => {
+              const btn = document.getElementById(id);
+              if (btn) {
+                btn.classList.remove("bg-primary/5", "text-primary");
+                btn.classList.add("text-gray-700", "hover:bg-gray-50");
+              }
+            });
+            this.classList.remove("text-gray-700", "hover:bg-gray-50");
+            this.classList.add("bg-primary/5", "text-primary");
+            // Show/hide content
+            settingsContents.forEach((id) => {
+              document.getElementById(id)?.classList.add("hidden");
+            });
+            document
+              .getElementById(settingsContents[index])
+              ?.classList.remove("hidden");
+          });
+        });
+        // Dropdown toggles for survey history filters
+        const statusFilterDropdown = document.getElementById("statusFilterDropdown");
+        const statusFilterMenu = document.getElementById("statusFilterMenu");
+        const categoryFilterDropdown = document.getElementById(
+          "categoryFilterDropdown",
+        );
+        const categoryFilterMenu = document.getElementById("categoryFilterMenu");
+        if (statusFilterDropdown && statusFilterMenu) {
+          statusFilterDropdown.addEventListener("click", function () {
+            statusFilterMenu.classList.toggle("hidden");
+            if (categoryFilterMenu) categoryFilterMenu.classList.add("hidden");
+          });
+        }
+        if (categoryFilterDropdown && categoryFilterMenu) {
+          categoryFilterDropdown.addEventListener("click", function () {
+            categoryFilterMenu.classList.toggle("hidden");
+            if (statusFilterMenu) statusFilterMenu.classList.add("hidden");
+          });
+        }
+        // Close dropdowns when clicking outside
+        document.addEventListener("click", function (event) {
+          if (
+            statusFilterDropdown &&
+            statusFilterMenu &&
+            !statusFilterDropdown.contains(event.target) &&
+            !statusFilterMenu.contains(event.target)
+          ) {
+            statusFilterMenu.classList.add("hidden");
+          }
+          if (
+            categoryFilterDropdown &&
+            categoryFilterMenu &&
+            !categoryFilterDropdown.contains(event.target) &&
+            !categoryFilterMenu.contains(event.target)
+          ) {
+            categoryFilterMenu.classList.add("hidden");
+          }
+        });
+        // Radio button custom styling
+        const radioButtons = document.querySelectorAll('input[type="radio"]');
+        radioButtons.forEach((radio) => {
+          radio.addEventListener("change", function () {
+            // Hide all checkmarks
+            document.querySelectorAll(".radio-checked").forEach((el) => {
+              el.classList.add("hidden");
+            });
+            // Show checkmark for checked radio
+            if (this.checked) {
+              const parent = this.parentElement;
+              const checkmark = parent.querySelector(".radio-checked");
+              if (checkmark) checkmark.classList.remove("hidden");
+            }
+          });
+          // Initialize state
+          if (radio.checked) {
+            const parent = radio.parentElement;
+            const checkmark = parent.querySelector(".radio-checked");
+            if (checkmark) checkmark.classList.remove("hidden");
+          }
+        });
+        // Activity chart
+        const activityChart = document.getElementById("activity-chart");
+        if (activityChart) {
+          const chart = echarts.init(activityChart);
+          const option = {
+            animation: false,
+            tooltip: {
+              trigger: "axis",
+              backgroundColor: "rgba(255, 255, 255, 0.8)",
+              borderColor: "#E5E7EB",
+              borderWidth: 1,
+              textStyle: {
+                color: "#1F2937",
+              },
+            },
+            grid: {
+              left: "3%",
+              right: "4%",
+              bottom: "3%",
+              top: "3%",
+              containLabel: true,
+            },
+            xAxis: {
+              type: "category",
+              boundaryGap: false,
+              data: ["Week 1", "Week 2", "Week 3", "Week 4"],
+              axisLine: {
+                lineStyle: {
+                  color: "#E5E7EB",
+                },
+              },
+              axisLabel: {
+                color: "#6B7280",
+              },
+            },
+            yAxis: {
+              type: "value",
+              axisLine: {
+                show: false,
+              },
+              axisLabel: {
+                color: "#6B7280",
+              },
+              splitLine: {
+                lineStyle: {
+                  color: "#F3F4F6",
+                },
+              },
+            },
+            series: [
+              {
+                name: "Surveys Completed",
+                type: "line",
+                smooth: true,
+                lineStyle: {
+                  width: 3,
+                  color: "rgba(87, 181, 231, 1)",
+                },
+                areaStyle: {
+                  color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                    {
+                      offset: 0,
+                      color: "rgba(87, 181, 231, 0.2)",
+                    },
+                    {
+                      offset: 1,
+                      color: "rgba(87, 181, 231, 0.05)",
+                    },
+                  ]),
+                },
+                data: [3, 5, 6, 4],
+                symbol: "none",
+              },
+              {
+                name: "Points Earned",
+                type: "line",
+                smooth: true,
+                lineStyle: {
+                  width: 3,
+                  color: "rgba(141, 211, 199, 1)",
+                },
+                areaStyle: {
+                  color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                    {
+                      offset: 0,
+                      color: "rgba(141, 211, 199, 0.2)",
+                    },
+                    {
+                      offset: 1,
+                      color: "rgba(141, 211, 199, 0.05)",
+                    },
+                  ]),
+                },
+                data: [45, 75, 120, 105],
+                symbol: "none",
+              },
+            ],
+          };
+          chart.setOption(option);
+          // Resize chart when window size changes
+          window.addEventListener("resize", function () {
+            chart.resize();
+          });
+        }
+        // Badges chart
+        const badgesChart = document.getElementById("badges-chart");
+        if (badgesChart) {
+          const chart = echarts.init(badgesChart);
+          const option = {
+            animation: false,
+            tooltip: {
+              trigger: "item",
+              backgroundColor: "rgba(255, 255, 255, 0.8)",
+              borderColor: "#E5E7EB",
+              borderWidth: 1,
+              textStyle: {
+                color: "#1F2937",
+              },
+            },
+            legend: {
+              bottom: "0%",
+              left: "center",
+              textStyle: {
+                color: "#6B7280",
+              },
+            },
+            series: [
+              {
+                name: "Badges",
+                type: "pie",
+                radius: ["40%", "70%"],
+                avoidLabelOverlap: false,
+                itemStyle: {
+                  borderRadius: 6,
+                  borderColor: "#fff",
+                  borderWidth: 2,
+                },
+                label: {
+                  show: false,
+                },
+                emphasis: {
+                  label: {
+                    show: false,
+                  },
+                },
+                labelLine: {
+                  show: false,
+                },
+                data: [
+                  {
+                    value: 7,
+                    name: "Earned",
+                    itemStyle: { color: "rgba(87, 181, 231, 1)" },
+                  },
+                  {
+                    value: 9,
+                    name: "Remaining",
+                    itemStyle: { color: "rgba(251, 191, 114, 1)" },
+                  },
+                ],
+              },
+            ],
+          };
+          chart.setOption(option);
+          // Resize chart when window size changes
+          window.addEventListener("resize", function () {
+            chart.resize();
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
